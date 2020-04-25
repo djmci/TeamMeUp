@@ -1,16 +1,12 @@
-const crypto = require('crypto');
 var Player = require('../models/player')
-
+var passport = require('passport');
 
 exports.insert = function(req, res) {
-    let salt = crypto.randomBytes(16).toString('base64');
-    let hash = crypto.createHmac('sha512',salt).update(req.body.password).digest("base64");
-    req.body.password = salt + "$" + hash;
-
     var player = new Player();
+
     player.playerName = req.body.playerName;
     player.email = req.body.email;
-    player.password = req.body.password;
+    player.setPassword(req.body.password);
     player.playerRanking = req.body.playerRanking;
     player.opponentRanking = req.body.opponentRanking;
     player.playerInterests = req.body.playerInterests;
@@ -20,13 +16,37 @@ exports.insert = function(req, res) {
         res.send("Something is wrong with the values entered!" + error);
     } else {
         player.save(function(err) {
+            var token = player.generateToken();
             if(err){
                 res.send("Email already exists! Duplicate Email.")
             } else{
-                res.send(player.playerName + " added succesfully to MongoDB");
+                res.send(player.playerName + " added succesfully to MongoDB! Token: " + token);
             }
         });
     }
 }
 
 
+exports.login = function(req, res) {
+    passport.authenticate('local', function(err, user, info) {
+        var token;
+        // If Passport throws/catches an error
+        if (err) {
+            res.status(404).json(err);
+            return;
+        }
+  
+        // If a user is found
+        if(user){
+            token = user.generateToken();
+            res.status(200);
+            res.json({
+            "token" : token
+            });
+        } else {
+            // If user is not found
+            res.status(401).json(info);
+        }
+    })(req, res);
+  
+};
