@@ -1,19 +1,14 @@
 const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
+const router = express.Router();
 const bodyParser = require('body-parser');
 const config = require('./config/database');
 const morgan = require('morgan');
 const passport = require("passport");
-const jwt = require("express-jwt");
-const fs = require("fs");
 
 //local modules or models...
-const PlayerController = require('./app/controllers/player.controller');
-const AdminController = require('./app/controllers/admin.controller');
-const CoachController = require('./app/controllers/coach.controller');
-const GameController = require('./app/controllers/game.controller');
-const ctrlProfile = require("./app/controllers/player.profile.controller");
+const api = require('./app/routes/api')(router);
 require("./app/models/player");
 require("./app/config/auth"); 
 
@@ -29,6 +24,7 @@ app.use(function (err, req, res, next) {
         res.json({"message" : err.name + ": " + err.message});
     }
 });
+app.use('/api', api);
 
 //mongodb connection...
 mongoose.Promise = global.Promise;
@@ -36,29 +32,11 @@ mongoose.connect(config.uri, function(err) {
     if (err) console.log("MongoDB disconnected, err" + err);
     else console.log("MongoDB Connected!");
 });
-var auth = jwt({
-    secret: fs.readFileSync("./keys/private.key", 'utf8'),
-    userProperty: 'Payload'
-});
 
-app.post('/api/users', [
-    PlayerController.insert
-]);
-app.post('/api/admins', [
-    AdminController.insert
-]);
-app.post('/api/coaches', [
-    CoachController.insert
-]);
-app.post('/api/games', [
-    GameController.insert
-]);
 
-app.post('/login', [
-    PlayerController.login
-])
-
-app.get('/profile', auth, ctrlProfile.profileRead);
+app.get('*', (req, res) => {
+    res.send('<h1>Hello World</h1>');
+})
 
 app.listen(port, function() {
     console.log("Server running on " + port);

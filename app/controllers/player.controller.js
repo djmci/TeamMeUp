@@ -9,7 +9,7 @@ exports.insert = function(req, res) {
     player.setPassword(req.body.password);
     player.playerRanking = req.body.playerRanking;
     player.opponentRanking = req.body.opponentRanking;
-    player.playerInterests = req.body.playerInterests;
+    player.playerInterest = req.body.playerInterest;
 
     error = player.validateSync();
     if (error) {
@@ -26,6 +26,49 @@ exports.insert = function(req, res) {
     }
 }
 
+exports.update = function(req, res) {
+    var conditions = { _id: req.params.id };
+
+    Player.update(conditions, req.body).then(player => {
+        if (!player) { return res.status(404).send();}
+        return res.status(200).json(player);
+    });
+};
+
+exports.getAll = function(req, res) {
+    var obj = (req.body);
+    var playerID = obj.id;
+    var query = Player.find({}).sort({ _id: -1 });
+    
+    query.exec(function (err, response) {
+        if (err) {
+            return res.status(400).json({ status: 400, data: err, message: "Error" });
+        }
+        else {
+            return res.status(200).json({ status: 200, data: response, message: "Success" });
+        }
+    });
+};
+
+exports.getPlayerbyEmail = function(req, res) {
+    var conditions = { email: req.params.email };
+    var query = Player.findOne(conditions);
+    console.log("Got here!!!!!");
+    query.exec(function(err, response) {
+        if(err) return res.status(400).json({ status: 400, data: err, message: "Error" });
+        else return res.status(200).json({ status: 200, data: response, message: "Success" });
+    });
+}
+
+exports.getPlayer = function(req, res) {
+    var conditions = { _id: req.params.id };
+    var query = Player.findById(conditions);
+
+    query.exec(function(err, response) {
+        if(err) return res.status(400).json({ status: 400, data: err, message: "Error" });
+        else return res.status(200).json({ status: 200, data: response, message: "Success" });
+    });
+};
 
 exports.login = function(req, res) {
     passport.authenticate('local', function(err, user, info) {
@@ -38,6 +81,7 @@ exports.login = function(req, res) {
   
         // If a user is found
         if(user){
+            console.log("User Logged in!");
             token = user.generateToken();
             res.status(200);
             res.json({
@@ -47,6 +91,7 @@ exports.login = function(req, res) {
             // If user is not found
             res.status(401).json(info);
         }
-    })(req, res);
-  
+    })(req, res);  
 };
+
+
