@@ -121,7 +121,7 @@ var interests = new Schema({
 
 
 var playerSchema = new Schema({
-    username: {type: String, required: true, unique: true, lowercase: true, validate: usernameValidators },
+    username: {type: String, required: true, unique: true, validate: usernameValidators },
     name: { type: String, required: true},
     email: { type: String, required: true, unique: true, lowercase: true, validate: emailValidators },
     password: { type: String, required: true, validate: passwordValidators },
@@ -141,7 +141,7 @@ playerSchema.pre('save', function(next) {
     });
 });
 
-playerSchema.methods.comparePassword = (password) => {
+playerSchema.methods.comparePassword = function(password) {
     return bcrypt.compareSync(password, this.password);
 }
 
