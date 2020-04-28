@@ -19,6 +19,10 @@
     "@angular/platform-browser": "~9.1.0",
     "@angular/platform-browser-dynamic": "~9.1.0",
     "@angular/router": "~9.1.0",
+    "@auth0/angular-jwt": "^4.0.0",
+    "angular-jwt": "^0.1.11",
+    "angular2-flash-messages": "^3.0.1",
+    "angular2-jwt": "^0.2.3",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
