@@ -15,8 +15,32 @@ export class RegisterComponent implements OnInit {
   message;
   messageClass;
   processing = false;
+  roleSelect = false;
+  Roles = [
+    'player',
+    'coach',
+  ];
+  userRole = this.Roles[0];
+  playerRanking = 0;
+  opponentRanking = 0;
+  showPlayerContent = false;
+  games = [];
+  Interests = [];
 
   constructor( private formbuilder: FormBuilder, private authService: AuthService, private router: Router ) { this.createForm(); };
+
+
+  decodeRanking(Ranking) {
+    if (Ranking == 1) {
+      return 'Beginner';
+    } else if (Ranking == 2) {
+      return 'Medium';
+    } else if (Ranking == 3) {
+      return 'Advance';
+    } else {
+      return undefined
+    }
+  }
 
   createForm() {
     this.form = this.formbuilder.group({
@@ -112,36 +136,54 @@ export class RegisterComponent implements OnInit {
   }
 
   submitRegistration() {
-    const player = {
-      email: this.form.get('email').value,
-      name: this.form.get('name').value,
-      username: this.form.get('username').value,
-      password: this.form.get('password').value
+    if (this.userRole == 'player') {
+      const player = {
+        email: this.form.get('email').value,
+        name: this.form.get('name').value,
+        username: this.form.get('username').value,
+        password: this.form.get('password').value,
+        role: this.userRole,
+        opponentRanking: this.decodeRanking(this.playerRanking),
+        playerRanking: this.decodeRanking(this.opponentRanking),
+        Interests: this.Interests
+      }
+
+      console.log(player);
+      this.authService.registerPlayer(player).subscribe(data => {
+          this.dataRcvd = data;
+          this.processing = true;
+          this.roleSelect = true;
+          this.disableForm();
+          if(!this.dataRcvd.success) {
+              this.messageClass = 'alert alert-danger';
+              this.message = this.dataRcvd.message;
+              this.processing = false;
+              this.enableForm();
+          } else {
+              this.messageClass = 'alert alert-success';
+              this.message = this.dataRcvd.message;
+              setTimeout(() => {
+                  this.router.navigate(['/dashboard']);
+              }, 1000);
+          }
+          console.log(data);
+      });
+      console.log("Player created.");
+    } else {
+      console.log("Coach Created");
     }
-    console.log(player);
-    this.authService.registerPlayer(player).subscribe(data => {
-        this.dataRcvd = data;
-        this.processing = true;
-        this.disableForm();
-        if(!this.dataRcvd.success) {
-            this.messageClass = 'alert alert-danger';
-            this.message = this.dataRcvd.message;
-            this.processing = false;
-            this.enableForm();
-        } else {
-            this.messageClass = 'alert alert-success';
-            this.message = this.dataRcvd.message;
-            setTimeout(() => {
-                this.router.navigate(['/home']);
-            }, 1000);
-        }
-        console.log(data);
-    });
   };
-
-
-
-  ngOnInit(): void {
+  selectRole(val) {
+    if (val.target.value == -1){
+      this.roleSelect = false;
+    }
+    else{
+      this.roleSelect = true;
+      this.userRole = val.target.value;
+      if (this.userRole == 'player') {console.log("player"); this.showPlayerContent = true}
+      else {this.showPlayerContent = false; }
+    }
   }
-
+  ngOnInit(): void {  
+  }
 }

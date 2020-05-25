@@ -9,7 +9,12 @@
 
 <!-- Login Form -->
 <form [formGroup]="form" (submit)="onLoginSubmit()">
-
+  <select class="select-css" (change)="selectRole($event)">
+    <option value=-1>Select a Role for login!</option>
+    <option value="player">Player</option>
+    <option value="admin">Admin</option>
+    <option value="coach">Coach</option>
+</select>
   <!-- Username Field -->
   <div class="form-group">
     <label for="username">Username</label>
@@ -34,5 +39,5 @@
     </div>
   </div>
   <!-- Submit Button -->
-  <input [disabled]="!form.valid || processing" class="btn btn-primary" type="submit" value="Login" />
+  <input [disabled]="!form.valid || processing || !roleSelect" class="btn btn-primary" type="submit" value="Login" />
 </form>

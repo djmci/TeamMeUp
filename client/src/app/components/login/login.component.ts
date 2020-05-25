@@ -14,8 +14,11 @@ export class LoginComponent implements OnInit {
     messageClass;
     message;
     processing = false;
+    roleSelect = false;
     form: FormGroup;
     prevUrl;
+    Role = 'player';
+
 
 
     constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router, private authGuard: AuthGuard ) {
@@ -44,7 +47,8 @@ export class LoginComponent implements OnInit {
         this.disableForm(); 
         const user = {
           username: this.form.get('username').value,
-          password: this.form.get('password').value
+          password: this.form.get('password').value,
+          role: this.Role
         }
     
         // Function to send login data to API
@@ -61,12 +65,25 @@ export class LoginComponent implements OnInit {
             this.authService.storeUserData(this.dataRcvd.token, this.dataRcvd.user);
             setTimeout(() => {
               if(this.prevUrl) this.router.navigate([this.prevUrl]);
-              else this.router.navigate(['/profile']);
+              else{
+                if (this.Role == 'player') this.router.navigate(['/profile']);
+                else if (this.Role == 'coach') this.router.navigate(['/home']);
+                else this.router.navigate(['/dashboard']);
+              }
             }, 2000);
           }
         });
       }
-
+      
+      selectRole(val) {
+        if (val.target.value == -1) {
+          this.roleSelect = false;
+        }
+        else {
+          this.roleSelect = true;
+          this.Role = val.target.value;
+        }
+      }
 
 
     ngOnInit(): void {
@@ -77,5 +94,4 @@ export class LoginComponent implements OnInit {
         this.authGuard.redirectUrl = undefined;
       }
     }
-
 }
