@@ -1,0 +1,16 @@
+
+
+.outer {
+    width:100%;
+    display: -webkit-box;
+    -webkit-box-pack: center;
+    -webkit-box-align: center;
+    text-align: center;
+    border: 5px;
+    border-color: red;
+}
+.row {
+    border: 5px;
+    border-color: black;
+    width: 50%;
+}

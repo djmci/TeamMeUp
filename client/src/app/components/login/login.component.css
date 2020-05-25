@@ -1,0 +1,29 @@
+select {
+    width: 20%;
+    height: 50px;
+    font-size: 100%;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 0;
+    background-color: #1a84e8;
+    border: none;
+    color: white;
+    padding: 10px;
+    padding-right: 38px;
+    float: right;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    /* Adding transition effect */
+    transition: color 0.3s ease, background-color 0.3s ease, border-bottom-color 0.3s ease;
+  }
+  /* For IE <= 11 */
+  select::-ms-expand {
+    display: none; 
+  }
+  select:hover,
+  select:focus {
+    color: #1a84e8;
+    background-color: white;
+    border-bottom-color: #DCDCDC;
+  }

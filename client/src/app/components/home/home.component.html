@@ -2,8 +2,8 @@
     <h1>MEAN Stack Application</h1>
     <p class="lead">Sports club managing web Application</p>
     <div>
-      <a routerLink="/register" class="btn btn-primary">Register</a>
-      <a routerLink="/login" class="btn btn-default">Login</a>
+      <a *ngIf="!authService.loggedIn()" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" routerLink="/register" class="btn btn-primary">Register</a>
+      <a *ngIf="!authService.loggedIn()" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" routerLink="/login" class="btn btn-default">Login</a>
     </div>
   </div>
   

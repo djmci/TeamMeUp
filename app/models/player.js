@@ -115,19 +115,31 @@ const passwordValidators = [
 ];
 
 var interests = new Schema({
-    game: { type: String, required: true, lowercase: true },
+    name: { type: String, required: true, unique: true},
     ranking: { type: String, enum: ['Beginner', 'Medium', 'Advance'], default: 'Beginner', required: true }
 });
 
+var time = new Schema({
+    hour: {type: Number, required: true},
+    minute: {type: Number, required: true}
+})
 
 var playerSchema = new Schema({
     username: {type: String, required: true, unique: true, validate: usernameValidators },
     name: { type: String, required: true},
     email: { type: String, required: true, unique: true, lowercase: true, validate: emailValidators },
     password: { type: String, required: true, validate: passwordValidators },
+    role: { type: String, required: true, default: 'player' },
     opponentRanking: { type: String, enum: ['Beginner', 'Medium', 'Advance'], default: 'Beginner' },
     playerRanking: { type: String, enum: ['Beginner', 'Medium', 'Advance'], default: 'Beginner' },
-    playerInterest: [interests]
+    Interests: [{type: String}],
+    lastLogin: { type : Date, default: undefined },
+    schedule: [{
+        name: { type:String, require: true },
+        time: { type: time, require: true }
+    }],
+    attendenceTime: {type: Date },
+    attendenceMarked: {type: Boolean, default: false}
 });
 
 
@@ -144,5 +156,7 @@ playerSchema.pre('save', function(next) {
 playerSchema.methods.comparePassword = function(password) {
     return bcrypt.compareSync(password, this.password);
 }
+
+
 
 module.exports = mongoose.model('Player', playerSchema);
