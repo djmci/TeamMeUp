@@ -40,7 +40,7 @@ import { FormModalComponent } from './components/form-modal/form-modal.component
     CreateplayerComponent,
     CreatecoachComponent,
     UpdatecoachComponent,
-    UpdateplayerComponent
+    UpdateplayerComponent,
 
     FormModalComponent
 

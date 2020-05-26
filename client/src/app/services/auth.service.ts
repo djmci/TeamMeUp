@@ -126,7 +126,16 @@ export class AuthService {
     return this.http.post(this.backendServer + "/api/unmarkattendence", {username}, {headers: appHeaders}).pipe(map(res => res));
   }
 
-  updateSchedule(schedule, username, Interests) {
+  updateSchedule(schedule, username) {
+    this.loadToken();
+    let appHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.authToken  
+    });
+    return this.http.post(this.backendServer + "/api/addSchedule", {schedule, username}, {headers: appHeaders}).pipe(map(res => res));
+  }
+
+  updateScheduleInterests(schedule, username, Interests) {
     this.loadToken();
     let appHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -135,6 +144,7 @@ export class AuthService {
     console.log(Interests);
     return this.http.post(this.backendServer + "/api/addSchedule", {schedule, username, Interests}, {headers: appHeaders}).pipe(map(res => res));
   }
+  
 
   updatePriorities(priorities, username) {
     this.loadToken();

@@ -157,7 +157,7 @@ export class DashboardComponent implements OnInit {
     }
     console.log(schdule);
     console.log("Interests: " + this.Interests);
-    this.authService.updateSchedule(schdule, this.username, this.Interests).subscribe(data => {
+    this.authService.updateScheduleInterests(schdule, this.username, this.Interests).subscribe(data => {
           this.dataRcvd = data;
           console.log(this.dataRcvd)
           if(!this.dataRcvd.success) {
