@@ -19,6 +19,7 @@ export class RegisterComponent implements OnInit {
   Roles = [
     'player',
     'coach',
+    'admin'
   ];
   userRole = this.Roles[0];
   playerRanking = 0;
@@ -136,6 +137,7 @@ export class RegisterComponent implements OnInit {
   }
 
   submitRegistration() {
+    console.log(this.userRole);
     if (this.userRole == 'player') {
       const player = {
         email: this.form.get('email').value,
@@ -169,8 +171,68 @@ export class RegisterComponent implements OnInit {
           console.log(data);
       });
       console.log("Player created.");
-    } else {
+    } else if (this.userRole=='coach') {
+      const coach = {
+        email: this.form.get('email').value,
+        name: this.form.get('name').value,
+        username: this.form.get('username').value,
+        password: this.form.get('password').value,
+        role: this.userRole,
+        opponentRanking: this.decodeRanking(this.playerRanking),
+        playerRanking: this.decodeRanking(this.opponentRanking),
+        Interests: this.Interests
+      }
+
+      console.log(coach);
+      this.authService.registerCoach(coach).subscribe(data => {
+          this.dataRcvd = data;
+          this.processing = true;
+          this.roleSelect = true;
+          this.disableForm();
+          if(!this.dataRcvd.success) {
+              this.messageClass = 'alert alert-danger';
+              this.message = this.dataRcvd.message;
+              this.processing = false;
+              this.enableForm();
+          } else {
+              this.messageClass = 'alert alert-success';
+              this.message = this.dataRcvd.message;
+              setTimeout(() => {
+                  this.router.navigate(['/dashboard']);
+              }, 1000);
+          }
+          console.log(data);
+      });
       console.log("Coach Created");
+    } else if (this.userRole=='admin') {
+      const admin = {
+        email: this.form.get('email').value,
+        username: this.form.get('username').value,
+        password: this.form.get('password').value,
+        role: this.userRole,
+        name: this.form.get('name').value
+      }
+      // console.log(admin);
+      this.authService.registerAdmin(admin).subscribe(data => {
+          this.dataRcvd = data;
+          this.processing = true;
+          this.roleSelect = true;
+          this.disableForm();
+          if(!this.dataRcvd.success) {
+              this.messageClass = 'alert alert-danger';
+              this.message = this.dataRcvd.message;
+              this.processing = false;
+              this.enableForm();
+          } else {
+              this.messageClass = 'alert alert-success';
+              this.message = this.dataRcvd.message;
+              setTimeout(() => {
+                  this.router.navigate(['/dashboard']);
+              }, 1000);
+          }
+          console.log(data);
+      });
+      console.log("Admin Created");
     }
   };
   selectRole(val) {

@@ -113,7 +113,6 @@ const passwordValidators = [
     }
 ];
 
-
 var coachSchema = new Schema({
     username: {type: String, required: true, unique: true, validate: usernameValidators },
     name: { type: String, required: true},
@@ -125,7 +124,7 @@ var coachSchema = new Schema({
 
 coachSchema.pre('save', function(next) {
     if(!this.isModified('password')) return next();
-
+    console.log('pre');
     bcrypt.hash(this.password, null, null, (err,hash) => {
         if(err) return next(err);
         this.password = hash;

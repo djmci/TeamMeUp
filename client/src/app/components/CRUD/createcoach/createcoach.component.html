@@ -1,25 +1,14 @@
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-<h1 class="page-header">Registration</h1>
+<h1 class="page-header">Create Coach</h1>
 <div class="row show-hide-message">
     <div [ngClass]="messageClass">
       {{ message }}
     </div>
   </div>
 
-<form [formGroup]="form" (submit)="submitRegistration()">
-    <div>
-    <p>
-        <strong>Please select a Role before registring. If you are an Admin contact support.</strong>
-    </p>
-    <select name="role" class="select-css" (change)="selectRole($event)">
-        <option value=-1>Select a Role!</option>
-        <option value="player">Player</option>
-        <option value="coach">Coach</option>
-        <option value="admin">Admin</option>
-    </select>
-    </div>
+<form [formGroup]="form">
     <div class="form-group">
         <label for="name">Full name</label>
         <div [ngClass]="{'has-error': (form.controls.name.errors && form.controls.name.dirty), 'has-success': !form.controls.name.errors}">
@@ -78,7 +67,7 @@
             </ul>
         </div>
     </div>
-    <input [disabled]="!form.valid || processing || !roleSelect" type="submit" class="btn btn-primary" value="Submit"/>
+    <input [disabled]="!form.valid || processing " type="submit" class="btn btn-primary" value="Submit" (click)="submitCreateCoach()"/>
 
     <br>
     <br>

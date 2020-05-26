@@ -38,7 +38,8 @@ db.once('open', function() {
         { "name": "Table Tennis", "courtNames": ["TT1", "TT2", "TT3", "TT4", "TT5", "TT6", "TT7", "TT8", "TT9", "TT10", "TT11", "TT12", "TT13", "TT14", "TT15", "TT16", "TT17", "TT18", "TT19", "TT20"]},
         { "name": "Squash", "courtNames": ["Sq1", "Sq2", "sq3", "Sq4", "Sq5", "sq6"]}
     ];
-
+    
+    Game.collection.remove({});
     Game.collection.insert(games, function(err, docs) {
         if (err) console.log(err);
         else console.log("Multiple games added!");

@@ -20,21 +20,56 @@ export class AuthService {
     return this.http.post(this.backendServer + "/api/register", user).pipe(map(res => res));
   };
 
+  registerCoach(user) {
+    return this.http.post(this.backendServer + "/api/register", user).pipe(map(res => res));
+  };
+
+  registerAdmin(user) {
+    return this.http.post(this.backendServer + "/api/register", user).pipe(map(res => res));
+  };
+
   login(user) {
     return this.http.post(this.backendServer +"/api/login", user).pipe(map(res => res));
   }
 
-  getPlayer() {
+  getPlayer(username) {
     this.loadToken();
     let appHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': this.authToken  
     });
-    return this.http.get(this.backendServer + "/api/getplayer",  {headers: appHeaders});
+    return this.http.get(this.backendServer + "/api/getplayer", {headers: appHeaders}).pipe(map(res => res));
+  }
+
+  getCoach(username) {
+    this.loadToken();
+    let appHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.authToken  
+    });
+    return this.http.get(this.backendServer + "/api/getcoach", {headers: appHeaders}).pipe(map(res => res));
   }
 
   getGames() {
     return this.http.get(this.backendServer + "/api/gamesList").pipe(map(res => res));
+  }
+
+  getPlayers() {
+    this.loadToken();
+    let appHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.authToken  
+    });
+    return this.http.get(this.backendServer + "/api/playersList",  {headers: appHeaders});
+  }
+
+  getCoaches() {
+    this.loadToken();
+    let appHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.authToken  
+    });
+    return this.http.get(this.backendServer + "/api/coachesList",  {headers: appHeaders});
   }
 
   setGame(game) {
@@ -48,7 +83,10 @@ export class AuthService {
     localStorage.clear();
   }
 
-  loadToken() { this.authToken = localStorage.getItem('token'); };
+  loadToken() {
+    this.authToken = localStorage.getItem('token');
+    // console.log(this.authToken);
+  };
 
   updateStatus() {
     var username = this.user.username;
@@ -108,7 +146,8 @@ export class AuthService {
   }
 
   getProfile() {
-    this.loadToken();
+    var token = this.loadToken();
+    console.log(token);
     let appHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': this.authToken  
@@ -121,5 +160,42 @@ export class AuthService {
         return true;
     }
     return false;
+  };
+
+  deletePlayer(username){
+    var token = this.loadToken();
+    let appHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.authToken  
+    });
+    return this.http.post(this.backendServer + '/api/deletePlayer', {username}, {headers: appHeaders}).pipe(map(res => res));
+  }
+
+  deleteCoach(username){
+    var token = this.loadToken();
+    let appHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.authToken  
+    });
+    return this.http.post(this.backendServer + '/api/deleteCoach', {username}, {headers: appHeaders}).pipe(map(res => res));
+  }
+
+  updateCoach(coach) {
+    this.loadToken();
+    let appHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.authToken  
+    });
+    return this.http.post(this.backendServer + "/api/updateCoach", {coach}, {headers: appHeaders}).pipe(map(res => res));
+  };
+
+  updatePlayer(player) {
+    console.log(player);
+    this.loadToken();
+    let appHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.authToken  
+    });
+    return this.http.post(this.backendServer + "/api/updatePlayer", {player}, {headers: appHeaders}).pipe(map(res => res));
   };
 }
