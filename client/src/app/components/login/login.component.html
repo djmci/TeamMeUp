@@ -9,7 +9,7 @@
 
 <!-- Login Form -->
 <form [formGroup]="form" (submit)="onLoginSubmit()">
-  <select class="select-css" (change)="selectRole($event)">
+  <select style="float: right;" (change)="selectRole($event)">
     <option value=-1>Select a Role for login!</option>
     <option value="player">Player</option>
     <option value="admin">Admin</option>

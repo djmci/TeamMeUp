@@ -17,10 +17,14 @@ import { AuthGuard } from './guard/auth.guard';
 import { NotAuthGuard } from './guard/notAuth.guard';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastComponent } from './components/toast/toast.component';
+
 import { CreateplayerComponent } from './components/CRUD/createplayer/createplayer.component';
 import { CreatecoachComponent } from './components/CRUD/createcoach/createcoach.component';
 import { UpdatecoachComponent } from './components/CRUD/updatecoach/updatecoach.component';
 import { UpdateplayerComponent } from './components/CRUD/updateplayer/updateplayer.component';
+
+import { FormModalComponent } from './components/form-modal/form-modal.component';
+
 
 @NgModule({
   declarations: [
@@ -32,10 +36,14 @@ import { UpdateplayerComponent } from './components/CRUD/updateplayer/updateplay
     LoginComponent,
     ProfileComponent,
     ToastComponent,
+
     CreateplayerComponent,
     CreatecoachComponent,
     UpdatecoachComponent,
     UpdateplayerComponent
+
+    FormModalComponent
+
   ],
   imports: [
     FormsModule,
@@ -46,6 +54,7 @@ import { UpdateplayerComponent } from './components/CRUD/updateplayer/updateplay
     RouterModule,
     NgbModule
   ],
+  entryComponents: [FormModalComponent],
   providers: [ AuthService, AuthGuard, NotAuthGuard ],
   bootstrap: [AppComponent]
 })

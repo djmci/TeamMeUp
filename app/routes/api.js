@@ -137,7 +137,16 @@ module.exports = (router => {
                                 } else {
                                     //   res.json({ success: true, message: "Logged IN!"});
                                     const token = jwt.sign({ userId: user._id }, config.secret, { expiresIn: '24h' });
-                                    res.json({ success: true, message: 'Success!', token: token, user: { username: user.username } });
+                                    if (user.lastLogin != null) {
+                                        var newPlayer = user;
+                                        newPlayer.lastLogin = Date.now();
+                                        console.log(newPlayer);
+                                        Player.findOneAndUpdate({username: req.body.username}, newPlayer,  function(err, doc) {
+                                            if (err) console.log("success: false, message: Some error occured! + err");
+                                            console.log("success: true, message: Records entered succesfully! Welcome!");
+                                        })
+                                    }
+                                    res.json({ success: true, message: 'Success!', token: token, user: { username: user.username, lastLogin: user.lastLogin } });
                                 }
                             }
                         }
@@ -194,27 +203,85 @@ module.exports = (router => {
         }
       });
 
+     
+
+      router.post('/updatepriorities', (req, res) => {
+          console.log(req.body);
+          Player.findOne({ username: req.body.username }, (err, user) => {
+            var newPlayer = user;
+            newPlayer.Interests = req.body.priorities;
+            newPlayer.priorities = true;
+            console.log(newPlayer);
+            Player.findOneAndUpdate({username: req.body.username}, newPlayer,  function(err, doc) {
+                if (err) console.log("success: false, message: Some error occured! + err");
+                console.log("success: true, message: Records entered succesfully! Welcome!");
+            });
+        });
+      })
+
       router.post('/addSchedule', (req, res) => {
+          console.log(req.body);
           if (!req.body.username) {
             res.json({ success: false, message: "username not found!"});
           } else {
               if (!req.body.schedule) {
                 res.json({ success: false, message: "Schdule not found!"}); 
               } else {
-                Player.findOne({ username: req.body.username }, (err, user) => {
-                    console.log(req.body.schedule);
-                    var newPlayer = user;
-                    newPlayer.schedule = req.body.schedule;
-                    newPlayer.lastLogin = Date.now();
-                    console.log(newPlayer);
-                    Player.findOneAndUpdate({username: req.body.username}, newPlayer,  function(err, doc) {
-                        if (err) res.json({success: false, message: "Some error occured!" + err});
-                        res.json({success: true, message: "Records entered succesfully! Welcome!"});
-                    })
-                });
+                if(!req.body.Interests) {
+                    res.json({ success: false, message: "Interests not found!"});
+                } else {
+                    Player.findOne({ username: req.body.username }, (err, user) => {
+                        var newPlayer = user;
+                        newPlayer.schedule = req.body.schedule;
+                        newPlayer.Interests = req.body.Interests;
+                        newPlayer.lastLogin = Date.now();
+                        console.log(newPlayer);
+                        Player.findOneAndUpdate({username: req.body.username}, newPlayer,  function(err, doc) {
+                            if (err) console.log("success: false, message: Some error occured! + err");
+                            console.log("success: true, message: Records entered succesfully! Welcome!");
+                        });
+                    });
+                }
               }
           }
       })
+
+      router.post("/markattendence", (req, res) => {
+          console.log(req.body);
+          if (!req.body.username) {
+              res.json({ success: false, message: "username not found!" });
+          } else {
+            Player.findOne({ username: req.body.username }, (err, user) => {
+                // console.log(req.body.schedule);
+                var newPlayer = user;
+                newPlayer.checkinTime = Date.now();
+                newPlayer.attendenceMarked = true;
+                console.log(newPlayer);
+                Player.findOneAndUpdate({username: req.body.username}, newPlayer,  function(err, doc) {
+                    if (err) res.json({success: false, message: "Some error occured!" + err});
+                    res.json({success: true, message: "Records entered succesfully! Welcome!"});
+                })
+            });
+          }
+      })
+
+      router.post("/unmarkattendence", (req, res) => {
+        if (!req.body.username) {
+            res.json({ success: false, message: "username not found!" });
+        } else {
+          Player.findOne({ username: req.body.username }, (err, user) => {
+              // console.log(req.body.schedule);
+              var newPlayer = user;
+            //   newPlayer.checkinTime = Date.now();
+              newPlayer.attendenceMarked = false;
+              console.log(newPlayer);
+              Player.findOneAndUpdate({username: req.body.username}, newPlayer,  function(err, doc) {
+                  if (err) res.json({success: false, message: "Some error occured!" + err});
+                  res.json({success: true, message: "Records entered succesfully! Welcome!"});
+              })
+          });
+        }
+    })
 
       router.post('/games', (req, res) => {
         if (!req.body.name) {
@@ -243,6 +310,10 @@ module.exports = (router => {
                 });
             }
         }
+    });
+
+    router.get("/logout", (req, res) => {
+        console.log(req.body);
     });
 
     router.use(function(req, res, next) {
@@ -276,7 +347,7 @@ module.exports = (router => {
     });
 
     router.get('/profile', (req, res) => {
-        Player.findOne({ _id: req.result.userId }).select('username email role lastLogin attendence').exec((err, player) => {
+        Player.findOne({ _id: req.result.userId }).select('username email name role lastLogin attendenceMarked opponentRanking playerRanking Interests schedule priorities').exec((err, player) => {
             if (err) res.json({success: false, message: "Couldn't find selected fields! " + err });
             else {
                 if(!player) {
@@ -300,14 +371,7 @@ module.exports = (router => {
                         }
                     });
                 } else {
-                    var newPlayer = player;
-                    newPlayer.attendence = Date.now();
-                    console.log(newPlayer);
-                    Player.findOneAndUpdate({username: req.body.username}, newPlayer,  function(err, doc) {
-                        if (err) console.log("Error " + err);
-                        console.log("Attendence updated!");
-                    })
-                    res.json({success: true, message: newPlayer });
+                    res.json({success: true, message: player });
                 }
             }
         })
