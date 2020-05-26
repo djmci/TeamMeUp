@@ -4,7 +4,7 @@ const Game = require('../models/game');
 const Admin = require('../models/admin');
 const jwt = require('jsonwebtoken');
 const config = require('../../config/database')
-
+var bcrypt = require('bcrypt-nodejs');
 
 module.exports = (router => {
     
@@ -78,6 +78,32 @@ module.exports = (router => {
                                     };
                                 } else {
                                     res.json({ success: true, message: "Coach Saved!"});
+                                };
+                            });
+                        
+                        } else if (req.body.role == 'admin') {
+                            console.log(req.body);
+                            var admin = Admin({
+                                username: req.body.username,
+                                email: req.body.email.toLowerCase(),
+                                password: req.body.password,
+                                role: req.body.role
+                            });
+                            console.log('here in api.js');
+                            admin.save((err) => {
+                                if(err) {
+                                    if(err.code === 11000) {
+                                        console.log(err);
+                                        if(err.keyValue.hasOwnProperty('username')) {
+                                            res.json({ success: false, message: "Admin: Choose a unique username!" });
+                                        } else if (err.keyValue.hasOwnProperty('email')) {
+                                            res.json({ success: false, message: "Admin: Choose a unique email!" });
+                                        }
+                                    } else {
+                                        res.json({ success: false, message: "Could not save user! Error: " + err});
+                                    };
+                                } else {
+                                    res.json({ success: true, message: "Admin Saved!"});
                                 };
                             });
                         }
@@ -232,13 +258,22 @@ module.exports = (router => {
     });
     
     router.get('/getplayer', (req, res) => {
-        Player.findOne({ _id: req.result.userId }).select('username email role name playerRanking opponentRanking playerInterest').exec((err, player) => {
+        console.log(req.body);
+        Player.findOne({ username: req.body.username }).select('username email role name playerRanking opponentRanking Interests').exec((err, player) => {
+            console.log(player);
             if (err) res.json({success: false, message: "Couldn't find selected fields! " + err});
             else res.json({success: true, message: player});
         });
     });
 
-    
+    router.get('/getcoach', (req, res) => {
+        // console.log("inside api.js /getcoach");
+        console.log(req.body);
+        Coach.findOne({ username: req.body.username }).select('username email role name password players').exec((err, coach) => {
+            if (err) res.json({success: false, message: "Some error occured!" + err});
+            res.json({success: true, message: coach});
+        });
+    });
 
     router.get('/profile', (req, res) => {
         Player.findOne({ _id: req.result.userId }).select('username email role lastLogin attendence').exec((err, player) => {
@@ -277,6 +312,72 @@ module.exports = (router => {
             }
         })
     });
+    
+    router.get('/playersList', (req, res) => {
+        Player.find({}, function(err, players) {
+            res.json({success: true, message: players});
+         });
+    })
+    
+    router.get('/coachesList', (req, res) => {
+        Coach.find({}, function(err, coaches) {
+            res.json({success: true, message: coaches});
+         });
+    })
+
+    router.post('/updateCoach', (req, res) => {
+        console.log(req.body);
+
+        Coach.findOne({ username: req.body.coach.username }).select('username email role name password players').exec((err, coach) => {
+            console.log(coach);
+            var newCoach = coach;
+            console.log(req.body);
+            newCoach.name = req.body.coach.name;
+            newCoach.players = req.body.coach.players;
+            console.log(newCoach);
+            Coach.findOneAndUpdate({username: req.body.coach.username}, newCoach,  function(err, doc) {
+                if (err) res.json({success: false, message: "Some error occured!" + err});
+                res.json({success: true, message: "Records entered succesfully! Welcome!"});
+            })
+        });
+    })
+
+    router.post('/updatePlayer', (req, res) => {
+        console.log(req.body);
+
+        Player.findOne({ username: req.body.player.username }).select('username email role name playerRanking opponentRanking Interests schedule').exec((err, player) => {
+            console.log(player);
+            var newPlayer = player;
+            console.log(req.body);
+            newPlayer.name = req.body.player.name;
+            newPlayer.Interests = req.body.player.Interests;
+            newPlayer.playerRanking = req.body.player.playerRanking;
+            newPlayer.opponentRanking = req.body.player.opponentRanking;
+            newPlayer.schedule = req.body.player.schedule;
+            // newPlayer.password = req.body.player.password;
+            console.log(newPlayer);
+            Player.findOneAndUpdate({username: req.body.player.username}, newPlayer,  function(err, doc) {
+                if (err) res.json({success: false, message: "Some error occured!" + err});
+                res.json({success: true, message: "Records entered succesfully! Welcome!"});
+            })
+        });
+    })
+
+    router.post('/deletePlayer', (req, res) => {
+        console.log(req.body);
+        Player.findOneAndDelete({username: req.body.username}, function(err, doc) {
+            if (err) res.json({success: false, message: "Some error occured!" + err});
+            res.json({success: true, message: "Record deleted"});
+        })
+    })
+
+    router.post('/deleteCoach', (req, res) => {
+        console.log(req.body);
+        Coach.findOneAndDelete({username: req.body.username}, function(err, doc) {
+            if (err) res.json({success: false, message: "Some error occured!" + err});
+            res.json({success: true, message: "Record deleted"});
+        })
+    })
 
     return router;
 });

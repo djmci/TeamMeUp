@@ -41,6 +41,9 @@ export class DashboardComponent implements OnInit {
   {"name": "Sunday", "status": false, "checked": 0, time: {hour: 13, minute: 30}}
   ]
 
+  players=[];
+  coaches=[];
+
   constructor( private authService: AuthService, private router: Router  ) { }
 
   decodeRanking(Ranking) {
@@ -166,6 +169,81 @@ export class DashboardComponent implements OnInit {
           }
     })
   }
+
+  isPlayer(){
+    return this.role=='player';
+  }
+  isCoach(){
+    return this.role=='coach';
+  }
+  isAdmin(){
+    return this.role=='admin';
+  }
+
+  deletePlayer(username){
+    this.authService.deletePlayer(username).subscribe(data =>{
+      // console.log(data);
+      this.dataRcvd=data;
+      if(!this.dataRcvd.success) {
+          this.messageClass = 'alert alert-danger';
+          this.message = this.dataRcvd.message;
+      } else {
+          this.messageClass = 'alert alert-success';
+          this.message = this.dataRcvd.message;
+          setTimeout(() => {
+            this.router.navigate(['/']);
+          }, 0);
+          setTimeout(() => {
+            this.router.navigate(['/dashboard']);
+          }, 0);
+      }
+    });
+  }
+
+  deleteCoach(username){
+    this.authService.deleteCoach(username).subscribe(data =>{
+      // console.log(data);
+      this.dataRcvd=data;
+      if(!this.dataRcvd.success) {
+          this.messageClass = 'alert alert-danger';
+          this.message = this.dataRcvd.message;
+      } else {
+          this.messageClass = 'alert alert-success';
+          this.message = this.dataRcvd.message;
+          setTimeout(() => {
+            this.router.navigate(['/']);
+          }, 0);
+          setTimeout(() => {
+            this.router.navigate(['/dashboard']);
+          }, 0);
+      }
+    });
+  }
+
+  createPlayer(){
+    setTimeout(() => {
+      this.router.navigate(['/createplayer']);
+    }, 0);
+  }
+
+  createCoach(){
+    setTimeout(() => {
+      this.router.navigate(['/createcoach']);
+    }, 0);
+  }
+
+  updatePlayer(username){
+    setTimeout(() => {
+      this.router.navigate(['/updateplayer', username]);
+    }, 0);
+  }
+
+  updateCoach(username){
+    setTimeout(() => {
+      this.router.navigate(['/updatecoach', username]);
+    }, 0);
+  }
+
   ngOnInit() {
     this.authService.getProfile().subscribe(data => {
       this.dataRcvd = data;
@@ -173,7 +251,52 @@ export class DashboardComponent implements OnInit {
       this.email = this.dataRcvd.message.email;
       this.role = this.dataRcvd.message.role;
       if (this.role == 'player') this.lastLogin = this.dataRcvd.message.lastLogin;
-      console.log(this.dataRcvd, this.lastLogin);
+      // console.log(this.dataRcvd, this.lastLogin);
+      else if (this.role=='admin'){
+        // console.log("I'm an admin!");
+        this.authService.getPlayers().subscribe(data => {
+          this.dataRcvd = data;
+          if (!this.dataRcvd.success) {
+            console.log("No players found!");
+          }else {
+            for (let index = 0; index < this.dataRcvd.message.length; index++) {
+              this.players.push({
+                name: this.dataRcvd.message[index].name,
+                username: this.dataRcvd.message[index].username,
+                email: this.dataRcvd.message[index].email,
+                password: this.dataRcvd.message[index].password,
+                role: this.dataRcvd.message[index].role,
+                opponentRanking: this.dataRcvd.message[index].opponentRanking,
+                playerRanking: this.dataRcvd.message[index].playerRanking,
+                Interests: this.dataRcvd.message[index].Interests,
+                lastLogin: this.dataRcvd.message[index].lastLogin,
+                schedule: this.dataRcvd.message[index].schedule,
+                attendenceTime: this.dataRcvd.message[index].attendenceTime,
+                attendenceMarked: this.dataRcvd.message[index].attendenceMarked
+              });
+            }
+            console.log(this.players);
+          }
+        });
+        this.authService.getCoaches().subscribe(data => {
+          this.dataRcvd = data;
+          if (!this.dataRcvd.success) {
+            console.log("No coaches found!");
+          }else {
+            for (let index = 0; index < this.dataRcvd.message.length; index++) {
+              this.coaches.push({
+                name: this.dataRcvd.message[index].name,
+                username: this.dataRcvd.message[index].username,
+                email: this.dataRcvd.message[index].email,
+                password: this.dataRcvd.message[index].password,
+                role: this.dataRcvd.message[index].role,
+                players: this.dataRcvd.message[index].players
+              });
+            }
+            console.log(this.coaches);
+          }
+        });
+      }
     });
     this.authService.getGames().subscribe(data => {
       this.dataRcvd = data;
@@ -185,7 +308,6 @@ export class DashboardComponent implements OnInit {
         }
         console.log(this.games);
       }
-
     });
   }
 

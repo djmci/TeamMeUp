@@ -6,38 +6,39 @@
     </div>
 </div>
 
-<ng-container *ngIf="!lastLogin">
-	<h5 style="text-align: center;">Select your Weekly schedule! <p>Each slot is of 1 hour!</p></h5>
-            <div class="card-block p-0">
-            <table class="table table-bordered table-sm m-0">
-                
-                <thead class="">
-                    <tr>
-                        <th>Select</th>
-                        <th>Day</th>
-                        <th>Time</th>
-                    </tr>
-                </thead>
-                <ng-container *ngFor="let day of weekdays;">
-                <tbody>
-                    <tr>
-                        <td>
-                            <label class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" (change)="selectDay(day.name)">
-                                <span class="custom-control-indicator"></span>
-                            </label>
-                        </td>
-                        <td>
-                            <h6>{{day.name}}</h6>
-                        </td>
-                        <td>
-                            <ng-container *ngIf="day.status">
+<ng-container *ngIf="isPlayer()">
+	<ng-container *ngIf="!lastLogin">
+		<h5 style="text-align: center;">Select your Weekly schedule! <p>Each slot is of 1 hour!</p></h5>
+			<div class="card-block p-0">
+			<table class="table table-bordered table-sm m-0">
+				
+				<thead class="">
+					<tr>
+						<th>Select</th>
+						<th>Day</th>
+						<th>Time</th>
+					</tr>
+				</thead>
+				<ng-container *ngFor="let day of weekdays;">
+				<tbody>
+					<tr>
+						<td>
+							<label class="custom-control custom-checkbox">
+								<input type="checkbox" class="custom-control-input" (change)="selectDay(day.name)">
+								<span class="custom-control-indicator"></span>
+							</label>
+						</td>
+						<td>
+							<h6>{{day.name}}</h6>
+						</td>
+						<td>
+							<ng-container *ngIf="day.status">
 								<ngb-timepicker [(ngModel)]="day.time"></ngb-timepicker>
-                            </ng-container>
-                        </td>
-                    </tr>
-                </tbody>
-            </ng-container>
+							</ng-container>
+						</td>
+					</tr>
+				</tbody>
+				</ng-container>
 			</table>
 			<br>
 
@@ -140,3 +141,77 @@
 		</div>
 
 	</ng-container>
+</ng-container>
+
+<ng-container *ngIf="isCoach()">
+	<h1>You're a coach!</h1>
+	<!-- JustCoachThings -->
+</ng-container>
+
+<ng-container *ngIf="isAdmin()">
+	<!-- CRUD Operations on Players and Coaches -->
+	<p>
+	<h3>Players</h3>	
+	<button type="button" class="btn btn-success" (click)="createPlayer()">Create</button>‏‏‎
+	<br> ‎‏‏‎ ‎
+	<table class="table">
+	<thead class="thead-light">
+		<tr>
+		<th scope="col">#</th>
+		<th scope="col">Username</th>
+		<th scope="col">Name</th>
+		<th scope="col">Email</th>
+		<th scope="col"></th>
+		</tr>
+	</thead>
+	<tbody>
+		<ng-container *ngFor="let player of players; let i=index">
+			<tr>
+			<th scope="row">{{i+1}}</th>
+			<td>{{player.username}}</td>
+			<td>{{player.name}}</td>
+			<td>{{player.email}}</td>
+			<td>
+				<!-- <button type="button" class="btn btn-primary">View Details</button>‏‏‎ ‎‏‏‎ ‎ -->
+				<button type="button" class="btn btn-primary" (click)="updatePlayer(player.username)">Update</button>‏‏‎ ‎‏‏‎ ‎
+				<button type="button" class="btn btn-danger" (click)="deletePlayer(player.username)">Delete</button>
+			</td>
+			</tr>
+		</ng-container>
+	</tbody>
+	</table>
+
+	<p>
+	<h3>Coaches</h3>	
+	<button type="button" class="btn btn-success" (click)="createCoach()">Create</button>‏‏‎ ‎‏‏‎   
+	<br><br>
+	<table class="table">
+	  <thead class="thead-light">
+		<tr>
+		  <th scope="col">#</th>
+		  <th scope="col">Username</th>
+		  <th scope="col">Name</th>
+		  <th scope="col">Email</th>
+		  <th scope="col"></th>
+		</tr>
+	  </thead>
+	  <tbody>
+		<ng-container *ngFor="let coach of coaches;let i=index">
+			<tr>
+			<th scope="row">{{i+1}}</th>
+			<td>{{coaches[i].username}}</td>
+			<td>{{coaches[i].name}}</td>
+			<td>{{coaches[i].email}}</td>
+			<td>
+				<!-- <button type="button" class="btn btn-primary">View Details</button>‏‏‎ ‎‏‏‎ ‎ -->
+				<button type="button" class="btn btn-primary" (click)="updateCoach(coach.username)">Update</button>‏‏‎ ‎‏‏‎ ‎
+				<button type="button" class="btn btn-danger" (click)="deleteCoach(coach.username)">Delete</button>
+			</td>
+			</tr>
+		</ng-container>
+	  </tbody>
+	</table>
+
+
+</ng-container>
+
