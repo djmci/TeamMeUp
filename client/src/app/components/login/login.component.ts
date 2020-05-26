@@ -54,6 +54,7 @@ export class LoginComponent implements OnInit {
         // Function to send login data to API
         this.authService.login(user).subscribe(data => {
           this.dataRcvd = data;
+          console.log(this.dataRcvd);
           if (!this.dataRcvd.success) {
             this.messageClass = 'alert alert-danger';
             this.message = this.dataRcvd.message;
@@ -66,7 +67,11 @@ export class LoginComponent implements OnInit {
             setTimeout(() => {
               if(this.prevUrl) this.router.navigate([this.prevUrl]);
               else{
-                if (this.Role == 'player') this.router.navigate(['/profile']);
+                // if (this.dataRcvd.user.lastLogin == null && this.Role == 'player') {
+                //   this.router.navigate(['/dashboard']);
+                // }
+                if (this.Role == 'player' && this.dataRcvd.user.lastLogin == null) this.router.navigate(['/dashboard']);
+                else if (this.Role == 'player') this.router.navigate(['/profile']);
                 else if (this.Role == 'coach') this.router.navigate(['/home']);
                 else this.router.navigate(['/dashboard']);
               }

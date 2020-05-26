@@ -17,6 +17,7 @@ import { AuthGuard } from './guard/auth.guard';
 import { NotAuthGuard } from './guard/notAuth.guard';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastComponent } from './components/toast/toast.component';
+import { FormModalComponent } from './components/form-modal/form-modal.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { ToastComponent } from './components/toast/toast.component';
     RegisterComponent,
     LoginComponent,
     ProfileComponent,
-    ToastComponent
+    ToastComponent,
+    FormModalComponent
   ],
   imports: [
     FormsModule,
@@ -38,6 +40,7 @@ import { ToastComponent } from './components/toast/toast.component';
     RouterModule,
     NgbModule
   ],
+  entryComponents: [FormModalComponent],
   providers: [ AuthService, AuthGuard, NotAuthGuard ],
   bootstrap: [AppComponent]
 })
