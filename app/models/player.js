@@ -116,7 +116,8 @@ const passwordValidators = [
 
 var interests = new Schema({
     name: { type: String, required: true, unique: true},
-    ranking: { type: String, enum: ['Beginner', 'Medium', 'Advance'], default: 'Beginner', required: true }
+    ranking: { type: String, enum: ['Beginner', 'Medium', 'Advance'], default: 'Beginner', required: true },
+    priority: {type: String, enum: ['High', 'Medium', 'Low', 'None'], default: 'None', required: true},
 });
 
 var time = new Schema({
@@ -138,8 +139,9 @@ var playerSchema = new Schema({
         name: { type:String, require: true },
         time: { type: time, require: true }
     }],
-    attendenceTime: {type: Date },
-    attendenceMarked: {type: Boolean, default: false}
+    checkinTime: {type: Date },
+    attendenceMarked: {type: Boolean, default: false},
+    priorities: {type: Boolean, required: true, default: false}
 });
 
 

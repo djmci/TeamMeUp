@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard',
@@ -143,6 +144,7 @@ export class DashboardComponent implements OnInit {
     }
     return false;
   }
+
   saveSchedule(){
     var schdule = []
     for (let index = 0; index < this.weekdays.length; index++) {
@@ -151,7 +153,8 @@ export class DashboardComponent implements OnInit {
       }
     }
     console.log(schdule);
-    this.authService.updateSchedule(schdule, this.username).subscribe(data => {
+    console.log("Interests: " + this.Interests);
+    this.authService.updateSchedule(schdule, this.username, this.Interests).subscribe(data => {
           this.dataRcvd = data;
           console.log(this.dataRcvd)
           if(!this.dataRcvd.success) {
@@ -169,11 +172,12 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.authService.getProfile().subscribe(data => {
       this.dataRcvd = data;
+      console.log(this.dataRcvd);
       this.username = this.dataRcvd.message.username;
       this.email = this.dataRcvd.message.email;
       this.role = this.dataRcvd.message.role;
       if (this.role == 'player') this.lastLogin = this.dataRcvd.message.lastLogin;
-      console.log(this.dataRcvd, this.lastLogin);
+      console.log(this.lastLogin);
     });
     this.authService.getGames().subscribe(data => {
       this.dataRcvd = data;
