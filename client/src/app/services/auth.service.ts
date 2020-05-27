@@ -34,11 +34,12 @@ export class AuthService {
 
   getPlayer(username) {
     this.loadToken();
+    console.log(username);
     let appHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': this.authToken  
     });
-    return this.http.get(this.backendServer + "/api/getplayer", {headers: appHeaders}).pipe(map(res => res));
+    return this.http.get(this.backendServer + "/api/getplayer", {headers:appHeaders}).pipe(map(res => res));
   }
 
   getCoach(username) {
@@ -47,8 +48,17 @@ export class AuthService {
       'Content-Type': 'application/json',
       'Authorization': this.authToken  
     });
-    return this.http.get(this.backendServer + "/api/getcoach", {headers: appHeaders}).pipe(map(res => res));
+    return this.http.get(this.backendServer + "/api/getcoach", {headers:appHeaders}).pipe(map(res => res));
   }
+
+  // getCoachPlayers(username){
+  //   this.loadToken();
+  //   let appHeaders = new HttpHeaders({
+  //     'Content-Type': 'application/json',
+  //     'Authorization': this.authToken  
+  //   });
+  //   return this.http.get(this.backendServer + "/api/getcoachplayers", {headers: appHeaders}).pipe(map(res => res));
+  // }
 
   getGames() {
     return this.http.get(this.backendServer + "/api/gamesList").pipe(map(res => res));
@@ -77,7 +87,7 @@ export class AuthService {
   }
 
   logout() {
-    this.updateStatus();
+    // this.updateStatus();
     this.authToken = null;
     this.user = null;
     localStorage.clear();
@@ -157,7 +167,6 @@ export class AuthService {
 
   getProfile() {
     var token = this.loadToken();
-    console.log(token);
     let appHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': this.authToken  
