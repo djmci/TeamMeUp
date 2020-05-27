@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import { DatePipe } from '@angular/common';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -45,7 +44,7 @@ export class DashboardComponent implements OnInit {
   players=[];
   coaches=[];
 
-  constructor( private authService: AuthService, private router: Router, private route: ActivatedRoute ) { }
+  constructor( private authService: AuthService, private router: Router) { }
 
   decodeRanking(Ranking) {
     if (Ranking == 1) {

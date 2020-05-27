@@ -1,0 +1,78 @@
+<h1 class="page-header">Session Management</h1>
+<strong>Reload to check if more players or coaches are online!</strong>
+
+<div class="row show-hide-message">
+    <div [ngClass]="messageClassPlayer">
+      {{ messagePlayer }}
+    </div>
+</div>
+<ng-container *ngIf="authService.isAdmin()">
+    
+<button type="button" class="btn btn-success" (click)="createSession('Tennis')">Create Tennis Session</button>‏‏‎
+<button type="button" class="btn btn-success" (click)="createSession('Table Tennis')">Create Table Tennis Session</button>‏‏‎
+<button type="button" class="btn btn-success" (click)="createSession('Badminton')">Create Badminton Session</button>‏‏‎
+<button type="button" class="btn btn-success" (click)="createSession('Squash')">Create Squash</button>‏‏‎
+	<!-- CRUD Operations on Players and Coaches -->
+	<p>
+	<h3>Online Players</h3>	
+	<br>
+	<table class="table">
+	<thead class="thead-light">
+		<tr>
+		<th scope="col">#</th>
+		<th scope="col">Username</th>
+		<th scope="col">Name</th>
+		<th scope="col">Email</th>
+		<th scope="col">Status</th>
+		</tr>
+	</thead>
+	<tbody>
+		<ng-container *ngFor="let player of onlinePlayers; let i=index">
+			<tr>
+			<th scope="row">{{i+1}}</th>
+			<td>{{player.username}}</td>
+			<td>{{player.name}}</td>
+			<td>{{player.email}}</td>
+			<td>
+                Online
+			</td>
+			</tr>
+		</ng-container>
+	</tbody>
+	</table>
+
+    
+<div class="row show-hide-message">
+    <div [ngClass]="messageClassCoach">
+      {{ messageCoach }}
+    </div>
+</div>
+	<p>
+	<h3>Online Coaches</h3>
+	<br><br>
+	<table class="table">
+	  <thead class="thead-light">
+		<tr>
+		  <th scope="col">#</th>
+		  <th scope="col">Username</th>
+		  <th scope="col">Name</th>
+		  <th scope="col">Email</th>
+		  <th scope="col">Status</th>
+		</tr>
+	  </thead>
+	  <tbody>
+		<ng-container *ngFor="let coach of onlineCoaches; let i=index">
+			<tr>
+			<th scope="row">{{i+1}}</th>
+			<td>{{coach.username}}</td>
+			<td>{{coach.name}}</td>
+			<td>{{coach.email}}</td>
+			<td> Online
+			</td>
+			</tr>
+		</ng-container>
+	  </tbody>
+	</table>
+
+
+</ng-container>

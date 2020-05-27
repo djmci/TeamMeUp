@@ -1,0 +1,80 @@
+
+
+<h1 class="page-header">Create a new Session for {{sessionGame}}</h1>
+
+<div class="row show-hide-message">
+    <div [ngClass]="messageClass">
+      {{ message }}
+    </div>
+</div>
+
+<br>
+<div style="width: 49%; float: left;">
+<h4>Select first player:</h4>
+<table class="table">
+	<thead class="thead-light">
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Username</th>
+            <th>Role</th>
+        </tr>
+    </thead>
+    <tbody>
+        <ng-container *ngFor="let player of players;">
+            <tr [ngClass]="player.selectedTable1?'dark-row':'light-row'">
+                <td>
+                    <button type="button" [ngClass]="player.selectedTable1?'btn btn-success':'btn btn-primary'" (click)="selectPlayer1(player.username)">{{player.name}}</button>‏‏‎ ‎‏‏‎ ‎
+                </td>
+                <td>{{player.email}}</td>
+                <td>{{player.username}}</td>
+                <td>{{player.role}}</td>
+            </tr>
+        </ng-container>
+    </tbody>
+</table>
+</div>
+
+<div style="width:49%; float: right;">
+    
+<h4>Select second player:</h4>
+<table class="table">
+	<thead class="thead-light">
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Username</th>
+            <th>Role</th>
+        </tr>
+    </thead>
+    <tbody>
+        <ng-container *ngFor="let player of players;">
+            <tr [ngClass]="player.selectedTable1?'disabled':'light-row'">
+                <td>
+                    <button [disabled]="player.selectedTable1" type="button" [ngClass]="player.selectedTable2?'btn btn-success':'btn btn-primary'" (click)="selectPlayer2(player.username)">{{player.name}}</button>‏‏‎ ‎‏‏‎ ‎
+                </td>
+                <td>{{player.email}}</td>
+                <td>{{player.username}}</td>
+                <td>{{player.role}}</td>
+            </tr>
+        </ng-container>
+    </tbody>
+</table>
+</div>
+
+<div style="text-align: center;">
+    <form>
+        <h5>Select a court</h5>
+        <ng-container *ngFor="let court of courts;">
+            <div class="form-check">
+                <label>
+                    <input class="form-check-input" type="radio" value={{court}} name="gob" value={{court}} [checked]="true" 
+                    (change)="selectCourt($event.target.value)"/><span class="label-text">{{court}}</span>
+                </label>
+            </div>
+        </ng-container>
+    </form>
+
+</div>
+
+<input [disabled]="!selectedPlayer1 || !selectedPlayer2" class="btn btn-primary" type="submit" value="Submit" (click)="createSession()" />
