@@ -238,8 +238,8 @@ module.exports = (router => {
                         newPlayer.lastLogin = Date.now();
                         console.log(newPlayer);
                         Player.findOneAndUpdate({username: req.body.username}, newPlayer,  function(err, doc) {
-                            if (err) console.log("success: false, message: Some error occured! + err");
-                            console.log("success: true, message: Records entered succesfully! Welcome!");
+                            if (err) res.json({success: false, message: "Some error occured! + err"});
+                            else res.json({success: true, message: "Records entered succesfully! Welcome!"});
                         });
                     });
                 }

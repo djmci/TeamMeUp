@@ -36,7 +36,7 @@
         <li>
           <span class="profile-stat-count">Status: </span>{{attendence?'Online':'Offline'}}
           <label class="custom-control custom-checkbox" style="float:right;">
-            <input type="checkbox" class="custom-control-input" (change)="markAttendence()">
+            <input type="checkbox" id="attendenceToggle" class="custom-control-input" (change)="markAttendence()">
             <span class="custom-control-indicator"></span>
           </label>
         </li>
@@ -92,7 +92,6 @@
     </div>
   </ng-container>
 
-  <ng-container *ngIf="prioritySubmit">
     <div class="card mb-5">
       
       <h5 style="text-align: center;">Your schedule!</h5>
@@ -103,6 +102,7 @@
           <tr>
             <th>Day</th>
             <th>Time</th>
+            <th>Games</th>
           </tr>
         </thead>
         <ng-container *ngFor="let schedule of schedule;">
@@ -124,7 +124,6 @@
       </div>
     </div>
   </ng-container>
-</ng-container>
 
 
 <ng-container *ngIf="isCoach()">
@@ -147,7 +146,7 @@
 				<td>{{player.username}}</td>
 				<td>{{player.name}}</td>
 				<td>{{player.email}}</td>
-				<td>{{player.attendenceMarked}}</td>
+				<td>{{player.attendenceMarked?'Online':'Offline'}}</td>
 				</tr>
 			</ng-container>
 		</tbody>

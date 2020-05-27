@@ -22,7 +22,6 @@ export class ProfileComponent implements OnInit {
   lastLogin= Date.now();
   schedule= [];
   priorities= false;
-
   dataRcvd;
   game;
   games=[];
@@ -31,6 +30,7 @@ export class ProfileComponent implements OnInit {
   prioritySubmit = false;
   players=[];
   coaches=[];
+  attendenceToggle = document.getElementById("attendenceToggle");
 
   constructor( private authService: AuthService, public toastService: ToastService, private modalService: NgbModal) { }
   showSuccess() {
@@ -153,6 +153,8 @@ export class ProfileComponent implements OnInit {
         this.playerRanking=this.dataRcvd.message.playerRanking;
         this.opponentRanking=this.dataRcvd.message.opponentRanking;
         this.schedule= this.dataRcvd.message.schedule;
+        this.attendence = this.dataRcvd.message.attendenceMarked;
+        this.prioritySubmit = this.dataRcvd.message.priorities;
         console.log(this.schedule);
         // this.schedule.game="Badminton";
         console.log(typeof(this.schedule[0]));

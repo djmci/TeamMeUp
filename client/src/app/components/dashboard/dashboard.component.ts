@@ -147,11 +147,24 @@ export class DashboardComponent implements OnInit {
     return false;
   }
 
+  interestGames() {
+    var games = []
+    this.Interests.forEach(interest => {
+      var game = interest.split("-");
+      games.push(game[0]);
+    });
+    return games;
+  }
+
   saveSchedule(){
     var schdule = []
+    var games = this.interestGames();
+    var gameIndex = 0;
     for (let index = 0; index < this.weekdays.length; index++) {
       if(this.weekdays[index].checked == 1 && this.weekdays[index].status == true) {
-        schdule.push({name: this.weekdays[index].name, time: this.weekdays[index].time, game:"Game Over"})
+        schdule.push({name: this.weekdays[index].name, time: this.weekdays[index].time, game:games[gameIndex]})
+        ++gameIndex;
+        if (gameIndex == games.length) gameIndex = 0;
       }
     }
     console.log(schdule);
