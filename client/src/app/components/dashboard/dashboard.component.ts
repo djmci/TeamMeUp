@@ -151,7 +151,7 @@ export class DashboardComponent implements OnInit {
     var schdule = []
     for (let index = 0; index < this.weekdays.length; index++) {
       if(this.weekdays[index].checked == 1 && this.weekdays[index].status == true) {
-        schdule.push({name: this.weekdays[index].name, time: this.weekdays[index].time})
+        schdule.push({name: this.weekdays[index].name, time: this.weekdays[index].time, game:"Game Over"})
       }
     }
     console.log(schdule);

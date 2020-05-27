@@ -25,7 +25,7 @@ export class ProfileComponent implements OnInit {
 
   dataRcvd;
   game;
-  games;
+  games=[];
   addedGames = [];
   interestsTemp = [];
   prioritySubmit = false;
@@ -139,18 +139,30 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.authService.getProfile().subscribe(data => {
       this.dataRcvd = data;
-      console.log("Profile: ")
+      console.log("Profile: ");
       console.log(this.dataRcvd);
       this.username = this.dataRcvd.message.username;
       this.email = this.dataRcvd.message.email;
       this.role = this.dataRcvd.message.role;
-      if (this.role == 'player') this.lastLogin = this.dataRcvd.message.lastLogin;
+      this.name=this.dataRcvd.message.name;
+      if (this.role == 'player'){
+        this.lastLogin = this.dataRcvd.message.lastLogin;
+        this.interestsTemp=this.dataRcvd.message.Interests;
+        this.pruneInterests();
+        console.log(this.Interests);
+        this.playerRanking=this.dataRcvd.message.playerRanking;
+        this.opponentRanking=this.dataRcvd.message.opponentRanking;
+        this.schedule= this.dataRcvd.message.schedule;
+        console.log(this.schedule);
+        // this.schedule.game="Badminton";
+        console.log(typeof(this.schedule[0]));
+      }
       else{ // Admin or Coach
         this.authService.getPlayers().subscribe(data => {
           this.dataRcvd = data;
           if (!this.dataRcvd.success) {
             console.log("No players found!");
-          }else {
+          } else {
             for (let index = 0; index < this.dataRcvd.message.length; index++) {
               this.players.push({
                 name: this.dataRcvd.message[index].name,
@@ -222,78 +234,8 @@ export class ProfileComponent implements OnInit {
         for (let index = 0; index < this.dataRcvd.message.length; index++) {
           this.games.push({name: this.dataRcvd.message[index].name, status: false, checked: 0});
         }
-        // console.log(this.games);
       }
     });
   }
-  //   this.authService.getProfile().subscribe(data => {
-  //     this.dataRcvd = data;
-  //     this.username = this.dataRcvd.message.username;
-  //     this.email = this.dataRcvd.message.email;
-  //     this.role = this.dataRcvd.message.role;
-  //     this.attendence = this.dataRcvd.message.attendenceMarked;
-  //     this.interestsTemp = this.dataRcvd.message.Interests;
-  //     this.pruneInterests();
-  //     this.lastLogin = this.dataRcvd.message.lastLogin;
-  //     this.name = this.dataRcvd.message.name;
-  //     this.opponentRanking = this.dataRcvd.message.opponentRanking;
-  //     this.playerRanking = this.dataRcvd.message.playerRanking;
-  //     this.schedule = this.dataRcvd.message.schedule;
-  //     this.priorities = this.dataRcvd.message.priorities;
-  //     this.prioritySubmit = this.priorities;
-  //     console.log(this.dataRcvd);
-  //   })
-  //   this.authService.getGames().subscribe(data => {
-  //     this.dataRcvd = data;
-  //     this.games = this.dataRcvd.message.games;
-  //   });
-  //   if(this.role=='coach') {
-  //     this.authService.getPlayers().subscribe(data => {
-  //       this.dataRcvd = data;
-  //       if (!this.dataRcvd.success) {
-  //         console.log("No players found!");
-  //       }else {
-  //         for (let index = 0; index < this.dataRcvd.message.length; index++) {
-  //           this.players.push({
-  //             name: this.dataRcvd.message[index].name,
-  //             username: this.dataRcvd.message[index].username,
-  //             email: this.dataRcvd.message[index].email,
-  //             password: this.dataRcvd.message[index].password,
-  //             role: this.dataRcvd.message[index].role,
-  //             opponentRanking: this.dataRcvd.message[index].opponentRanking,
-  //             playerRanking: this.dataRcvd.message[index].playerRanking,
-  //             Interests: this.dataRcvd.message[index].Interests,
-  //             lastLogin: this.dataRcvd.message[index].lastLogin,
-  //             schedule: this.dataRcvd.message[index].schedule,
-  //             attendenceTime: this.dataRcvd.message[index].attendenceTime,
-  //             attendenceMarked: this.dataRcvd.message[index].attendenceMarked,
-  //             _id : this.dataRcvd.message[index]._id
-  //           });
-  //         }
-  //         console.log(this.players);
-  //       }
-  //     });
-  //     // Get coach players
-  //     console.log(this.player);
-  //     this.authService.getCoach(this.username).subscribe(data => {
-  //       this.dataRcvd = data;
-  //       if (!this.dataRcvd.success) {
-  //         console.log("No players found!");
-  //       } else {
-  //         console.log("Coach is here");
-  //         var l=this.players.length;
-  //         for (let i = 0; i < l; ++i) {
-  //           if (this.players[i]._id!=this.dataRcvd.message.players[i]){
-  //             this.players.splice(i, 1);
-  //             --i;
-  //             --l;
-  //           }
-  //         }
-  //         console.log("Coach players: ", this.players);
-  //       }
-  //     });
-
-  //   }
-  // }
 
 }
