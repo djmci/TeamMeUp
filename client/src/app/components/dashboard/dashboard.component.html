@@ -215,3 +215,34 @@
 
 </ng-container>
 
+
+<!-- <ng-container *ngIf="isAdmin()">
+	<h3>Coaches</h3>
+	<br><br>
+	<table class="table">
+	  <thead class="thead-light">
+		<tr>
+		  <th scope="col">#</th>
+		  <th scope="col">Username</th>
+		  <th scope="col">Name</th>
+		  <th scope="col">Email</th>
+		  <th scope="col"></th>
+		</tr>
+	  </thead>
+	  <tbody>
+		<ng-container *ngFor="let coach of coaches;let i=index">
+			<tr>
+			<th scope="row">{{i+1}}</th>
+			<td>{{coaches[i].username}}</td>
+			<td>{{coaches[i].name}}</td>
+			<td>{{coaches[i].email}}</td>
+			<td>
+				<button type="button" class="btn btn-primary">View Details</button>‏‏‎ ‎‏‏‎ ‎
+				<button type="button" class="btn btn-primary" (click)="updateCoach(coach.username)">Update</button>‏‏‎ ‎‏‏‎ ‎
+				<button type="button" class="btn btn-danger" (click)="deleteCoach(coach.username)">Delete</button>
+			</td>
+			</tr>
+		</ng-container>
+	  </tbody>
+	</table>
+</ng-container> -->

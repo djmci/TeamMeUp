@@ -502,8 +502,10 @@ module.exports = (router => {
         console.log(req.body);
         var opponentPlayer = undefined;
         var opponentCoach = undefined; 
+        var type = "Game";
         if (req.body.opponent.role == 'coach') {
             opponentCoach = req.body.opponent._id;
+            type = "Practice";
         } else opponentPlayer = req.body.opponent._id;
         var session = Session ({
             player: req.body.player._id,
@@ -511,7 +513,8 @@ module.exports = (router => {
             opponentPlayer: opponentPlayer,
             status: true,
             game: req.body.game,
-            court: req.body.court
+            court: req.body.court,
+            type: type
         });
         session.save((err) => {
             if(err) {
@@ -522,6 +525,17 @@ module.exports = (router => {
         });
     })
 
+
+    router.get('/getsessions', (req, res) => {
+        Session.find({}, function(err, sessions) {
+            console.log(sessions);
+            if (sessions.length == 0) {
+                res.json({success: false, message: "No sessions found!"});
+            } else {
+                res.json({success: true, message: sessions});
+            }
+        });
+    });
 
     return router;
 });
