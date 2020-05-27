@@ -72,7 +72,7 @@ export class LoginComponent implements OnInit {
                 // }
                 if (this.Role == 'player' && this.dataRcvd.user.lastLogin == null) this.router.navigate(['/dashboard']);
                 else if (this.Role == 'player') this.router.navigate(['/profile']);
-                else if (this.Role == 'coach') this.router.navigate(['/home']);
+                else if (this.Role == 'coach') this.router.navigate(['/dashboard']);
                 else this.router.navigate(['/dashboard']);
               }
             }, 2000);

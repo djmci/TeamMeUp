@@ -114,14 +114,13 @@ const passwordValidators = [
 ];
 
 var coachSchema = new Schema({
-    username: {type: String, required: true, unique: true, validate: usernameValidators },
+    username: { type: String, required: true, unique: true, validate: usernameValidators },
     name: { type: String, required: true},
     email: { type: String, required: true, unique: true, lowercase: true, validate: emailValidators },
     password: { type: String, required: true, validate: passwordValidators },
     role: { type: String, required: true, default: 'coach' },
-    players: [{id: {type: Schema.Types.ObjectId, ref: 'playerSchema' }}],
-    status: {type: Boolean, default: false},
-    sessions: [{id: {type: Schema.Types.ObjectId, ref: 'sessionSchema'}}]
+    players: [ {type: Schema.Types.ObjectId, ref: 'playerSchema' }],
+    status: { type: Boolean, default: false }
 });
 
 coachSchema.pre('save', function(next) {

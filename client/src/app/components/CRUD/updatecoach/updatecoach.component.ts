@@ -70,16 +70,17 @@ export class UpdatecoachComponent implements OnInit {
         break;
       }
     }
-    console.log(this.players);
   }
 
   updateCoachPlayers(){
     var arr=[];
     for (let i = 0; i < this.players.length; i++) {
       if (this.players[i].marked){
-        arr.push(this.players[i]);
+        arr.push(this.players[i]._id);
       }
     }
+    console.log("Updated coach players");
+    console.log(arr);
     return arr;
   }
 
@@ -88,8 +89,8 @@ export class UpdatecoachComponent implements OnInit {
     newcoach.name= this.form.get('name').value;
     newcoach.username=this.route.snapshot.paramMap.get('username');
     newcoach.players=this.updateCoachPlayers();
-    console.log(this.oldcoach);
-    console.log(newcoach);
+    // console.log(this.oldcoach);
+    // console.log(newcoach);
     this.authService.updateCoach(newcoach).subscribe(data => {
         this.dataRcvd = data;
         this.processing = true;
@@ -106,7 +107,7 @@ export class UpdatecoachComponent implements OnInit {
                 this.router.navigate(['/dashboard']);
             }, 1000);
         }
-        console.log(data);
+        // console.log(data);
     });
     console.log("Coach updated.");
   };
@@ -114,12 +115,15 @@ export class UpdatecoachComponent implements OnInit {
   ngOnInit(): void {    
     this.authService.getCoach(this.route.snapshot.paramMap.get('username')).subscribe(data => {
       this.oldcoach = data;
+      console.log('Previous players: ', this.oldcoach.players);
     });
     this.authService.getPlayers().subscribe(data => {
       this.dataRcvd = data;
+      console.log('All players: ', this.dataRcvd);
+
       if (!this.dataRcvd.success) {
         console.log("No players found!");
-      }else {
+      } else {
         for (let index = 0; index < this.dataRcvd.message.length; index++) {
           this.players.push({
             name: this.dataRcvd.message[index].name,
@@ -134,6 +138,7 @@ export class UpdatecoachComponent implements OnInit {
             schedule: this.dataRcvd.message[index].schedule,
             attendenceTime: this.dataRcvd.message[index].attendenceTime,
             attendenceMarked: this.dataRcvd.message[index].attendenceMarked,
+            _id: this.dataRcvd.message[index]._id,
             marked:false
           });
         }
