@@ -18,12 +18,6 @@
       </div>
     </div>
 
-    <!-- <div class="profile-user-settings">
-
-      <h1 class="profile-user-name">{{username}}</h1>
-
-    </div> -->
-
     <div class="profile-stats">
 
       <ul>
@@ -37,8 +31,8 @@
         <br>
         <ng-container *ngIf="isPlayer()">
           <li><span class="profile-stat-count">Ranking: </span>{{ playerRanking }}</li>
+          <br>
         </ng-container>
-        <br>
         <li>
           <span class="profile-stat-count">Status: </span>{{attendence?'Online':'Offline'}}
           <label class="custom-control custom-checkbox" style="float:right;">
@@ -119,6 +113,9 @@
             </td>
             <td>
               {{ schedule.time.hour }} : {{ schedule.time.minute }} hours to {{schedule.time.hour + 1}} : {{schedule.time.minute }} hours
+            </td>
+            <td>
+              <h6>{{ schedule.game }}</h6>
             </td>
           </tr>
         </tbody>

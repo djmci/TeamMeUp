@@ -137,7 +137,8 @@ var playerSchema = new Schema({
     lastLogin: { type : Date, default: undefined },
     schedule: [{
         name: { type:String, require: true },
-        time: { type: time, require: true }
+        time: { type: time, require: true },
+        game: { type: String }
     }],
     checkinTime: {type: Date },
     attendenceMarked: {type: Boolean, default: false},
