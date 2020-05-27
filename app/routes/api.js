@@ -252,15 +252,26 @@ module.exports = (router => {
               res.json({ success: false, message: "username not found!" });
           } else {
             Player.findOne({ username: req.body.username }, (err, user) => {
-                // console.log(req.body.schedule);
-                var newPlayer = user;
-                newPlayer.checkinTime = Date.now();
-                newPlayer.attendenceMarked = true;
-                console.log(newPlayer);
-                Player.findOneAndUpdate({username: req.body.username}, newPlayer,  function(err, doc) {
-                    if (err) res.json({success: false, message: "Some error occured!" + err});
-                    res.json({success: true, message: "Records entered succesfully! Welcome!"});
-                })
+                if (err){ // check for Coach
+                    Coach.findOne({ username: req.body.username }, (err, coach) => {
+                        var newcoach = user;
+                        newcoach.status = true;
+                        console.log(newcoach);
+                        coach.findOneAndUpdate({username: req.body.username}, newcoach,  function(err, doc) {
+                            if (err) res.json({success: false, message: "Some error occured!" + err});
+                            res.json({success: true, message: "Records entered succesfully! Welcome!"});
+                        })
+                    });
+                } else {
+                    var newPlayer = user;
+                    newPlayer.checkinTime = Date.now();
+                    newPlayer.attendenceMarked = true;
+                    console.log(newPlayer);
+                    Player.findOneAndUpdate({username: req.body.username}, newPlayer,  function(err, doc) {
+                        if (err) res.json({success: false, message: "Some error occured!" + err});
+                        res.json({success: true, message: "Records entered succesfully! Welcome!"});
+                    })
+                }
             });
           }
       })
@@ -270,15 +281,25 @@ module.exports = (router => {
             res.json({ success: false, message: "username not found!" });
         } else {
           Player.findOne({ username: req.body.username }, (err, user) => {
-              // console.log(req.body.schedule);
+            if (err){ // check for Coach
+                Coach.findOne({ username: req.body.username }, (err, coach) => {
+                    var newcoach = user;
+                    newcoach.status = false;
+                    console.log(newcoach);
+                    coach.findOneAndUpdate({username: req.body.username}, newcoach,  function(err, doc) {
+                        if (err) res.json({success: false, message: "Some error occured!" + err});
+                        res.json({success: true, message: "Records entered succesfully! Welcome!"});
+                    })
+                });
+            } else {
               var newPlayer = user;
-            //   newPlayer.checkinTime = Date.now();
               newPlayer.attendenceMarked = false;
               console.log(newPlayer);
               Player.findOneAndUpdate({username: req.body.username}, newPlayer,  function(err, doc) {
                   if (err) res.json({success: false, message: "Some error occured!" + err});
                   res.json({success: true, message: "Records entered succesfully! Welcome!"});
-              })
+              });
+            }
           });
         }
     })
@@ -329,8 +350,10 @@ module.exports = (router => {
     });
     
     router.get('/getplayer', (req, res) => {
+        console.log('api/getplayer')
         console.log(req.body);
-        Player.findOne({ username: req.body.username }).select('username email role name playerRanking opponentRanking Interests').exec((err, player) => {
+        console.log(req.result.userId);
+        Player.findOne({ _id: req.result.userId }).select('_id username email role name playerRanking opponentRanking Interests').exec((err, player) => {
             console.log(player);
             if (err) res.json({success: false, message: "Couldn't find selected fields! " + err});
             else res.json({success: true, message: player});
@@ -338,41 +361,37 @@ module.exports = (router => {
     });
 
     router.get('/getcoach', (req, res) => {
-        // console.log("inside api.js /getcoach");
         console.log(req.body);
-        Coach.findOne({ username: req.body.username }).select('username email role name password players').exec((err, coach) => {
+        Coach.findOne({ _id: req.result.userId }).select('_id username email role name password players').exec((err, coach) => {
             if (err) res.json({success: false, message: "Some error occured!" + err});
             res.json({success: true, message: coach});
         });
     });
 
     router.get('/profile', (req, res) => {
-        Player.findOne({ _id: req.result.userId }).select('username email name role lastLogin attendenceMarked opponentRanking playerRanking Interests schedule priorities').exec((err, player) => {
+        console.log('inside /api/profile')
+        console.log(req.body);
+        console.log(req.result.userId);
+        Player.findOne({ _id: req.result.userId }).select('_id username email name role lastLogin attendenceMarked opponentRanking playerRanking Interests schedule priorities').exec((err, player) => {
             if (err) res.json({success: false, message: "Couldn't find selected fields! " + err });
-            else {
-                if(!player) {
-                    console.log("No player found, checking coaches.");
-                    Coach.findOne({ _id: req.result.userId }).select('username email role').exec((err, coach) => {
-                        if (err) res.json({success: false, message: "Couldn't find selescted fields for coach!" + err});
-                        else {
-                            if(!coach) {
-                                console.log("No coach found, checking admins");
-                                Admin.findOne({ _id: req.result.userId }).select('username email role').exec((err, admin) => {
-                                    if(err) res.json({ success: false, message: "Couldn't find selected fields for admin!" + err});
-                                    else {
-                                        if(!admin) {
-                                            console.log("No admin found");
-                                            res.json({success: false, message: "No profile found for the user"});
-                                        }
-                                        else res.json({success: true, message: admin });
-                                    }
-                                });
-                            } else res.json({success: true, message: coach});
-                        }
-                    });
-                } else {
-                    res.json({success: true, message: player });
-                }
+            else if(!player) {
+                console.log("No player found, checking coaches.");
+                Coach.findOne({ _id: req.result.userId }).select('username email role name').exec((err, coach) => {
+                    if (err) res.json({success: false, message: "Couldn't find selescted fields for coach!" + err});
+                    else if(!coach) {
+                        console.log("No coach found, checking admins");
+                        Admin.findOne({ _id: req.result.userId }).select('username email role name').exec((err, admin) => {
+                            if(err) res.json({ success: false, message: "Couldn't find selected fields for admin!" + err});
+                            else if(!admin) {
+                                console.log("No admin found");
+                                res.json({success: false, message: "No profile found for the user"});
+                            }
+                            else res.json({success: true, message: admin });
+                        });
+                    } else res.json({success: true, message: coach});
+                });
+            } else {
+                res.json({success: true, message: player });
             }
         })
     });
@@ -395,10 +414,12 @@ module.exports = (router => {
         Coach.findOne({ username: req.body.coach.username }).select('username email role name password players').exec((err, coach) => {
             console.log(coach);
             var newCoach = coach;
-            console.log(req.body);
             newCoach.name = req.body.coach.name;
             newCoach.players = req.body.coach.players;
-            console.log(newCoach);
+            // console.log(req.body);
+            // console.log(req.body.coach.players);
+            // console.log(newCoach);
+            // console.log(newCoach.players);
             Coach.findOneAndUpdate({username: req.body.coach.username}, newCoach,  function(err, doc) {
                 if (err) res.json({success: false, message: "Some error occured!" + err});
                 res.json({success: true, message: "Records entered succesfully! Welcome!"});

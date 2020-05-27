@@ -11,7 +11,7 @@
   <div class="profile">
     <div class="profile-image">
       <div class="image_outer_container">
-        <input type="button" [ngClass]="player.attendence?'green_icon':'red_icon'" (click)="markAttendence()">
+        <div [ngClass]="attendence?'green_icon':'red_icon'"></div>
         <div class="image_inner_container">
           <img src="../../../assets/images/user-profiles.png"/>
         </div>
@@ -27,17 +27,25 @@
     <div class="profile-stats">
 
       <ul>
-        <li><span class="profile-stat-count">Name: </span> <strong>{{ player.name }}</strong></li>
+        <li><span class="profile-stat-count">Name: </span> <strong>{{ name }}</strong></li>
         <br>
-        <li><span class="profile-stat-count">Username: </span>{{ player.username }}</li>
+        <li><span class="profile-stat-count">Username: </span>{{ username }}</li>
         <br>
-        <li><span class="profile-stat-count">User: </span>{{ player.role }}</li>
+        <li><span class="profile-stat-count">User: </span>{{ role }}</li>
         <br>
-        <li><span class="profile-stat-count">Email: </span>{{ player.email }}</li>
+        <li><span class="profile-stat-count">Email: </span>{{ email }}</li>
         <br>
-        <li><span class="profile-stat-count">Ranking: </span>{{ player.playerRanking }}</li>
+        <ng-container *ngIf="isPlayer()">
+          <li><span class="profile-stat-count">Ranking: </span>{{ playerRanking }}</li>
+        </ng-container>
         <br>
-        <li><span class="profile-stat-count">Status: </span>{{player.attendence?'Online':'Offline'}}</li>
+        <li>
+          <span class="profile-stat-count">Status: </span>{{attendence?'Online':'Offline'}}
+          <label class="custom-control custom-checkbox" style="float:right;">
+            <input type="checkbox" class="custom-control-input" (change)="markAttendence()">
+            <span class="custom-control-indicator"></span>
+          </label>
+        </li>
       </ul>
 
     </div>
@@ -50,71 +58,101 @@
 <!-- End of container -->
 </header>
 
-<ng-container *ngIf="!prioritySubmit">
-  <div class="card mb-5">
-    
-    <h5 style="text-align: center;">Select games priorities!<p>Each game is of 30 minutes.</p></h5>
-    <div class="card-block p-0">
-    <table class="table table-bordered table-sm m-0">
+<ng-container *ngIf="isPlayer()">
+  <ng-container *ngIf="!prioritySubmit">
+    <div class="card mb-5">
       
-      <thead class="">
-        <tr>
-          <th>Name</th>
-          <th>Level</th>
-          <th>Priority</th>
-        </tr>
-      </thead>
-      <ng-container *ngFor="let interest of player.Interests;">
-      <tbody>
-        <tr>
-          <td>
-            <h6>{{ interest.name }}</h6>
-          </td>
-          <td>
-            <h6>{{ interest.level }}</h6>
-          </td>
-          <td>
-              <select name="priority" class="select-css2" (change)="selectPriority(interest.name, $event)">
-                <option value="low">Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
-              </select>
-          </td>
-        </tr>
-      </tbody>
-    </ng-container>
-    </table>
+      <h5 style="text-align: center;">Select games priorities!<p>Each game is of 30 minutes.</p></h5>
+      <div class="card-block p-0">
+      <table class="table table-bordered table-sm m-0">
+        
+        <thead class="">
+          <tr>
+            <th>Name</th>
+            <th>Level</th>
+            <th>Priority</th>
+          </tr>
+        </thead>
+        <ng-container *ngFor="let interest of Interests;">
+        <tbody>
+          <tr>
+            <td>
+              <h6>{{ interest.name }}</h6>
+            </td>
+            <td>
+              <h6>{{ interest.level }}</h6>
+            </td>
+            <td>
+                <select name="priority" class="select-css2" (change)="selectPriority(interest.name, $event)">
+                  <option value="low">Low</option>
+                  <option value="medium">Medium</option>
+                  <option value="high">High</option>
+                </select>
+            </td>
+          </tr>
+        </tbody>
+      </ng-container>
+      </table>
+      </div>
+      <input type="submit" class="btn btn-primary" value="Submit" (click)="savePriorities()"/>
     </div>
-    <input type="submit" class="btn btn-primary" value="Submit" (click)="savePriorities()"/>
-  </div>
+  </ng-container>
+
+  <ng-container *ngIf="prioritySubmit">
+    <div class="card mb-5">
+      
+      <h5 style="text-align: center;">Your schedule!</h5>
+      <div class="card-block p-0">
+      <table class="table table-bordered table-sm m-0">
+        
+        <thead class="">
+          <tr>
+            <th>Day</th>
+            <th>Time</th>
+          </tr>
+        </thead>
+        <ng-container *ngFor="let schedule of schedule;">
+        <tbody>
+          <tr>
+            <td>
+              <h6>{{ schedule.name }}</h6>
+            </td>
+            <td>
+              {{ schedule.time.hour }} : {{ schedule.time.minute }} hours to {{schedule.time.hour + 1}} : {{schedule.time.minute }} hours
+            </td>
+          </tr>
+        </tbody>
+      </ng-container>
+      </table>
+      </div>
+    </div>
+  </ng-container>
 </ng-container>
 
-<ng-container *ngIf="prioritySubmit">
-  <div class="card mb-5">
-    
-    <h5 style="text-align: center;">Your schedule!</h5>
-    <div class="card-block p-0">
-    <table class="table table-bordered table-sm m-0">
-      
-      <thead class="">
-        <tr>
-          <th>Day</th>
-          <th>Time</th>
-        </tr>
-      </thead>
-      <ng-container *ngFor="let schedule of player.schedule;">
-      <tbody>
-        <tr>
-          <td>
-            <h6>{{ schedule.name }}</h6>
-          </td>
-          <td>
-            {{ schedule.time.hour }} : {{ schedule.time.minute }} hours to {{schedule.time.hour + 1}} : {{schedule.time.minute }} hours
-          </td>
-        </tr>
-      </tbody>
-    </ng-container>
-    </table>
-    </div>
-  </div>
+
+<ng-container *ngIf="isCoach()">
+	<br>
+	<!-- JustCoachThings -->
+		<table class="table">
+		<thead class="thead-light">
+			<tr>
+			<th scope="col">#</th>
+			<th scope="col">Username</th>
+			<th scope="col">Name</th>
+			<th scope="col">Email</th>
+			<th scope="col">Status</th>
+			</tr>
+		</thead>
+		<tbody>
+			<ng-container *ngFor="let player of players; let i=index">
+				<tr>
+				<th scope="row">{{i+1}}</th>
+				<td>{{player.username}}</td>
+				<td>{{player.name}}</td>
+				<td>{{player.email}}</td>
+				<td>{{player.attendenceMarked}}</td>
+				</tr>
+			</ng-container>
+		</tbody>
+		</table>
 </ng-container>
