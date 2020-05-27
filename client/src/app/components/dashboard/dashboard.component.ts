@@ -30,6 +30,7 @@ export class DashboardComponent implements OnInit {
   selectPlayerRanking = false;
   selectOpponentRanking = false;
   selectInterests = false;
+  sessions:any = [];
 
   weekdays = [
   {"name": "Monday", "status": false, "checked": 0, time: {hour: 13, minute: 30}},
@@ -333,10 +334,9 @@ export class DashboardComponent implements OnInit {
             console.log("Coach players: ", this.players);
           }
         });
-
       }
-
     });
+
     this.authService.getGames().subscribe(data => {
       this.dataRcvd = data;
       if (!this.dataRcvd.success) {
@@ -346,6 +346,16 @@ export class DashboardComponent implements OnInit {
           this.games.push({name: this.dataRcvd.message[index].name, status: false, checked: 0});
         }
         // console.log(this.games);
+      }
+    });
+
+    this.authService.getSessions().subscribe(data => {
+      this.dataRcvd = data;
+      if (!this.dataRcvd.success) {
+        this.messageClass = 'alert alert-danger';
+        this.message = this.dataRcvd.message;
+      } else {
+        this.sessions = this.dataRcvd.message;
       }
     });
   }

@@ -1,25 +1,59 @@
 <h1 class="page-header">Session Management</h1>
 <strong>Reload to check if more players or coaches are online!</strong>
 
-<div class="row show-hide-message">
-    <div [ngClass]="messageClassPlayer">
-      {{ messagePlayer }}
-    </div>
-</div>
+
 <ng-container *ngIf="authService.isAdmin()">
-    
+<br><br>
 <button type="button" class="btn btn-success" (click)="createSession('Tennis')">Create Tennis Session</button>‏‏‎
 <button type="button" class="btn btn-success" (click)="createSession('Table Tennis')">Create Table Tennis Session</button>‏‏‎
 <button type="button" class="btn btn-success" (click)="createSession('Badminton')">Create Badminton Session</button>‏‏‎
 <button type="button" class="btn btn-success" (click)="createSession('Squash')">Create Squash</button>‏‏‎
+<br>
 	<!-- CRUD Operations on Players and Coaches -->
+
+	<div class="row show-hide-message">
+		<div [ngClass]="messageClassSession">
+		  {{ messageSession }}
+		</div>
+	</div>
+	
+	<h3>Active Sessions</h3>
+	<br>
+	<table class="table">
+	  <thead class="thead-light">
+		<tr>
+		  <th scope="col">#</th>
+		  <th scope="col">Type</th>
+		  <th scope="col">Player</th>
+		  <th scope="col">Opponent</th>
+		  <th scope="col">Game</th>
+		  <th scope="col">Venue</th>
+		</tr>
+	  </thead>
+	  <tbody>
+		<ng-container *ngFor="let session of sessions; let i=index">
+			<tr>
+			<th scope="row">{{i+1}}</th>
+			<td>{{session.type}}</td>
+			<td>{{session.player.username}}</td>
+			<td>{{session.oppPlayer?session.opponentPlayer.username:session.opponentCoach.username}}</td>
+			<td>{{session.game}}</td>
+			<td>{{session.court}}</td>
+			</tr>
+		</ng-container>
+	  </tbody>
+	</table>
+	<div class="row show-hide-message">
+		<div [ngClass]="messageClassPlayer">
+		  {{ messagePlayer }}
+		</div>
+	</div>
 	<p>
 	<h3>Online Players</h3>	
 	<br>
 	<table class="table">
 	<thead class="thead-light">
 		<tr>
-		<th scope="col">#</th>
 		<th scope="col">Username</th>
 		<th scope="col">Name</th>
 		<th scope="col">Email</th>
@@ -27,16 +61,17 @@
 		</tr>
 	</thead>
 	<tbody>
-		<ng-container *ngFor="let player of onlinePlayers; let i=index">
-			<tr>
-			<th scope="row">{{i+1}}</th>
-			<td>{{player.username}}</td>
-			<td>{{player.name}}</td>
-			<td>{{player.email}}</td>
-			<td>
-                Online
-			</td>
-			</tr>
+		<ng-container *ngFor="let player of Players;">
+			<ng-container *ngIf="player.attendenceMarked">
+				<tr>
+					<td>{{player.username}}</td>
+					<td>{{player.name}}</td>
+					<td>{{player.email}}</td>
+					<td>
+						{{player.attendenceMarked?'Online':'Offline'}}
+					</td>
+				</tr>
+			</ng-container>
 		</ng-container>
 	</tbody>
 	</table>
@@ -53,7 +88,6 @@
 	<table class="table">
 	  <thead class="thead-light">
 		<tr>
-		  <th scope="col">#</th>
 		  <th scope="col">Username</th>
 		  <th scope="col">Name</th>
 		  <th scope="col">Email</th>
@@ -61,15 +95,16 @@
 		</tr>
 	  </thead>
 	  <tbody>
-		<ng-container *ngFor="let coach of onlineCoaches; let i=index">
-			<tr>
-			<th scope="row">{{i+1}}</th>
-			<td>{{coach.username}}</td>
-			<td>{{coach.name}}</td>
-			<td>{{coach.email}}</td>
-			<td> Online
-			</td>
-			</tr>
+		<ng-container *ngFor="let coach of Coaches;">
+			<ng-container *ngIf="coach.status">
+				<tr>
+					<td>{{coach.username}}</td>
+					<td>{{coach.name}}</td>
+					<td>{{coach.email}}</td>
+					<td>{{coach.status?'Online':'Offline'}}
+				</td>
+				</tr>
+			</ng-container>
 		</ng-container>
 	  </tbody>
 	</table>

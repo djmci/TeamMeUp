@@ -13,9 +13,12 @@ export class SessionComponent implements OnInit {
   messageClassPlayer;
   messageCoach;
   messageClassCoach;
-  onlinePlayers = [];
-  onlineCoaches = [];
+  messageSession;
+  messageClassSession;
+  Players = [];
+  Coaches = [];
   dataRcvd;
+  sessions = [];
 
   constructor(public authService: AuthService, private router: Router) { }
 
@@ -27,28 +30,53 @@ export class SessionComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.authService.getOnlinePlayers().subscribe(data => {
-      console.log(data);
+    this.authService.getPlayers().subscribe(data => {
       this.dataRcvd = data;
+      console.log(this.dataRcvd.message);
       if (!this.dataRcvd.success) {
         this.messageClassPlayer = 'alert alert-danger';
         this.messagePlayer = this.dataRcvd.message;
       } else {
-        this.onlinePlayers = this.dataRcvd.message;
+        this.Players = this.dataRcvd.message;
       }
-      console.log(this.onlinePlayers);
     });
-    this.authService.getOnlineCoaches().subscribe(data => {
-      console.log(data);
+
+    this.authService.getCoaches().subscribe(data => {
       this.dataRcvd = data;
+      console.log(this.dataRcvd.message);
       if (!this.dataRcvd.success) {
         this.messageClassCoach = 'alert alert-danger';
         this.messageCoach = this.dataRcvd.message;
       } else {
-        this.onlineCoaches = this.dataRcvd.message;
+        this.Coaches = this.dataRcvd.message;
       }
-      console.log(this.onlineCoaches);
     });
+
+    this.authService.getSessions().subscribe(data => {
+      this.dataRcvd = data;
+      console.log(this.dataRcvd.message);
+      if (!this.dataRcvd.success) {
+        this.messageClassSession = 'alert alert-danger';
+        this.messageSession = this.dataRcvd.message;
+      } else {
+        this.sessions = this.dataRcvd.message;
+        this.sessions.forEach(session => {
+          if (session.type == 'Practice') {
+            this.Players.forEach(player => {
+              if (player._id == session.player) { session.player = player; session.oppPlayer = false; }
+            })
+            this.Coaches.forEach(coach => {
+              if (coach._id == session.opponentCoach) session.opponentCoach = coach;
+            })
+          } else {
+            this.Players.forEach(player => {
+              if (player._id == session.player) { session.player = player; session.oppPlayer = true; }
+              else if (player._id == session.opponentPlayer) session.opponentPlayer = player;
+            });
+          }
+        }); 
+      }
+    })
   };
 
 }

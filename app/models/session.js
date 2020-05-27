@@ -9,7 +9,8 @@ var sessionSchema = new Schema({
     opponentCoach: {type: Schema.Types.ObjectId, ref: 'coachSchema' },
     status: {type: Boolean, default: true},
     game: {type: String, required: true},
-    court: {type: String}
+    court: {type: String},
+    type: {type: String, required: true, default: "Practice"}
 });
 
 module.exports = mongoose.model('Session', sessionSchema);

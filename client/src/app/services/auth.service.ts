@@ -264,4 +264,14 @@ export class AuthService {
     });
     return this.http.post(this.backendServer + "/api/createsession", {player, opponent, game, court}, {headers: appHeaders}).pipe(map(res => res));
   }
+
+  getSessions() {
+    this.loadToken();
+    
+    let appHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.authToken
+    });
+    return this.http.get(this.backendServer + "/api/getsessions", {headers:appHeaders}).pipe(map(res => res));
+  }
 }
