@@ -256,13 +256,14 @@ export class AuthService {
     return this.http.get(this.backendServer + "/api/gamesList", {headers: appHeaders}).pipe(map(res => res));
   }
 
-  createSession(player, opponent, game, court) {
+  createSession(player, opponent, game, court, evaluator) {
     this.loadToken();
+    console.log(evaluator);
     let appHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': this.authToken
     });
-    return this.http.post(this.backendServer + "/api/createsession", {player, opponent, game, court}, {headers: appHeaders}).pipe(map(res => res));
+    return this.http.post(this.backendServer + "/api/createsession", {player, opponent, game, court, evaluator}, {headers: appHeaders}).pipe(map(res => res));
   }
 
   getSessions() {

@@ -499,6 +499,7 @@ module.exports = (router => {
     });
 
     router.post("/createsession", (req, res) => {
+        console.log('inside /api/createsession');
         console.log(req.body);
         var opponentPlayer = undefined;
         var opponentCoach = undefined; 
@@ -514,7 +515,8 @@ module.exports = (router => {
             status: true,
             game: req.body.game,
             court: req.body.court,
-            type: type
+            type: type,
+            evaluator: req.body.evaluator
         });
         session.save((err) => {
             if(err) {

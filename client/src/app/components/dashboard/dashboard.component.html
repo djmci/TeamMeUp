@@ -145,6 +145,43 @@
 
 <ng-container *ngIf="isCoach()">
 	<h4>Welcome back, Coach!</h4>
+
+	<div class="row show-hide-message">
+		<div [ngClass]="messageClassSession">
+		  {{ messageSession }}
+		</div>
+	</div>
+	
+	<h3>Sessions for Coach {{name}}</h3>
+	<br>
+	<table class="table">
+	  <thead class="thead-light">
+		<tr>
+		  <th scope="col">#</th>
+		  <th scope="col">Type</th>
+		  <th scope="col">Player</th>
+		  <th scope="col">Opponent</th>
+		  <th scope="col">Game</th>
+		  <!-- <th scope="col">Evaluator</th> -->
+		  <th scope="col">Venue</th>
+		  <th scope="col"></th>
+		</tr>
+	  </thead>
+	  <tbody>
+		<ng-container *ngFor="let session of coachSessions; let i=index">
+			<tr>
+			<th scope="row">{{i+1}}</th>
+			<td>{{session.type}}</td>
+			<td>{{session.player.username}}</td>
+			<td>{{session.oppPlayer?session.opponentPlayer.username:session.opponentCoach.username}}</td>
+			<td>{{session.game}}</td>
+			<!-- <td>{{session.evaluatorUsername}}</td> -->
+			<td>{{session.court}}</td>
+			<td><button type="button" class="btn btn-warning" (click)="evaluateSession(session._id)">Evaluate</button>‏‏‎</td>
+			</tr>
+		</ng-container>
+	  </tbody>
+	</table>
 	<!-- JustCoachThings -->
 </ng-container>
 

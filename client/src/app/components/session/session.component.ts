@@ -54,7 +54,7 @@ export class SessionComponent implements OnInit {
 
     this.authService.getSessions().subscribe(data => {
       this.dataRcvd = data;
-      console.log(this.dataRcvd.message);
+      console.log("session ", this.dataRcvd.message);
       if (!this.dataRcvd.success) {
         this.messageClassSession = 'alert alert-danger';
         this.messageSession = this.dataRcvd.message;
@@ -74,9 +74,16 @@ export class SessionComponent implements OnInit {
               else if (player._id == session.opponentPlayer) session.opponentPlayer = player;
             });
           }
+          for (let j = 0; j < this.Coaches.length; j++) {
+            console.log(this.Coaches[j]._id);
+            if(this.Coaches[j]._id==session.evaluator) session.evaluatorUsername=this.Coaches[j].username;
+          }
         }); 
       }
     })
+    // for (let i = 0; i < this.sessions.length; i++) {
+    //   console.log(this.sessions[i].evaluator);
+    // }
   };
 
 }

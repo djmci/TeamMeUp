@@ -13,6 +13,7 @@ import { UpdateplayerComponent } from './components/CRUD/updateplayer/updateplay
 import { UpdatecoachComponent } from './components/CRUD/updatecoach/updatecoach.component';
 import { SessionComponent } from './components/session/session.component';
 import { CreatesessionComponent } from './components/CRUD/createsession/createsession.component';
+import { UpdatesessionComponent } from './components/CRUD/updatesession/updatesession.component';
  
 const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -26,6 +27,7 @@ const routes: Routes = [
     { path: 'updatecoach/:username', component: UpdatecoachComponent, canActivate: [AuthGuard] },
     { path: 'session', component: SessionComponent, canActivate: [AuthGuard] },
     { path: 'createsession/:game', component: CreatesessionComponent, canActivate: [AuthGuard]},
+    { path: 'updatesession/:sessionId', component: UpdatesessionComponent, canActivate: [AuthGuard]},
     { path: '**', component: HomeComponent }
 ];
 

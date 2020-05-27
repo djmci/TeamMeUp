@@ -27,6 +27,7 @@
 		  <th scope="col">Player</th>
 		  <th scope="col">Opponent</th>
 		  <th scope="col">Game</th>
+		  <th scope="col">Evaluator</th>
 		  <th scope="col">Venue</th>
 		</tr>
 	  </thead>
@@ -38,6 +39,7 @@
 			<td>{{session.player.username}}</td>
 			<td>{{session.oppPlayer?session.opponentPlayer.username:session.opponentCoach.username}}</td>
 			<td>{{session.game}}</td>
+			<td>{{session.evaluatorUsername}}</td>
 			<td>{{session.court}}</td>
 			</tr>
 		</ng-container>

@@ -22,6 +22,9 @@ export class CreatesessionComponent implements OnInit {
   selectedPlayer2;
   courts = [];
   selectedCourt;
+  selectedEvaluator;
+  courtChosen=false;
+  evaluatorChosen=false;
 
   constructor(private authService: AuthService, private router: Router,private route: ActivatedRoute) { }
 
@@ -51,10 +54,17 @@ export class CreatesessionComponent implements OnInit {
   selectCourt(court) {
     console.log(court);
     this.selectedCourt = court;
+    this.courtChosen=true;
+  }
+
+  selectEvaluator(evaluator) {
+    console.log(evaluator);
+    this.selectedEvaluator = evaluator;
+    this.evaluatorChosen=true;
   }
 
   createSession() {
-    this.authService.createSession(this.selectedPlayer1, this.selectedPlayer2, this.sessionGame, this.selectedCourt).subscribe(data => {
+    this.authService.createSession(this.selectedPlayer1, this.selectedPlayer2, this.sessionGame, this.selectedCourt, this.selectedEvaluator).subscribe(data => {
       this.dataRcvd = data;
       if(!this.dataRcvd.success) {
         this.message = this.dataRcvd.message;
@@ -114,7 +124,7 @@ export class CreatesessionComponent implements OnInit {
         }
       }
       console.log(this.courts);
-      this.selectedCourt = this.courts[-1]
+      this.selectedCourt = this.courts[this.courts.length-1];
     })
     
   }

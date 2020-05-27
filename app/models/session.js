@@ -10,7 +10,10 @@ var sessionSchema = new Schema({
     status: {type: Boolean, default: true},
     game: {type: String, required: true},
     court: {type: String},
-    type: {type: String, required: true, default: "Practice"}
+    type: {type: String, required: true, default: "Practice"},
+    evaluator: {type: Schema.Types.ObjectId, ref: 'coachSchema' },
+    winner: {type: Schema.Types.ObjectId, ref: 'playerSchema' },
+    result: [{type:String}] // "oldRanking-newRanking"
 });
 
 module.exports = mongoose.model('Session', sessionSchema);

@@ -21,6 +21,7 @@ export class DashboardComponent implements OnInit {
     'player',
     'coach',
   ];
+  messageSession;
   userRole = this.Roles[0];
   playerRanking = 0;
   opponentRanking = 0;
@@ -31,6 +32,8 @@ export class DashboardComponent implements OnInit {
   selectOpponentRanking = false;
   selectInterests = false;
   sessions:any = [];
+  messageClassSession;
+  name;
 
   weekdays = [
   {"name": "Monday", "status": false, "checked": 0, time: {hour: 13, minute: 30}},
@@ -44,6 +47,7 @@ export class DashboardComponent implements OnInit {
 
   players=[];
   coaches=[];
+  coachSessions=[]; // For showing Sessions of a specific coach
 
   constructor( private authService: AuthService, private router: Router) { }
 
@@ -136,7 +140,6 @@ export class DashboardComponent implements OnInit {
       }
     }
     console.log(this.weekdays)
-
   }
 
   checkSchedule() {
@@ -260,6 +263,13 @@ export class DashboardComponent implements OnInit {
     }, 0);
   }
 
+  evaluateSession(sessionId){
+    console.log(sessionId);
+    setTimeout(() => {
+      this.router.navigate(['/updatesession', sessionId]);
+    }, 0);
+  }
+
   ngOnInit() {
     this.authService.getProfile().subscribe(data => {
       this.dataRcvd = data;
@@ -268,51 +278,73 @@ export class DashboardComponent implements OnInit {
       this.username = this.dataRcvd.message.username;
       this.email = this.dataRcvd.message.email;
       this.role = this.dataRcvd.message.role;
-      if (this.role == 'player') this.lastLogin = this.dataRcvd.message.lastLogin;
-      else{ // Admin or Coach
-        this.authService.getPlayers().subscribe(data => {
-          this.dataRcvd = data;
-          if (!this.dataRcvd.success) {
-            console.log("No players found!");
-          }else {
+      this.name = this.dataRcvd.message.name;
+
+      this.authService.getSessions().subscribe(data => {
+        this.dataRcvd = data;
+        if (!this.dataRcvd.success) {
+          this.messageClass = 'alert alert-danger';
+          this.message = this.dataRcvd.message;
+        } else {
+          this.sessions = this.dataRcvd.message;
+        }
+      });
+
+      this.authService.getCoaches().subscribe(data => {
+        this.dataRcvd = data;
+        if (!this.dataRcvd.success) {
+          this.messageClass = 'alert alert-danger';
+          this.message = this.dataRcvd.message;
+        } else {
+          // this.coaches = this.dataRcvd.message;
+          
             for (let index = 0; index < this.dataRcvd.message.length; index++) {
-              this.players.push({
+              this.coaches.push({
+                _id: this.dataRcvd.message[index]._id,
                 name: this.dataRcvd.message[index].name,
                 username: this.dataRcvd.message[index].username,
                 email: this.dataRcvd.message[index].email,
                 password: this.dataRcvd.message[index].password,
                 role: this.dataRcvd.message[index].role,
-                opponentRanking: this.dataRcvd.message[index].opponentRanking,
-                playerRanking: this.dataRcvd.message[index].playerRanking,
-                Interests: this.dataRcvd.message[index].Interests,
-                lastLogin: this.dataRcvd.message[index].lastLogin,
-                schedule: this.dataRcvd.message[index].schedule,
-                attendenceTime: this.dataRcvd.message[index].attendenceTime,
-                attendenceMarked: this.dataRcvd.message[index].attendenceMarked,
-                _id : this.dataRcvd.message[index]._id
               });
             }
-            console.log(this.players);
           }
-        });
-      }
+      });
+
+      this.authService.getPlayers().subscribe(data => {
+        this.dataRcvd = data;
+        if (!this.dataRcvd.success) {
+          this.messageClass = 'alert alert-danger';
+          this.message = this.dataRcvd.message;
+        } else {
+          // this.players = this.dataRcvd.message;
+          for (let index = 0; index < this.dataRcvd.message.length; index++) {
+            this.players.push({
+              name: this.dataRcvd.message[index].name,
+              username: this.dataRcvd.message[index].username,
+              email: this.dataRcvd.message[index].email,
+              password: this.dataRcvd.message[index].password,
+              role: this.dataRcvd.message[index].role,
+              opponentRanking: this.dataRcvd.message[index].opponentRanking,
+              playerRanking: this.dataRcvd.message[index].playerRanking,
+              Interests: this.dataRcvd.message[index].Interests,
+              lastLogin: this.dataRcvd.message[index].lastLogin,
+              schedule: this.dataRcvd.message[index].schedule,
+              attendenceTime: this.dataRcvd.message[index].attendenceTime,
+              attendenceMarked: this.dataRcvd.message[index].attendenceMarked,
+              _id : this.dataRcvd.message[index]._id
+            });
+          }
+          console.log("Players : ", this.players);
+        }
+      });
+
+      if (this.role == 'player') this.lastLogin = this.dataRcvd.message.lastLogin;
       if (this.role=='admin'){
         this.authService.getCoaches().subscribe(data => {
           this.dataRcvd = data;
           if (!this.dataRcvd.success) {
             console.log("No coaches found!");
-          }else {
-            for (let index = 0; index < this.dataRcvd.message.length; index++) {
-              this.coaches.push({
-                name: this.dataRcvd.message[index].name,
-                username: this.dataRcvd.message[index].username,
-                email: this.dataRcvd.message[index].email,
-                password: this.dataRcvd.message[index].password,
-                role: this.dataRcvd.message[index].role,
-                players: this.dataRcvd.message[index].players
-              });
-            }
-            console.log(this.coaches);
           }
         });
       } else if(this.role=='coach') {
@@ -332,6 +364,27 @@ export class DashboardComponent implements OnInit {
               }
             }
             console.log("Coach players: ", this.players);
+            this.sessions.forEach(session => {
+              if(session.evaluator==this.dataRcvd.message._id) this.coachSessions.push(session);
+            });
+            console.log(this.coachSessions);
+
+            this.coachSessions.forEach(session => {
+              if(session.type=='Game'){
+                this.players.forEach(player => {
+                  if(session.player==player._id){ session.player=player; session.oppPlayer = true;}
+                  else if(session.opponentPlayer==player._id) session.opponentPlayer=player;
+                });
+              } else {
+                this.players.forEach(player => {
+                  if(session.player==player._id) {session.player=player; session.oppPlayer = false;}
+                });
+                this.coaches.forEach(coach => {
+                  if(session.opponentCoach==coach._id) session.opponentCoach=coach;
+                });
+              }
+              console.log(session);
+            });
           }
         });
       }
@@ -346,16 +399,6 @@ export class DashboardComponent implements OnInit {
           this.games.push({name: this.dataRcvd.message[index].name, status: false, checked: 0});
         }
         // console.log(this.games);
-      }
-    });
-
-    this.authService.getSessions().subscribe(data => {
-      this.dataRcvd = data;
-      if (!this.dataRcvd.success) {
-        this.messageClass = 'alert alert-danger';
-        this.message = this.dataRcvd.message;
-      } else {
-        this.sessions = this.dataRcvd.message;
       }
     });
   }
