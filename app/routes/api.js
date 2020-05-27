@@ -252,18 +252,8 @@ module.exports = (router => {
           if (!req.body.username) {
               res.json({ success: false, message: "username not found!" });
           } else {
-            Player.findOne({ username: req.body.username }, (err, user) => {
-                if (err){ // check for Coach
-                    Coach.findOne({ username: req.body.username }, (err, coach) => {
-                        var newcoach = user;
-                        newcoach.status = true;
-                        console.log(newcoach);
-                        coach.findOneAndUpdate({username: req.body.username}, newcoach,  function(err, doc) {
-                            if (err) res.json({success: false, message: "Some error occured!" + err});
-                            res.json({success: true, message: "Records entered succesfully! Welcome!"});
-                        })
-                    });
-                } else {
+              if(req.body.role == 'player') {
+                Player.findOne({ username: req.body.username }, (err, user) => {
                     var newPlayer = user;
                     newPlayer.checkinTime = Date.now();
                     newPlayer.attendenceMarked = true;
@@ -272,8 +262,19 @@ module.exports = (router => {
                         if (err) res.json({success: false, message: "Some error occured!" + err});
                         res.json({success: true, message: "Records entered succesfully! Welcome!"});
                     })
-                }
-            });
+                });
+              }
+              else if (req.body.role == 'coach') {
+                Coach.findOne({ username: req.body.username }, (err, coach) => {
+                    var newcoach = coach;
+                    newcoach.status = true;
+                    console.log(newcoach);
+                    Coach.findOneAndUpdate({username: req.body.username}, newcoach,  function(err, doc) {
+                        if (err) res.json({success: false, message: "Some error occured!" + err});
+                        else res.json({success: true, message: "Records entered succesfully! Welcome!"});
+                    })
+                });
+              }
           }
       })
 
@@ -281,27 +282,29 @@ module.exports = (router => {
         if (!req.body.username) {
             res.json({ success: false, message: "username not found!" });
         } else {
-          Player.findOne({ username: req.body.username }, (err, user) => {
-            if (err){ // check for Coach
-                Coach.findOne({ username: req.body.username }, (err, coach) => {
-                    var newcoach = user;
-                    newcoach.status = false;
-                    console.log(newcoach);
-                    coach.findOneAndUpdate({username: req.body.username}, newcoach,  function(err, doc) {
+            if(req.body.role == 'player') {
+                Player.findOne({ username: req.body.username }, (err, user) => {
+                    var newPlayer = user;
+                    // newPlayer.checkinTime = Date.now();
+                    newPlayer.attendenceMarked = false;
+                    console.log(newPlayer);
+                    Player.findOneAndUpdate({username: req.body.username}, newPlayer,  function(err, doc) {
                         if (err) res.json({success: false, message: "Some error occured!" + err});
                         res.json({success: true, message: "Records entered succesfully! Welcome!"});
                     })
                 });
-            } else {
-              var newPlayer = user;
-              newPlayer.attendenceMarked = false;
-              console.log(newPlayer);
-              Player.findOneAndUpdate({username: req.body.username}, newPlayer,  function(err, doc) {
-                  if (err) res.json({success: false, message: "Some error occured!" + err});
-                  res.json({success: true, message: "Records entered succesfully! Welcome!"});
-              });
-            }
-          });
+              }
+              else if (req.body.role == 'coach') {
+                Coach.findOne({ username: req.body.username }, (err, coach) => {
+                    var newcoach = coach;
+                    newcoach.status = false;
+                    console.log(newcoach);
+                    Coach.findOneAndUpdate({username: req.body.username}, newcoach,  function(err, doc) {
+                        if (err) res.json({success: false, message: "Some error occured!" + err});
+                        else res.json({success: true, message: "Records entered succesfully! Welcome!"});
+                    })
+                });
+              }
         }
     })
 

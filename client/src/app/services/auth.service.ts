@@ -123,22 +123,22 @@ export class AuthService {
     this.role = role;
   }
 
-  markAttendence(username) {
+  markAttendence(username, role) {
     this.loadToken();
     let appHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': this.authToken  
     });
-    return this.http.post(this.backendServer + "/api/markattendence", {username}, {headers: appHeaders}).pipe(map(res => res));
+    return this.http.post(this.backendServer + "/api/markattendence", {username, role}, {headers: appHeaders}).pipe(map(res => res));
   }
 
-  unMarkAttendence(username) {
+  unMarkAttendence(username, role) {
     this.loadToken();
     let appHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': this.authToken  
     });
-    return this.http.post(this.backendServer + "/api/unmarkattendence", {username}, {headers: appHeaders}).pipe(map(res => res));
+    return this.http.post(this.backendServer + "/api/unmarkattendence", {username, role}, {headers: appHeaders}).pipe(map(res => res));
   }
 
   updateSchedule(schedule, username) {

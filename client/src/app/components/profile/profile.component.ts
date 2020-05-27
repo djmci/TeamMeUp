@@ -63,13 +63,13 @@ export class ProfileComponent implements OnInit {
     if (!this.attendence) {
       this.showSuccess();
       this.attendence = true;
-      this.authService.markAttendence(this.username).subscribe(data => {
+      this.authService.markAttendence(this.username, this.role).subscribe(data => {
         console.log("Attendence marked!");
       })
     } else {
       this.attendence = false;
       this.showError();
-      this.authService.unMarkAttendence(this.username).subscribe(data => {
+      this.authService.unMarkAttendence(this.username, this.role).subscribe(data => {
         console.log("Attendence unmarked!");
       })
     } 
