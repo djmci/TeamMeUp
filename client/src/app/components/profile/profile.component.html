@@ -50,7 +50,7 @@
 <!-- End of container -->
 </header>
 
-<ng-container *ngIf="!prioritySubmit">
+<ng-container *ngIf="player.role == 'player'">
   <div class="card mb-5">
     
     <h5 style="text-align: center;">Select games priorities!<p>Each game is of 30 minutes.</p></h5>
@@ -89,7 +89,7 @@
   </div>
 </ng-container>
 
-<ng-container *ngIf="prioritySubmit">
+<ng-container *ngIf="player.role == 'player'">
   <div class="card mb-5">
     
     <h5 style="text-align: center;">Your schedule!</h5>

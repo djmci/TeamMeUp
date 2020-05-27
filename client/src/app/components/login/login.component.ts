@@ -63,7 +63,7 @@ export class LoginComponent implements OnInit {
           } else {
             this.messageClass = 'alert alert-success';
             this.message = this.dataRcvd.message;
-            this.authService.storeUserData(this.dataRcvd.token, this.dataRcvd.user);
+            this.authService.storeUserData(this.dataRcvd.token, this.dataRcvd.user, this.Role);
             setTimeout(() => {
               if(this.prevUrl) this.router.navigate([this.prevUrl]);
               else{

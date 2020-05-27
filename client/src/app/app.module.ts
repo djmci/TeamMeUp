@@ -24,6 +24,8 @@ import { UpdatecoachComponent } from './components/CRUD/updatecoach/updatecoach.
 import { UpdateplayerComponent } from './components/CRUD/updateplayer/updateplayer.component';
 
 import { FormModalComponent } from './components/form-modal/form-modal.component';
+import { SessionComponent } from './components/session/session.component';
+import { CreatesessionComponent } from './components/CRUD/createsession/createsession.component';
 
 
 @NgModule({
@@ -42,7 +44,11 @@ import { FormModalComponent } from './components/form-modal/form-modal.component
     UpdatecoachComponent,
     UpdateplayerComponent,
 
-    FormModalComponent
+    FormModalComponent,
+
+    SessionComponent,
+
+    CreatesessionComponent
 
   ],
   imports: [

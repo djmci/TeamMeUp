@@ -133,6 +133,7 @@ export class UpdateplayerComponent implements OnInit {
     } else this.selectInterests = false;
     console.log(this.Interests);
   }
+
   checkInterests() {
     for (let index = 0; index < this.Interests.length; index++) {
       if (this.Interests[index].indexOf("-") == -1) {
@@ -178,21 +179,7 @@ export class UpdateplayerComponent implements OnInit {
         schedule.push({name: this.weekdays[index].name, time: this.weekdays[index].time})
       }
     }
-    console.log(schedule);
-    this.authService.updateSchedule(schedule, this.username).subscribe(data => {
-          this.dataRcvd = data;
-          console.log(this.dataRcvd)
-          if(!this.dataRcvd.success) {
-              this.messageClass = 'alert alert-danger';
-              this.message = this.dataRcvd.message;
-          } else {
-              this.messageClass = 'alert alert-success';
-              this.message = this.dataRcvd.message;
-              setTimeout(() => {
-                this.router.navigate(['/profile']);
-              }, 1000);
-          }
-    })
+    return schedule;
   }
 
   submitUpdatePlayer() {
@@ -203,6 +190,7 @@ export class UpdateplayerComponent implements OnInit {
     newplayer.opponentRanking= this.decodeRanking(this.playerRanking);
     newplayer.playerRanking= this.decodeRanking(this.opponentRanking);
     newplayer.Interests= this.Interests;
+    newplayer.schedule = this.saveSchedule();
 
     console.log(newplayer)
     this.authService.updatePlayer(newplayer).subscribe(data => {
@@ -223,7 +211,7 @@ export class UpdateplayerComponent implements OnInit {
         }
         console.log(data);
     });
-    this.saveSchedule();
+    // this.saveSchedule();
     console.log("Player updated.");
   };
 

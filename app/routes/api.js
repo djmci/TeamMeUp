@@ -1,6 +1,7 @@
 const Player = require('../models/player');
 const Coach = require('../models/coach');
 const Game = require('../models/game');
+const Session = require('../models/session');
 const Admin = require('../models/admin');
 const jwt = require('jsonwebtoken');
 const config = require('../../config/database')
@@ -317,6 +318,7 @@ module.exports = (router => {
     });
 
     router.use(function(req, res, next) {
+        console.log(req.headers);
         const token = req.headers['authorization'];
         if (!token) res.json({success: false, message: "No token provided."});
         else jwt.verify(token,  config.secret, function(err, result) {
@@ -347,6 +349,7 @@ module.exports = (router => {
     });
 
     router.get('/profile', (req, res) => {
+        console.log(req.result);
         Player.findOne({ _id: req.result.userId }).select('username email name role lastLogin attendenceMarked opponentRanking playerRanking Interests schedule priorities').exec((err, player) => {
             if (err) res.json({success: false, message: "Couldn't find selected fields! " + err });
             else {
@@ -442,6 +445,63 @@ module.exports = (router => {
             res.json({success: true, message: "Record deleted"});
         })
     })
+
+    router.get("/getonlineplayers", (req, res) => {
+        console.log("Getting all online players!");
+        Player.find({}, function(err, players) {
+            var onlinePlayers = [];
+            players.forEach(element => {
+                if (element.attendenceMarked) {
+                    onlinePlayers.push(element);
+                }
+            });
+            console.log(onlinePlayers);
+            if (onlinePlayers.length == 0) {
+                res.json({success: false, message: "No player online!"});
+            } else res.json({success: true, message: onlinePlayers});
+        })
+    })
+
+    router.get("/getonlinecoaches", (req, res) => {
+        console.log("Getting all online coaches!");
+        Coach.find({}, function(err, coaches) {
+            var onlineCoaches = [];
+            coaches.forEach(element => {
+                if (element.status) {
+                    onlineCoaches.push(element);
+                }
+            });
+            console.log(onlineCoaches);
+            if (onlineCoaches.length == 0) {
+                res.json({success: false, message: "No coach online!"});
+            } else res.json({success: true, message: onlineCoaches});
+        })
+    });
+
+    router.post("/createsession", (req, res) => {
+        console.log(req.body);
+        var opponentPlayer = undefined;
+        var opponentCoach = undefined; 
+        if (req.body.opponent.role == 'coach') {
+            opponentCoach = req.body.opponent._id;
+        } else opponentPlayer = req.body.opponent._id;
+        var session = Session ({
+            player: req.body.player._id,
+            opponentCoach: opponentCoach,
+            opponentPlayer: opponentPlayer,
+            status: true,
+            game: req.body.game,
+            court: req.body.court
+        });
+        session.save((err) => {
+            if(err) {
+                res.json({ success: false, message: "Could not save session! Error: " + err });
+            } else {
+                res.json({ success: true, message: "Session Created!"});
+            };
+        });
+    })
+
 
     return router;
 });

@@ -119,7 +119,9 @@ var coachSchema = new Schema({
     email: { type: String, required: true, unique: true, lowercase: true, validate: emailValidators },
     password: { type: String, required: true, validate: passwordValidators },
     role: { type: String, required: true, default: 'coach' },
-    players: [{id: {type: Schema.Types.ObjectId, ref: 'playerSchema' }}]
+    players: [{id: {type: Schema.Types.ObjectId, ref: 'playerSchema' }}],
+    status: {type: Boolean, default: false},
+    sessions: [{id: {type: Schema.Types.ObjectId, ref: 'sessionSchema'}}]
 });
 
 coachSchema.pre('save', function(next) {

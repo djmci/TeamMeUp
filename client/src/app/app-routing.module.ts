@@ -11,7 +11,9 @@ import { CreateplayerComponent } from './components/CRUD/createplayer/createplay
 import { CreatecoachComponent } from './components/CRUD/createcoach/createcoach.component';
 import { UpdateplayerComponent } from './components/CRUD/updateplayer/updateplayer.component';
 import { UpdatecoachComponent } from './components/CRUD/updatecoach/updatecoach.component';
-
+import { SessionComponent } from './components/session/session.component';
+import { CreatesessionComponent } from './components/CRUD/createsession/createsession.component';
+ 
 const routes: Routes = [
     { path: '', component: HomeComponent },
     { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
@@ -22,6 +24,8 @@ const routes: Routes = [
     { path: 'createcoach', component: CreatecoachComponent, canActivate: [AuthGuard] },
     { path: 'updateplayer/:username', component: UpdateplayerComponent, canActivate: [AuthGuard] },
     { path: 'updatecoach/:username', component: UpdatecoachComponent, canActivate: [AuthGuard] },
+    { path: 'session', component: SessionComponent, canActivate: [AuthGuard] },
+    { path: 'createsession/:game', component: CreatesessionComponent, canActivate: [AuthGuard]},
     { path: '**', component: HomeComponent }
 ];
 
