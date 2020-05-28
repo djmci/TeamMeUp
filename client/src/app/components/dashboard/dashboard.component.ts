@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { ToastService } from '../../services/toast.service';
+import { interval } from 'rxjs';
+import { flatMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dashboard',
@@ -49,8 +52,10 @@ export class DashboardComponent implements OnInit {
   coaches=[];
   coachSessions=[]; // For showing Sessions of a specific coach
   coachPlayers = [];
+  notifications = [];
+  showedNotifications = [];
 
-  constructor( private authService: AuthService, private router: Router) { }
+  constructor( private authService: AuthService, private router: Router, private toastService: ToastService) { }
 
   decodeRanking(Ranking) {
     if (Ranking == 1) {
@@ -62,6 +67,23 @@ export class DashboardComponent implements OnInit {
     } else {
       return undefined
     }
+  }
+
+  showSuccess(message, header) {
+    this.toastService.show(message, {
+      classname: 'bg-success text-light',
+      delay: 30000,
+      autohide: true,
+      headertext: header
+    });
+  }
+  showError(message, header) {
+    this.toastService.show(message, {
+      classname: 'bg-danger text-light',
+      delay: 30000 ,
+      autohide: true,
+      headertext: header
+    });
   }
 
   setPlayerRanking(val) {
@@ -312,6 +334,19 @@ export class DashboardComponent implements OnInit {
           }
       });
 
+      // this.authService.getNotifications().subscribe(data => {
+      //   this.dataRcvd = data;
+      //   if (!this.dataRcvd.success) {
+      //     this.message = this.dataRcvd.message;
+      //     this.messageClass = 'alert alert-danger'
+      //   } else {
+      //     this.notifications = this.dataRcvd.message;
+      //     this.notifications.forEach(notification => {
+      //       this.showSuccess(notification.message, notification.header);
+      //     });
+      //   }
+      // })
+
       this.authService.getPlayers().subscribe(data => {
         this.dataRcvd = data;
         if (!this.dataRcvd.success) {
@@ -402,6 +437,25 @@ export class DashboardComponent implements OnInit {
         // console.log(this.games);
       }
     });
+
+    interval(5000).pipe(flatMap(() => this.authService.getNotifications())).subscribe(data => {
+      this.dataRcvd = data;
+      if (!this.dataRcvd.success) {
+        console.log("Can't get notifications!");
+      } else {
+        console.log("Length of noti: ", this.notifications.length);
+        console.log("Length of msg: ", this.dataRcvd.message.length);
+        if (this.notifications.length == this.dataRcvd.message.length) {
+          console.log(this.notifications, "No new Notification!");
+        } else {
+          this.notifications = this.dataRcvd.message;
+          console.log("Notification:" + this.notifications);
+          this.notifications.forEach(notification => {
+            this.showSuccess(notification.message, notification.header);
+          });
+        }
+      }
+    })
   }
 
 }

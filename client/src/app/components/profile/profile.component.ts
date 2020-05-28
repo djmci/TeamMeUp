@@ -50,7 +50,6 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-
   addGame(){
     this.addedGames.push(this.game);
     this.authService.setGame(this.game).subscribe(data => {
@@ -65,12 +64,24 @@ export class ProfileComponent implements OnInit {
       this.attendence = true;
       this.authService.markAttendence(this.username, this.role).subscribe(data => {
         console.log("Attendence marked!");
+        this.authService.addNotification(this.username, 'admin', 'Attendence', this.username + ' is online!', Date.now()).subscribe(data => {
+          console.log(data);
+        });
+        this.authService.deleteNotification(this.username, 'admin', 'Attendence', this.username + ' is offline!', Date.now()).subscribe(data => {
+          console.log(data);
+        });
       })
     } else {
       this.attendence = false;
       this.showError();
       this.authService.unMarkAttendence(this.username, this.role).subscribe(data => {
         console.log("Attendence unmarked!");
+        this.authService.deleteNotification(this.username, 'admin', 'Attendence', this.username + ' is online!', Date.now()).subscribe(data => {
+          console.log(data);
+        });
+        this.authService.addNotification(this.username, 'admin', 'Attendence', this.username + ' is offline!', Date.now()).subscribe(data => {
+          console.log(data);
+        });
       })
     } 
   };
