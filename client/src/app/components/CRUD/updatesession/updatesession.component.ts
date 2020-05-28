@@ -78,13 +78,18 @@ export class UpdatesessionComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.authService.getSession(this.route.snapshot.paramMap.get('sessionId')).subscribe(data => {
+    this.authService.getSessions().subscribe(data => {
       this.dataRcvd = data;
       if (!this.dataRcvd.success) {
         this.message = this.dataRcvd.message;
         this.messageClass = 'alert alert-danger';
       } else {
-        this.session = this.dataRcvd.message;
+        for (let index = 0; index < this.dataRcvd.message.length; index++) {
+          if (this.dataRcvd.message[index]._id == this.route.snapshot.paramMap.get('sessionId')) 
+            this.session = this.dataRcvd.message[index];
+        }
+        // this.session = this.dataRcvd.message;
+        console.log("Session: ", this.session);
       }
       this.message = "Choose a winner!"
       this.messageClass = 'alert alert-primary'
