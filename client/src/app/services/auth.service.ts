@@ -295,4 +295,29 @@ export class AuthService {
     });
     return this.http.post(this.backendServer + '/api/updateevaluation', {ID, winner, player, opponent, pRanking, oRanking}, {headers: appHeaders}).pipe(map(res => res));
   }
+
+  addNotification(sender, receiver, header, message, time) {
+    this.loadToken();
+    let appHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.authToken,
+    });
+    return this.http.post(this.backendServer + '/api/addnotification', {sender, receiver, header, message, time}, {headers: appHeaders}).pipe(map(res => res));
+  }
+  deleteNotification(sender, receiver, header, message, time) {
+    this.loadToken();
+    let appHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.authToken,
+    });
+    return this.http.post(this.backendServer + '/api/deletenotification', {sender, receiver, header, message, time}, {headers: appHeaders}).pipe(map(res => res));
+  }
+  getNotifications() {
+    this.loadToken();
+    let appHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.authToken,
+    });
+    return this.http.get(this.backendServer + '/api/getnotifications', {headers: appHeaders}).pipe(map(res => res));
+  }
 }

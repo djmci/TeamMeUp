@@ -39,18 +39,13 @@ import { UpdatesessionComponent } from './components/CRUD/updatesession/updatese
     LoginComponent,
     ProfileComponent,
     ToastComponent,
-
     CreateplayerComponent,
     CreatecoachComponent,
     UpdatecoachComponent,
     UpdateplayerComponent,
-
     FormModalComponent,
-
     SessionComponent,
-
     CreatesessionComponent,
-
     UpdatesessionComponent
 
   ],

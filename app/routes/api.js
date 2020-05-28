@@ -3,6 +3,7 @@ const Coach = require('../models/coach');
 const Game = require('../models/game');
 const Session = require('../models/session');
 const Admin = require('../models/admin');
+const Notification = require('../models/notification');
 const jwt = require('jsonwebtoken');
 const config = require('../../config/database')
 var bcrypt = require('bcrypt-nodejs');
@@ -581,6 +582,41 @@ module.exports = (router => {
             }
         })
     })
+
+    router.post('/addnotification', (req, res) => {
+        var notification = Notification({
+            sender: req.body.sender,
+            receiver: req.body.receiver,
+            header: req.body.header,
+            message: req.body.message,
+            time: req.body.time
+        })
+        notification.save((err) => {
+            if(err) {
+                res.json({success: false, message: 'Notification not saved!'});
+            } else {
+                res.json({ success: true, message: "Notification Saved!"});
+            };
+        });
+    });
+    router.post('/deletenotification', (req, res) => {
+        Notification.findOneAndDelete({sender: req.body.sender}, function(err, doc) {
+            if (err) res.json({success: false, message: "Some error occured!" + err});
+            res.json({success: true, message: "Record deleted"});
+        })
+    })
+
+    router.get('/getnotifications', (req, res) => {
+        Notification.find({}, function(err, notifications) {
+            console.log(notifications);
+            if (notifications.length == 0) {
+                res.json({success: false, message: "No new notifications!"});
+            } else {
+                res.json({success: true, message: notifications});
+            }
+        })
+    })
+
     return router;
 });
 
