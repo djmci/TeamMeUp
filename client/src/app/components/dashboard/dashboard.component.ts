@@ -45,9 +45,10 @@ export class DashboardComponent implements OnInit {
   {"name": "Sunday", "status": false, "checked": 0, time: {hour: 13, minute: 30}}
   ]
 
-  players=[];
+  players = [];
   coaches=[];
   coachSessions=[]; // For showing Sessions of a specific coach
+  coachPlayers = [];
 
   constructor( private authService: AuthService, private router: Router) { }
 
@@ -317,8 +318,10 @@ export class DashboardComponent implements OnInit {
           this.messageClass = 'alert alert-danger';
           this.message = this.dataRcvd.message;
         } else {
+          console.log("Message: ", this.dataRcvd);
           // this.players = this.dataRcvd.message;
           for (let index = 0; index < this.dataRcvd.message.length; index++) {
+            console.log("Player");
             this.players.push({
               name: this.dataRcvd.message[index].name,
               username: this.dataRcvd.message[index].username,
@@ -334,6 +337,7 @@ export class DashboardComponent implements OnInit {
               attendenceMarked: this.dataRcvd.message[index].attendenceMarked,
               _id : this.dataRcvd.message[index]._id
             });
+            console.log(this.players[index]);
           }
           console.log("Players : ", this.players);
         }
@@ -355,15 +359,12 @@ export class DashboardComponent implements OnInit {
             console.log("No players found!");
           } else {
             console.log("Coach is here");
-            var l=this.players.length;
-            for (let i = 0; i < l; ++i) {
-              if (this.players[i]._id!=this.dataRcvd.message.players[i]){
-                this.players.splice(i, 1);
-                --i;
-                --l;
-              }
+            for (let index = 0; index < this.players.length; index++) {
+              this.dataRcvd.message.players.forEach(player => {
+                if (player == this.players[index]._id) this.coachPlayers.push(this.players[index]);
+              });
             }
-            console.log("Coach players: ", this.players);
+            console.log("Coach players: ", this.coachPlayers);
             this.sessions.forEach(session => {
               if(session.evaluator==this.dataRcvd.message._id) this.coachSessions.push(session);
             });

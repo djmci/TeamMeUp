@@ -33,13 +33,14 @@ export class AuthService {
     return this.http.post(this.backendServer +"/api/login", user).pipe(map(res => res));
   }
 
-  getPlayer(username) {
+  getPlayer(id) {
     this.loadToken();
-    console.log(username);
+    // console.log(username);
     let appHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': this.authToken  
+      'Authorization': this.authToken
     });
+    console.log(appHeaders);
     return this.http.get(this.backendServer + "/api/getplayer", {headers:appHeaders}).pipe(map(res => res));
   }
 
@@ -268,11 +269,30 @@ export class AuthService {
 
   getSessions() {
     this.loadToken();
-    
     let appHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': this.authToken
     });
     return this.http.get(this.backendServer + "/api/getsessions", {headers:appHeaders}).pipe(map(res => res));
+  }
+
+  getSession(sessionId) {
+
+    this.loadToken();
+    let appHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.authToken,
+      'ID': sessionId
+    });
+    return this.http.get(this.backendServer + '/api/getsession', {headers: appHeaders}).pipe(map(res => res));
+  }
+
+  saveEvaluation(ID, winner,player, opponent, pRanking, oRanking) {
+    this.loadToken();
+    let appHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.authToken,
+    });
+    return this.http.post(this.backendServer + '/api/updateevaluation', {ID, winner, player, opponent, pRanking, oRanking}, {headers: appHeaders}).pipe(map(res => res));
   }
 }
