@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { typeWithParameters } from '@angular/compiler/src/render3/util';
 
 @Component({
   selector: 'app-createsession',

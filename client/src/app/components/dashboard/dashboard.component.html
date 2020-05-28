@@ -177,7 +177,9 @@
 			<td>{{session.game}}</td>
 			<!-- <td>{{session.evaluatorUsername}}</td> -->
 			<td>{{session.court}}</td>
-			<td><button type="button" class="btn btn-warning" (click)="evaluateSession(session._id)">Evaluate</button>‏‏‎</td>
+			<td>
+				<button [disabled]="!session.status" type="button" [ngClass]="session.status?'btn btn-warning':'btn btn-success'" (click)="evaluateSession(session._id)">Evaluate</button>
+			‏‏‎</td>
 			</tr>
 		</ng-container>
 	  </tbody>

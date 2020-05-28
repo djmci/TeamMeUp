@@ -1,1 +1,64 @@
-<p>updatesession works!</p>
+<h1 class="page-header">Evaluate Session</h1>
+
+<div class="row show-hide-message">
+    <div [ngClass]="messageClass">
+      {{ message }}
+    </div>
+</div>
+<br>
+
+<div>
+    <div style="width: 48%; display: inline-block;padding-right:1%;">
+        <h4 style="border-bottom:1px solid black">First Player:</h4>
+        <br>
+
+            <div style="width: 20%; display: inline-block;">
+                <button type="button" [ngClass]="winnerPlayer?'btn btn-success':'btn btn-warning'" (click)="selectWinner(player.username)">{{player.name}}</button>‏‏‎
+            </div>
+            <div style="width: 20%; display: inline-block;">
+                <b>{{player.username}}</b>
+            </div>
+            <div style="width: 20%; display: inline-block;">
+                <b>{{player.playerRanking}}</b>
+            </div>
+            <div style="width: 20%; display: inline-block;">
+                <b>{{player.role}}</b>
+            </div>
+            <div style="width: 20%; display: inline-block;">
+                <select name="difficulty" (change)="setPlayerRanking($event.target.value)" style="width:100%">
+                    <option value=-1>Select a Level!</option>
+                    <option value="Beginner">Beginner</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Advance">Advance</option>
+                </select>
+            </div>
+    </div>
+
+    <div style="width: 48%; display: inline-block;padding-left:1%">
+        <h4 style="border-bottom:1px solid black">Second Player:</h4>
+        <br>
+            <div style="width: 20%; display: inline-block;">
+                <button type="button" [ngClass]="winnerOpponent?'btn btn-success':'btn btn-warning'" (click)="selectWinner(opponent.username)">{{opponent.name}}</button>‏‏‎
+            </div>
+            <div style="width: 20%; display: inline-block;">
+                <b>{{opponent.username}}</b>
+            </div>
+            <div *ngIf="session.type == 'Game'" style="width: 20%; display: inline-block;">
+                <b>{{opponent.playerRanking}}</b>
+            </div>
+            <div style="width: 20%; display: inline-block;">
+                <b>{{opponent.role}}</b>
+            </div>
+            <div *ngIf="session.type == 'Game'" style="width: 20%; display: inline-block;">
+                <select name="difficulty" (change)="setOpponentRanking($event.target.value)" style="width:100%">
+                    <option value=-1>Select a Level!</option>
+                    <option value="Beginner">Beginner</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Advance">Advance</option>
+                </select>
+            </div>
+    </div>
+    <br>
+    <br>
+    <input [disabled]="!selectOpponent || !selectPlayer || !winner" type="submit" class="btn btn-primary" value="Evaluate" (click)="doneEvaluate()"/>
+</div>

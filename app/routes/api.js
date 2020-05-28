@@ -539,6 +539,48 @@ module.exports = (router => {
         });
     });
 
+    router.get('/getsession', (req, res) => {
+        console.log(req.headers);
+        Session.findOne({_id: req.headers.id}).select('_id status type result player opponentCoach opponentPlayer game court evaluator winner result').exec((err, session) => {
+            if (err) res.json({success: false, message: "Couldn't find the session!" + err});
+            else res.json({success: true, message: session});
+        });
+    })
+
+    router.post('/updateevaluation', (req, res) => {
+        console.log(req.body);
+        Session.findOne({_id: req.body.ID}).select('_id status type result player opponentCoach opponentPlayer game court evaluator winner result').exec((err, session) => {
+            if (err) res.json({success: false, message: "Couldn't find the session!" + err});
+            else {
+                var newSession = session;
+                newSession.winner = req.body.winner;
+                newSession.result = req.body.pRanking;
+                newSession.result.push(req.body.oRanking);
+                newSession.status = false;
+                var newPlayer = req.body.player;
+                var rankings = req.body.pRanking.split('-');
+                console.log(rankings);
+                newPlayer.playerRanking = rankings[1];
+                Player.findOneAndUpdate({_id: req.body.player._id}, newPlayer, function(err, doc) {
+                    if (err) console.log("Could not update player Ranking!");
+                    else console.log("Player ranking updated!");
+                });
+                if (session.type == 'Game') {
+                    newPlayer = req.body.opponent;
+                    var rankings = req.body.oRanking.split('-');
+                    newPlayer.playerRanking = rankings[1];
+                    Player.findOneAndUpdate({_id: req.body.opponent._id}, newPlayer, function(err, doc) {
+                        if (err) console.log("Could not update opponent player Ranking!");
+                        else console.log("Opponent Player ranking updated!");
+                    });
+                }
+                Session.findOneAndUpdate({_id: req.body.ID}, newSession,  function(err, doc) {
+                    if (err) res.json({success: false, message: "Some error occured!" + err});
+                    res.json({success: true, message: "Records entered succesfully! Welcome!"});
+                });
+            }
+        })
+    })
     return router;
 });
 

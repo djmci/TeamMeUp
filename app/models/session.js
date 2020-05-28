@@ -12,7 +12,7 @@ var sessionSchema = new Schema({
     court: {type: String},
     type: {type: String, required: true, default: "Practice"},
     evaluator: {type: Schema.Types.ObjectId, ref: 'coachSchema' },
-    winner: {type: Schema.Types.ObjectId, ref: 'playerSchema' },
+    winner: {type:String},
     result: [{type:String}] // "oldRanking-newRanking"
 });
 
