@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
       
       <nav class="navbar navbar-fixed-top navbar-dark bg-inverse">
@@ -13,4 +13,71 @@
                 <li *ngIf="authService.loggedIn()"><a class="nav-link" href="#" (click)="onLogoutClick()">Logout</a></li>
             </ul>
         </div>
-    </nav>
+    </nav> -->
+
+
+
+    <nav class="navbar is-black" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+          <a routerLink="/">
+            <img style="height: 60px;" src="../../../assets/images/teammeup.png">
+          </a>
+      
+          <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </a>
+        </div>
+      
+        <div id="navbarBasicExample" class="navbar-menu">
+          <div class="navbar-start">
+            <a class="navbar-item is-white" *ngIf="authService.loggedIn()" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" routerLink="/dashboard">
+              DashBoard
+            </a>
+      
+            <a class="navbar-item is-white" *ngIf="authService.loggedIn() && !authService.isAdmin()" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" routerLink="/profile">
+              Profile
+            </a>
+      
+            <a class="navbar-item is-white" *ngIf="authService.loggedIn() && authService.isAdmin()" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" routerLink="/session">
+                Sessions
+            </a>
+      
+              
+          </div>
+      
+          <div class="navbar-end">
+            <div class="navbar-item" *ngIf="!authService.loggedIn()" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" routerLink="/register">
+              <div class="buttons">
+                <a class="button is-white">
+                  <b style="color: black;">Sign up</b>
+                </a>
+              </div>
+            </div>
+            <div class="navbar-item" *ngIf="!authService.loggedIn()" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" routerLink="/login">
+                <div class="buttons">
+                    <a class="button is-white">
+                    <b style="color: black;">Login</b>
+                    </a>
+                </div>
+            </div>
+
+            <div class="navbar-item" *ngIf="authService.loggedIn() && !authService.isAdmin()">
+                <div class="buttons">
+                    <a class="button is-white" (click)="onLogoutClick()" routerLink="/login">
+                    <b style="color: black;">Logout</b>
+                    </a>
+                </div>
+            </div>
+
+            <div class="navbar-item" *ngIf="authService.loggedIn() && authService.isAdmin()" style="right:110px;">
+              <div class="buttons">
+                  <a class="button is-white" (click)="onLogoutClick()" routerLink="/login">
+                  <b style="color: black;">Logout</b>
+                  </a>
+              </div>
+          </div>
+          </div>
+        </div>
+      </nav>

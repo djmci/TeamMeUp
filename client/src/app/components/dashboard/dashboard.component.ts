@@ -451,7 +451,6 @@ export class DashboardComponent implements OnInit {
         for (let index = 0; index < this.dataRcvd.message.length; index++) {
           this.games.push({name: this.dataRcvd.message[index].name, status: false, checked: 0});
         }
-        // console.log(this.games);
       }
     });
     
@@ -460,12 +459,16 @@ export class DashboardComponent implements OnInit {
         if (!this.dataRcvd.success) {
           console.log("Can't get notifications!");
         } else {
+          console.log("Toast before: ", this.toastService.toasts);
+          this.toastService.toasts.forEach(toast => {
+            this.toastService.remove(toast);
+          });
           this.notifications = this.dataRcvd.message;
           console.log(this.notifications);
           this.notifications.forEach(notification => {
             this.showSuccess(notification.message, notification.header);
           });
-          console.log(this.toastService.toasts);
+          console.log("Toast After: ", this.toastService.toasts);
         }
     });
   }

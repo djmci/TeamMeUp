@@ -56,12 +56,12 @@ export class LoginComponent implements OnInit {
           this.dataRcvd = data;
           console.log(this.dataRcvd);
           if (!this.dataRcvd.success) {
-            this.messageClass = 'alert alert-danger';
+            this.messageClass = 'message-header is-danger';
             this.message = this.dataRcvd.message;
             this.processing = false;
             this.enableForm();
           } else {
-            this.messageClass = 'alert alert-success';
+            this.messageClass = 'message-header is-primary';
             this.message = this.dataRcvd.message;
             this.authService.storeUserData(this.dataRcvd.token, this.dataRcvd.user, this.Role);
             setTimeout(() => {

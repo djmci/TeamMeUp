@@ -1,4 +1,4 @@
-<h1 class="page-header">Dashboard</h1>
+<div class="box" style=" text-align:center; font-weight:1; background-color: black; color: white; border-top-left-radius: 0%; border-top-right-radius: 0%; font-size:xx-large;">DASHBOARD</div>
 
 <div class="row show-hide-message">
     <div [ngClass]="messageClass">
@@ -193,7 +193,7 @@
 	<app-toasts></app-toasts>
 	<p>
 	<h3>Players</h3>	
-	<button type="button" class="btn btn-success" (click)="createPlayer()">Create</button>‏‏‎
+	<button type="button" class="button is-black" (click)="createPlayer()"><b>Create‏‏‎ ‎‏‏‎ <div class="icon has-text-warning"><i class="fas fa-plus-circle"></i></div></b></button>‏‏‎
 	<br> ‎‏‏‎ ‎
 	<table class="table">
 	<thead class="thead-light">
@@ -214,8 +214,8 @@
 			<td>{{player.email}}</td>
 			<td>
 				<!-- <button type="button" class="btn btn-primary">View Details</button>‏‏‎ ‎‏‏‎ ‎ -->
-				<button type="button" class="btn btn-primary" (click)="updatePlayer(player.username)">Update</button>‏‏‎ ‎‏‏‎ ‎
-				<button type="button" class="btn btn-danger" (click)="deletePlayer(player.username)">Delete</button>
+				<button type="button" class="button is-primary" (click)="updatePlayer(player.username)"><b>Edit‏‏‎ ‎‏‏‎ <div class="icon"><i class="fas fa-pen"></i></div></b></button>‏‏‎ ‎‏‏‎ ‎
+				<button type="button" class="button is-danger" (click)="deletePlayer(player.username)"><b>Remove ‎‏‏‎ <div class="icon"><i class="fas fa-minus-circle"></i></div>  </b></button>
 			</td>
 			</tr>
 		</ng-container>
@@ -224,7 +224,7 @@
 
 	<p>
 	<h3>Coaches</h3>	
-	<button type="button" class="btn btn-success" (click)="createCoach()">Create</button>‏‏‎ ‎‏‏‎   
+	<button type="button" class="button is-black" (click)="createCoach()"><b>Create‏‏‎ ‎‏‏‎ <div class="icon has-text-warning"><i class="fas fa-plus-circle"></i></div></b></button>‏‏‎ ‎‏‏‎   
 	<br><br>
 	<table class="table">
 	  <thead class="thead-light">
@@ -245,8 +245,8 @@
 			<td>{{coaches[i].email}}</td>
 			<td>
 				<!-- <button type="button" class="btn btn-primary">View Details</button>‏‏‎ ‎‏‏‎ ‎ -->
-				<button type="button" class="btn btn-primary" (click)="updateCoach(coach.username)">Update</button>‏‏‎ ‎‏‏‎ ‎
-				<button type="button" class="btn btn-danger" (click)="deleteCoach(coach.username)">Delete</button>
+				<button type="button" class="button is-primary" (click)="updateCoach(coach.username)"><b>Edit‏‏‎ ‎‏‏‎ <div class="icon"><i class="fas fa-pen"></i></div></b></button>‏‏‎ ‎‏‏‎ ‎
+				<button type="button" class="button is-danger" (click)="deleteCoach(coach.username)"><b>Remove ‎‏‏‎ <div class="icon"><i class="fas fa-minus-circle"></i></div></b></button>
 			</td>
 			</tr>
 		</ng-container>
