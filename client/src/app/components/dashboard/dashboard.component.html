@@ -6,6 +6,7 @@
     </div>
 </div>
 
+
 <ng-container *ngIf="isPlayer()">
 	<ng-container *ngIf="!lastLogin">
 		<h5 style="text-align: center;">Select your Weekly schedule! <p>Each slot is of 1 hour!</p></h5>
@@ -189,6 +190,7 @@
 
 <ng-container *ngIf="isAdmin()">
 	<!-- CRUD Operations on Players and Coaches -->
+	<app-toasts></app-toasts>
 	<p>
 	<h3>Players</h3>	
 	<button type="button" class="btn btn-success" (click)="createPlayer()">Create</button>‏‏‎
