@@ -148,7 +148,7 @@ module.exports = (router => {
                                             console.log("success: true, message: Records entered succesfully! Welcome!");
                                         })
                                     }
-                                    res.json({ success: true, message: 'Success!', token: token, user: { username: user.username, lastLogin: user.lastLogin } });
+                                    res.json({ success: true, message: 'Successfully logged in ' + req.body.username + '!', token: token, user: { username: user.username, lastLogin: user.lastLogin } });
                                 }
                             }
                         }
@@ -171,7 +171,7 @@ module.exports = (router => {
                                 } else {
                                     //   res.json({ success: true, message: "Logged IN!"});
                                     const token = jwt.sign({ userId: user._id }, config.secret, { expiresIn: '24h' });
-                                    res.json({ success: true, message: 'Success!', token: token, user: { username: user.username } });
+                                    res.json({ success: true, message: 'Successfully logged in ' + req.body.username + '!', token: token, user: { username: user.username } });
                                 }
                             }
                         }
@@ -194,7 +194,7 @@ module.exports = (router => {
                                 } else {
                                     //   res.json({ success: true, message: "Logged IN!"});
                                     const token = jwt.sign({ userId: user._id }, config.secret, { expiresIn: '24h' });
-                                    res.json({ success: true, message: 'Success!', token: token, user: { username: user.username } });
+                                    res.json({ success: true, message: 'Successfully logged in ' + req.body.username + '!', token: token, user: { username: user.username } });
                                 }
                             }
                         }

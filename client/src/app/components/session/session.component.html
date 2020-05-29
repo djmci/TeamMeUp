@@ -1,8 +1,8 @@
-<h1 class="page-header">Session Management</h1>
-<strong>Reload to check if more players or coaches are online!</strong>
+<div class="box" style=" text-align:center; font-weight:1; background-color: black; color: white; border-top-left-radius: 0%; border-top-right-radius: 0%; font-size:xx-large;">SESSION MANAGEMENT</div>
 
 
 <ng-container *ngIf="authService.isAdmin()">
+	<app-toasts></app-toasts>
 <br><br>
 <button type="button" class="btn btn-success" (click)="createSession('Tennis')">Create Tennis Session</button>‏‏‎
 <button type="button" class="btn btn-success" (click)="createSession('Table Tennis')">Create Table Tennis Session</button>‏‏‎
