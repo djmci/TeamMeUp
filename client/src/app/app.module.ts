@@ -17,7 +17,6 @@ import { AuthGuard } from './guard/auth.guard';
 import { NotAuthGuard } from './guard/notAuth.guard';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastComponent } from './components/toast/toast.component';
-
 import { CreateplayerComponent } from './components/CRUD/createplayer/createplayer.component';
 import { CreatecoachComponent } from './components/CRUD/createcoach/createcoach.component';
 import { UpdatecoachComponent } from './components/CRUD/updatecoach/updatecoach.component';

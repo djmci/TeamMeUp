@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Type, ɵbypassSanitizationTrustResourceUrl } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { ToastService } from '../../services/toast.service';
@@ -52,8 +52,7 @@ export class DashboardComponent implements OnInit {
   coaches=[];
   coachSessions=[]; // For showing Sessions of a specific coach
   coachPlayers = [];
-  notifications = [];
-  showedNotifications = [];
+  notifications = new Set([]);
 
   constructor( private authService: AuthService, private router: Router, private toastService: ToastService) { }
 
@@ -72,7 +71,7 @@ export class DashboardComponent implements OnInit {
   showSuccess(message, header) {
     this.toastService.show(message, {
       classname: 'bg-success text-light',
-      delay: 30000,
+      delay: 5000,
       autohide: true,
       headertext: header
     });
@@ -80,7 +79,15 @@ export class DashboardComponent implements OnInit {
   showError(message, header) {
     this.toastService.show(message, {
       classname: 'bg-danger text-light',
-      delay: 30000 ,
+      delay: 5000 ,
+      autohide: true,
+      headertext: header
+    });
+  }
+  showDefault(message, header) {
+    this.toastService.show(message, {
+      classname: 'bg-primary text-light',
+      delay: 5000 ,
       autohide: true,
       headertext: header
     });
@@ -293,6 +300,16 @@ export class DashboardComponent implements OnInit {
     }, 0);
   }
 
+  subSet(setA, setB) {
+    if (setA.size > setB.size) return false;
+    else {
+      setA.forEach(element => {
+        if (!setB.has(element)) return false;
+      });
+      return true;
+    }
+  }
+
   ngOnInit() {
     this.authService.getProfile().subscribe(data => {
       this.dataRcvd = data;
@@ -437,25 +454,19 @@ export class DashboardComponent implements OnInit {
         // console.log(this.games);
       }
     });
-
-    interval(5000).pipe(flatMap(() => this.authService.getNotifications())).subscribe(data => {
-      this.dataRcvd = data;
-      if (!this.dataRcvd.success) {
-        console.log("Can't get notifications!");
-      } else {
-        console.log("Length of noti: ", this.notifications.length);
-        console.log("Length of msg: ", this.dataRcvd.message.length);
-        if (this.notifications.length == this.dataRcvd.message.length) {
-          console.log(this.notifications, "No new Notification!");
+    
+      interval(5000).pipe(flatMap(() => this.authService.getNotifications())).subscribe(data => {
+        this.dataRcvd = data;
+        if (!this.dataRcvd.success) {
+          console.log("Can't get notifications!");
         } else {
           this.notifications = this.dataRcvd.message;
-          console.log("Notification:" + this.notifications);
+          console.log(this.notifications);
           this.notifications.forEach(notification => {
             this.showSuccess(notification.message, notification.header);
           });
+          console.log(this.toastService.toasts);
         }
-      }
-    })
+    });
   }
-
 }

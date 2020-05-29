@@ -7,7 +7,7 @@
 
 <header>
 <div class="container">
-
+  <ng-container *ngIf="isPlayer()">
   <div class="profile">
     <div class="profile-image">
       <div class="image_outer_container">
@@ -29,16 +29,24 @@
         <br>
         <li><span class="profile-stat-count">Email: </span>{{ email }}</li>
         <br>
-        <ng-container *ngIf="isPlayer()">
+        
           <li><span class="profile-stat-count">Ranking: </span>{{ playerRanking }}</li>
           <br>
-        </ng-container>
         <li>
-          <span class="profile-stat-count">Status: </span>{{attendence?'Online':'Offline'}}
-          <label class="custom-control custom-checkbox" style="float:right;">
-            <input type="checkbox" id="attendenceToggle" class="custom-control-input" (change)="markAttendence()">
-            <span class="custom-control-indicator"></span>
-          </label>
+          <ng-container *ngIf="attendence">
+            <span class="profile-stat-count">Status: </span>{{attendence?'Online':'Offline'}}
+            <label class="custom-control custom-checkbox" style="float:right;">
+              <input type="checkbox" id="attendenceToggle" class="custom-control-input" (change)="markAttendence()" checked>
+              <span class="custom-control-indicator"></span>
+            </label>
+          </ng-container>
+          <ng-container *ngIf="!attendence">
+            <span class="profile-stat-count">Status: </span>{{attendence?'Online':'Offline'}}
+            <label class="custom-control custom-checkbox" style="float:right;">
+              <input type="checkbox" id="attendenceToggle" class="custom-control-input" (change)="markAttendence()">
+              <span class="custom-control-indicator"></span>
+            </label>
+        </ng-container>
         </li>
       </ul>
 
@@ -48,13 +56,15 @@
   <hr>
   <!-- End of profile section -->
 
+</ng-container>
 </div>
 <!-- End of container -->
 </header>
 
 <ng-container *ngIf="isPlayer()">
-  <ng-container *ngIf="!prioritySubmit">
     <div class="card mb-5">
+      
+
       
       <h5 style="text-align: center;">Select games priorities!<p>Each game is of 30 minutes.</p></h5>
       <div class="card-block p-0">
@@ -90,11 +100,10 @@
       </div>
       <input type="submit" class="btn btn-primary" value="Submit" (click)="savePriorities()"/>
     </div>
-  </ng-container>
 
+    <ng-container *ngIf="attendence">
     <div class="card mb-5">
-      
-      <h5 style="text-align: center;">Your schedule!</h5>
+      <h5 style="text-align: center;">Your weekly Timetable!</h5>
       <div class="card-block p-0">
       <table class="table table-bordered table-sm m-0">
         
@@ -124,11 +133,42 @@
       </div>
     </div>
   </ng-container>
+  </ng-container>
 
 
 <ng-container *ngIf="isCoach()">
+
+  <div class="profile">
+    <div class="profile-image">
+      <div class="image_outer_container">
+        <div class="green_icon"></div>
+        <div class="image_inner_container">
+          <img src="../../../assets/images/user-profiles.png"/>
+        </div>
+      </div>
+    </div>
+
+    <div class="profile-stats">
+
+      <ul>
+        <li><span class="profile-stat-count">Name: </span> <strong>{{ name }}</strong></li>
+        <br>
+        <li><span class="profile-stat-count">Username: </span>{{ username }}</li>
+        <br>
+        <li><span class="profile-stat-count">User: </span>{{ role }}</li>
+        <br>
+        <li><span class="profile-stat-count">Email: </span>{{ email }}</li>
+        <br>
+      </ul>
+
+    </div>
+
+  </div>
+  <hr>
+
 	<br>
-	<!-- JustCoachThings -->
+  <!-- JustCoachThings -->
+  <h5 style="text-align: center;">Your assigned players!</h5>
 		<table class="table">
 		<thead class="thead-light">
 			<tr>

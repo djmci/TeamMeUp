@@ -29,6 +29,7 @@
     "bootstrap": "^4.4.0",
     "ng-pick-datetime": "^7.0.0",
     "ng-tempusdominus-bootstrap4": "^1.0.0-alpha.2",
+    "ng-toast": "^2.0.0",
     "rxjs": "~6.5.4",
     "tempusdominus-bootstrap-4": "^5.1.2",
     "tslib": "^1.10.0",
