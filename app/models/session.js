@@ -13,7 +13,7 @@ var sessionSchema = new Schema({
     type: {type: String, required: true, default: "Practice"},
     evaluator: {type: Schema.Types.ObjectId, ref: 'coachSchema' },
     winner: {type:String},
-    result: [{type:String}] // "oldRanking-newRanking"
+    result: [{type:String}] // "oldRanking-newRanking" // [player, opponentPlayer]
 });
 
 module.exports = mongoose.model('Session', sessionSchema);

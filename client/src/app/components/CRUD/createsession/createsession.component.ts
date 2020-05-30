@@ -24,6 +24,7 @@ export class CreatesessionComponent implements OnInit {
   selectedEvaluator;
   courtChosen=false;
   evaluatorChosen=false;
+  role;
 
   constructor(private authService: AuthService, private router: Router,private route: ActivatedRoute) { }
 
@@ -79,6 +80,15 @@ export class CreatesessionComponent implements OnInit {
   }
 
   ngOnInit() {
+    // Player
+    this.authService.getProfile().subscribe(data =>{
+      if (!this.dataRcvd.success) console.log("Error getting profile");
+      else {
+        this.role=this.dataRcvd.message.role;
+      }
+    });
+
+    // Admin
     this.sessionGame = this.route.snapshot.paramMap.get("game");
     this.authService.getOnlinePlayers().subscribe(data => {
       // console.log(data);

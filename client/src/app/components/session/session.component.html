@@ -1,13 +1,14 @@
-<div class="box" style=" text-align:center; font-weight:1; background-color: black; color: white; border-top-left-radius: 0%; border-top-right-radius: 0%; font-size:xx-large;">SESSION MANAGEMENT</div>
+<div class="box" style=" text-align:center; font-weight:1; background-color: black; color: white; border-top-left-radius: 0%; border-top-right-radius: 0%; font-size:xx-large;">SESSION MANAGEMENT
+<br>
+<button type="button" class="button is-primary" (click)="createSession('Tennis')" style="margin-top:10px;width:24%;font-weight:bold;">Create Tennis Session</button>‏‏‎
+<button type="button" class="button is-primary" (click)="createSession('Table Tennis')" style="margin-top:10px;width:24%;font-weight:bold;">Create Table Tennis Session</button>‏‏‎
+<button type="button" class="button is-primary" (click)="createSession('Badminton')" style="margin-top:10px;width:24%;font-weight:bold;">Create Badminton Session</button>‏‏‎
+<button type="button" class="button is-primary" (click)="createSession('Squash')" style="margin-top:10px;width:24%;font-weight:bold;">Create Squash Session</button>‏‏‎
+</div>
 
 
 <ng-container *ngIf="authService.isAdmin()">
 	<app-toasts></app-toasts>
-<br><br>
-<button type="button" class="btn btn-success" (click)="createSession('Tennis')">Create Tennis Session</button>‏‏‎
-<button type="button" class="btn btn-success" (click)="createSession('Table Tennis')">Create Table Tennis Session</button>‏‏‎
-<button type="button" class="btn btn-success" (click)="createSession('Badminton')">Create Badminton Session</button>‏‏‎
-<button type="button" class="btn btn-success" (click)="createSession('Squash')">Create Squash</button>‏‏‎
 <br>
 	<!-- CRUD Operations on Players and Coaches -->
 
@@ -50,7 +51,7 @@
 		  {{ messagePlayer }}
 		</div>
 	</div>
-	<p>
+	<p><br>
 	<h3>Online Players</h3>	
 	<br>
 	<table class="table">
@@ -84,9 +85,9 @@
       {{ messageCoach }}
     </div>
 </div>
-	<p>
+	<p><br>
 	<h3>Online Coaches</h3>
-	<br><br>
+	<br>
 	<table class="table">
 	  <thead class="thead-light">
 		<tr>
@@ -113,3 +114,4 @@
 
 
 </ng-container>
+<br><br>

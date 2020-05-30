@@ -37,6 +37,8 @@ export class DashboardComponent implements OnInit {
   sessions:any = [];
   messageClassSession;
   name;
+  _id;
+  interestNames;
 
   weekdays = [
   {"name": "Monday", "status": false, "checked": 0, time: {hour: 13, minute: 30}},
@@ -52,6 +54,8 @@ export class DashboardComponent implements OnInit {
   coaches=[];
   coachSessions=[]; // For showing Sessions of a specific coach
   coachPlayers = [];
+  playerPractices =[];
+  playerMatches=[];
   notifications = new Set([]);
 
   constructor( private authService: AuthService, private router: Router, private toastService: ToastService) { }
@@ -310,6 +314,40 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  play(game){
+    console.log("Playing", game);
+    // setTimeout(() => {
+    //   this.router.navigate(['/play', game]);
+    // }, 0);
+  }
+
+  getRank(session){
+    // Returns new ranking along with +1 or -1 (or nothing if no change) based on previous stats
+    var rankString="", rankings, newRank, oldRank;
+    if (session.player._id==this._id){
+      rankings = session.result[0].split('-');
+    } else { // (session.opponentPlayer._id==this._id)
+      rankings = session.result[1].split('-');
+    }
+    rankString=rankings[1];
+    if (rankString=="Beginner"){
+      if(rankings[0]=="Medium") rankString+=" (<b>-1</b>)";
+      else if (rankings[0]=="Advance") rankString+=" (<b>-2</b>)";
+      else rankString+=" (±0)";
+
+    } else if(rankString=="Medium"){
+      if(rankings[0]=="Beginner") rankString+=" (+1)";
+      else if (rankings[0]=="Advance") rankString+=" (<b>-1</b>)";
+      else rankString+=" (±0)";
+
+    } else { // Advance
+      if(rankings[0]=="Medium") rankString+=" (<b>+1</b>)";
+      else if (rankings[0]=="Beginner") rankString+=" (<b>+2</b>)";
+      else rankString+=" (±0)";
+    }
+    return rankString;
+  }
+
   ngOnInit() {
     this.authService.getProfile().subscribe(data => {
       this.dataRcvd = data;
@@ -319,6 +357,7 @@ export class DashboardComponent implements OnInit {
       this.email = this.dataRcvd.message.email;
       this.role = this.dataRcvd.message.role;
       this.name = this.dataRcvd.message.name;
+      this._id=this.dataRcvd.message._id;
 
       this.authService.getSessions().subscribe(data => {
         this.dataRcvd = data;
@@ -370,10 +409,10 @@ export class DashboardComponent implements OnInit {
           this.messageClass = 'alert alert-danger';
           this.message = this.dataRcvd.message;
         } else {
-          console.log("Message: ", this.dataRcvd);
+          // console.log("Message: ", this.dataRcvd);
           // this.players = this.dataRcvd.message;
           for (let index = 0; index < this.dataRcvd.message.length; index++) {
-            console.log("Player");
+            // console.log("Player");
             this.players.push({
               name: this.dataRcvd.message[index].name,
               username: this.dataRcvd.message[index].username,
@@ -389,14 +428,57 @@ export class DashboardComponent implements OnInit {
               attendenceMarked: this.dataRcvd.message[index].attendenceMarked,
               _id : this.dataRcvd.message[index]._id
             });
-            console.log(this.players[index]);
+            // console.log(this.players[index]);
           }
-          console.log("Players : ", this.players);
+          // console.log("Players : ", this.players);
         }
       });
 
-      if (this.role == 'player') this.lastLogin = this.dataRcvd.message.lastLogin;
-      if (this.role=='admin'){
+      if (this.role == 'player') {
+        this.lastLogin = this.dataRcvd.message.lastLogin;
+        this.authService.getPlayer(this._id).subscribe(data => {
+          this.dataRcvd=data;
+          if(!this.dataRcvd.success){
+            console.log("Player not found!");
+          } else {
+            this.Interests=this.dataRcvd.message.Interests;
+            this.interestNames=this.interestGames();
+            console.log(this.Interests);
+            // console.log("Got current player!");
+            // console.log("Sessions:", this.sessions);
+            this.sessions.forEach(session => {
+              // console.log(session);
+              if(session.type=="Game" && (session.player==this._id || session.opponentPlayer==this._id)){
+                this.playerMatches.push(session);
+              } else if (session.player==this._id){ // Practice
+                this.playerPractices.push(session);
+              }
+            });
+            // console.log("Player Matches", this.playerMatches);
+            // console.log("Player Practices", this.playerPractices);
+
+            
+
+            this.playerPractices.forEach(session => {
+              this.players.forEach(player => {
+                if(session.player==player._id) {session.player=player; session.oppPlayer = false;}
+              });
+              this.coaches.forEach(coach => {
+                if(session.opponentCoach==coach._id) session.opponentCoach=coach;
+              });
+            });
+
+            this.playerMatches.forEach(session => {
+              this.players.forEach(player => {
+                if(session.player==player._id){ session.player=player; session.oppPlayer = true;}
+                else if(session.opponentPlayer==player._id) session.opponentPlayer=player;
+              });
+            });
+
+          }
+        });
+      }
+      else if (this.role=='admin'){
         this.authService.getCoaches().subscribe(data => {
           this.dataRcvd = data;
           if (!this.dataRcvd.success) {
@@ -408,7 +490,7 @@ export class DashboardComponent implements OnInit {
         this.authService.getCoach(this.username).subscribe(data => {
           this.dataRcvd = data;
           if (!this.dataRcvd.success) {
-            console.log("No players found!");
+            console.log("Coach not found!");
           } else {
             console.log("Coach is here");
             for (let index = 0; index < this.players.length; index++) {
@@ -459,16 +541,16 @@ export class DashboardComponent implements OnInit {
         if (!this.dataRcvd.success) {
           console.log("Can't get notifications!");
         } else {
-          console.log("Toast before: ", this.toastService.toasts);
+          // console.log("Toast before: ", this.toastService.toasts);
           this.toastService.toasts.forEach(toast => {
             this.toastService.remove(toast);
           });
           this.notifications = this.dataRcvd.message;
-          console.log(this.notifications);
+          // console.log(this.notifications);
           this.notifications.forEach(notification => {
             this.showSuccess(notification.message, notification.header);
           });
-          console.log("Toast After: ", this.toastService.toasts);
+          // console.log("Toast After: ", this.toastService.toasts);
         }
     });
   }

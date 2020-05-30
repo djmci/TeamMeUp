@@ -33,7 +33,7 @@
         <div id="navbarBasicExample" class="navbar-menu">
           <div class="navbar-start">
             <a class="navbar-item is-white" *ngIf="authService.loggedIn()" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" routerLink="/dashboard">
-              DashBoard
+              Dashboard
             </a>
       
             <a class="navbar-item is-white" *ngIf="authService.loggedIn() && !authService.isAdmin()" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" routerLink="/profile">
