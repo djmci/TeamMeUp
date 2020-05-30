@@ -65,14 +65,6 @@
 <div style="text-align: center;">
     <form>
         <h5>Select Court and Instructor</h5>
-        <!-- <ng-container *ngFor="let court of courts;">
-            <div class="form-check">
-                <label>
-                    <input class="form-check-input" type="radio" value={{court}} name="gob" value={{court}} [checked]="true" 
-                    (change)="selectCourt($event.target.value)"/><span class="label-text">{{court}}</span>
-                </label>
-            </div>
-        </ng-container> -->
         <select name="selectCourt" style="display:inline-block" (change)="selectCourt($event.target.value)">
             <option class="form-check-input" name="gob" value="none" selected>Select Court</option>
             <ng-container *ngFor="let court of courts;">

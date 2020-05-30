@@ -608,7 +608,7 @@ module.exports = (router => {
 
     router.get('/getnotifications', (req, res) => {
         Notification.find({}, function(err, notifications) {
-            console.log(notifications);
+            // console.log(notifications);
             if (notifications.length == 0) {
                 res.json({success: false, message: "No new notifications!"});
             } else {

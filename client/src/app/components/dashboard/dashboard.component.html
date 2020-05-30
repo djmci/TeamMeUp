@@ -1,10 +1,18 @@
-<div class="box" style=" text-align:center; font-weight:1; background-color: black; color: white; border-top-left-radius: 0%; border-top-right-radius: 0%; font-size:xx-large;">DASHBOARD</div>
+<div class="box" style=" text-align:center; font-weight:1; background-color: black; color: white; border-top-left-radius: 0%; border-top-right-radius: 0%; font-size:xx-large;">DASHBOARD
+	<ng-container *ngIf="isPlayer() && lastLogin">
+		<br>
+		<ng-container *ngFor="let interest of interestNames">
+			<button type="button" class="button is-primary" (click)="play(interest)" style="margin-top:10px;width:24%;font-weight:bold;">Play {{interest}}</button>‏‏‎
+		</ng-container>
+	</ng-container>
+</div>
 
-<div class="row show-hide-message">
+<br>
+<!-- <div class="row show-hide-message">
     <div [ngClass]="messageClass">
       {{ message }}
     </div>
-</div>
+</div> -->
 
 
 <ng-container *ngIf="isPlayer()">
@@ -141,6 +149,80 @@
 			<br>
 		</div>
 
+	</ng-container>
+
+	<ng-container *ngIf="lastLogin"><h2>Welcome back, {{name}}!</h2>
+
+		<br>
+		<h3>Your Matches</h3>
+		<br>
+		<table class="table">
+		  <thead class="thead-light">
+			<tr>
+			  <th scope="col">#</th>
+			  <th scope="col">Type</th>
+			  <!-- <th scope="col">Player</th> -->
+			  <th scope="col">Opponent</th>
+			  <th scope="col">Game</th>
+			  <th scope="col">Venue</th>
+			  <th scope="col">Duration</th>
+			  <th scope="col">Ranking</th>
+			  <th scope="col"></th>
+			</tr>
+		  </thead>
+		  <tbody>
+			<ng-container *ngFor="let session of playerMatches; let i=index">
+				<tr>
+				<th scope="row">{{i+1}}</th>
+				<td>{{session.type}}</td>
+				<!-- <td>{{session.player.username}}</td> -->
+				<td>{{session.player._id==_id?session.opponentPlayer.username:session.player.username}}</td>
+				<td>{{session.game}}</td>
+				<td>{{session.court}}</td>
+				<td>1 hour</td>
+				<td>{{session.status?"Pending":getRank(session)}}</td>
+				</tr>
+			</ng-container>
+		  </tbody>
+		</table>
+	
+		Total Match Sessions: {{playerMatches.length}}
+
+		<br><br>
+		<h3>Your Practice Sessions</h3>
+		<br>
+		<table class="table">
+		  <thead class="thead-light">
+			<tr>
+			  <th scope="col">#</th>
+			  <th scope="col">Type</th>
+			  <!-- <th scope="col">Player</th> -->
+			  <th scope="col">Opponent</th>
+			  <th scope="col">Game</th>
+			  <th scope="col">Venue</th>
+			  <th scope="col">Duration</th>
+			  <th scope="col"></th>
+			</tr>
+		  </thead>
+		  <tbody>
+			<ng-container *ngFor="let session of playerPractices; let i=index">
+				<tr>
+				<th scope="row">{{i+1}}</th>
+				<td>{{session.type}}</td>
+				<!-- <td>{{session.player.username}}</td> -->
+				<td>{{session.opponentCoach.username}}</td>
+				<td>{{session.game}}</td>
+				<td>{{session.court}}</td>
+				<td>1 hour</td>
+				</tr>
+			</ng-container>
+		  </tbody>
+		</table>
+	
+		Total Practice Sessions: {{playerPractices.length}}
+
+		
+		
 	</ng-container>
 </ng-container>
 
