@@ -32,18 +32,20 @@
       
         <div id="navbarBasicExample" class="navbar-menu">
           <div class="navbar-start">
-            <a class="navbar-item is-white" *ngIf="authService.loggedIn()" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" routerLink="/dashboard">
+            <a class="navbar-item is-white" style="text-decoration: none;" *ngIf="authService.loggedIn()" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" routerLink="/dashboard">
               Dashboard
             </a>
       
-            <a class="navbar-item is-white" *ngIf="authService.loggedIn() && !authService.isAdmin()" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" routerLink="/profile">
+            <a class="navbar-item is-white" style="text-decoration: none;" *ngIf="authService.loggedIn() && !authService.isAdmin()" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" routerLink="/profile">
               Profile
             </a>
       
-            <a class="navbar-item is-white" *ngIf="authService.loggedIn() && authService.isAdmin()" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" routerLink="/session">
+            <a class="navbar-item is-white" style="text-decoration: none;" *ngIf="authService.loggedIn() && authService.isAdmin()" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" routerLink="/session">
                 Sessions
             </a>
-      
+            <a class="navbar-item is-white" style="text-decoration: none;" *ngIf="authService.loggedIn() && authService.isAdmin()" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" routerLink="/notifications">
+              Notifications &nbsp;  <ng-container *ngIf="showTag"><span class="tag is-primary is-normal" style="color: black;">{{notificationCount}}</span></ng-container>
+          </a>
               
           </div>
       
@@ -51,14 +53,14 @@
             <div class="navbar-item" *ngIf="!authService.loggedIn()" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" routerLink="/register">
               <div class="buttons">
                 <a class="button is-white">
-                  <b style="color: black;">Sign up</b>
+                  <b style="color: black; text-decoration: none;">Sign up</b>
                 </a>
               </div>
             </div>
             <div class="navbar-item" *ngIf="!authService.loggedIn()" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" routerLink="/login">
                 <div class="buttons">
                     <a class="button is-white">
-                    <b style="color: black;">Login</b>
+                    <b style="color: black; text-decoration: none;">Login</b>
                     </a>
                 </div>
             </div>
@@ -66,7 +68,7 @@
             <div class="navbar-item" *ngIf="authService.loggedIn() && !authService.isAdmin()">
                 <div class="buttons">
                     <a class="button is-white" (click)="onLogoutClick()" routerLink="/login">
-                    <b style="color: black;">Logout</b>
+                    <b style="color: black; text-decoration: none;">Logout</b>
                     </a>
                 </div>
             </div>
@@ -74,7 +76,7 @@
             <div class="navbar-item" *ngIf="authService.loggedIn() && authService.isAdmin()" style="right:110px;">
               <div class="buttons">
                   <a class="button is-white" (click)="onLogoutClick()" routerLink="/login">
-                  <b style="color: black;">Logout</b>
+                  <b style="color: black; text-decoration: none;">Logout</b>
                   </a>
               </div>
           </div>

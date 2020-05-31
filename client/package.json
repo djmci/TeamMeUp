@@ -28,6 +28,7 @@
     "angular2-jwt": "^0.2.3",
     "bootstrap": "^4.4.0",
     "bulma": "^0.8.2",
+    "chart.js": "^2.9.3",
     "ng-pick-datetime": "^7.0.0",
     "ng-tempusdominus-bootstrap4": "^1.0.0-alpha.2",
     "ng-toast": "^2.0.0",

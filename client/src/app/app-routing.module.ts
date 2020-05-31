@@ -15,6 +15,7 @@ import { SessionComponent } from './components/session/session.component';
 import { CreatesessionComponent } from './components/CRUD/createsession/createsession.component';
 import { UpdatesessionComponent } from './components/CRUD/updatesession/updatesession.component';
 import { PlayComponent } from './components/play/play.component';
+import { NotificationsComponent } from './components/notifications/notifications.component';
  
 const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -30,6 +31,7 @@ const routes: Routes = [
     { path: 'createsession/:game', component: CreatesessionComponent, canActivate: [AuthGuard]},
     { path: 'updatesession/:sessionId', component: UpdatesessionComponent, canActivate: [AuthGuard]},
     { path: 'play/:game', component: PlayComponent, canActivate: [AuthGuard]},
+    { path: 'notifications', component: NotificationsComponent, canActivate: [AuthGuard]},
     { path: '**', component: HomeComponent }
 ];
 

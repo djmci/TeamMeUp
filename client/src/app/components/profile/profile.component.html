@@ -1,58 +1,108 @@
-<script>
-  window.onload = function() {
-    showSuccess();
-  };
-</script>
+
+<div class="box" style="text-align:center; font-weight:1; background-color: black; color: white; border-top-left-radius: 0%; border-top-right-radius: 0%; font-size:xx-large;">PROFILE</div>
 
 
 <header>
 <div class="container">
   <ng-container *ngIf="isPlayer()">
-  <div class="profile">
-    <div class="profile-image">
-      <div class="image_outer_container">
-        <div [ngClass]="attendence?'green_icon':'red_icon'"></div>
-        <div class="image_inner_container">
-          <img src="../../../assets/images/user-profiles.png"/>
-        </div>
+
+<div class="tile is-ancestor">
+  <div class="tile is-vertical is-8">
+    <div class="tile">
+      <div class="tile is-parent is-vertical">
+        <article class="tile is-child notification is-primary">
+          <p class="title">Hello {{name}}!</p>
+          <p class="subtitle">Hope you are okay!
+            <span class="icon has-text-link">
+              <i class="far fa-laugh"></i>
+            </span>
+          </p>
+        </article>
+        <article class="tile is-child notification is-warning">
+          <p class="title">You are on {{playerRanking}} ranking!</p>
+          <p class="subtitle">Keep it up! 
+            <span class="icon has-text-primary">
+              <i class="fas fa-thumbs-up"></i>
+            </span>
+          </p>
+        </article>
+      </div>
+      <div class="tile is-parent">
+        <article class="tile is-child notification is-info">
+          <p class="title">Profile Picture</p>
+          <p class="subtitle">Courtesy of Unsplash
+            <span class="icon has-text-black">
+              <i class="fas fa-camera"></i>
+            </span>
+          </p>
+          <figure class="image is-128x128 is-centered">
+            <img class="is-rounded" src="https://source.unsplash.com/random/128x128">
+          </figure>
+        </article>
       </div>
     </div>
-
-    <div class="profile-stats">
-
-      <ul>
-        <li><span class="profile-stat-count">Name: </span> <strong>{{ name }}</strong></li>
-        <br>
-        <li><span class="profile-stat-count">Username: </span>{{ username }}</li>
-        <br>
-        <li><span class="profile-stat-count">User: </span>{{ role }}</li>
-        <br>
-        <li><span class="profile-stat-count">Email: </span>{{ email }}</li>
-        <br>
-        
-          <li><span class="profile-stat-count">Ranking: </span>{{ playerRanking }}</li>
-          <br>
-        <li>
+    <div class="tile is-parent">
+      <article class="tile is-child notification is-danger">
+        <p class="title">You are currently {{attendence?'Online!':'Offline!'}}</p>
+        <p class="subtitle">Toggle to {{attendence?'unmark':'mark'}} attendence!
+          <span class="icon has-text-warning">
+            <i class="fas fa-clipboard-check"></i>
+          </span>
+        </p>
+        <div class="content">
           <ng-container *ngIf="attendence">
-            <span class="profile-stat-count">Status: </span>{{attendence?'Online':'Offline'}}
             <label class="custom-control custom-checkbox" style="float:right;">
               <input type="checkbox" id="attendenceToggle" class="custom-control-input" (change)="markAttendence()" checked>
               <span class="custom-control-indicator"></span>
             </label>
           </ng-container>
           <ng-container *ngIf="!attendence">
-            <span class="profile-stat-count">Status: </span>{{attendence?'Online':'Offline'}}
             <label class="custom-control custom-checkbox" style="float:right;">
               <input type="checkbox" id="attendenceToggle" class="custom-control-input" (change)="markAttendence()">
               <span class="custom-control-indicator"></span>
             </label>
         </ng-container>
-        </li>
-      </ul>
-
+        </div>
+      </article>
     </div>
-
   </div>
+  <div class="tile is-parent">
+    <article class="tile is-child notification is-success">
+      <div class="content">
+        <p class="title">{{name}}'s information!</p>
+        <p class="subtitle">This is what we know about you! 
+          <span class="icon has-text-info">
+            <i class="fas fa-info-circle"></i>
+          </span>
+        </p>
+        <div class="content">
+          <p class="subtitle">
+            <span class="icon has-text-white">
+              <i class="fas fa-user"></i>
+            </span>
+            Username: {{username}}</p>
+          <p class="subtitle">
+            <span class="icon has-text-white">
+              <i class="fas fa-envelope"></i>
+            </span>
+            Email: {{email}}</p>
+          <p class="subtitle">
+            <span class="icon has-text-white">
+              <i class="fas fa-user-ninja"></i>
+            </span>
+            You like to play against <b>{{opponentRanking}}</b> players!
+          </p>
+          <p class="subtitle">
+            <span class="icon has-text-white">
+              <i class="fas fa-table-tennis"></i>
+            </span>
+            You {{prioritySubmit?'have already':"haven't"}} provided your priorities!</p>
+        </div>
+      </div>
+    </article>
+  </div>
+</div>
+
   <hr>
   <!-- End of profile section -->
 
@@ -67,10 +117,9 @@
 
       
       <h5 style="text-align: center;">Select games priorities!<p>Each game is of 30 minutes.</p></h5>
-      <div class="card-block p-0">
+
       <table class="table table-bordered table-sm m-0">
-        
-        <thead class="">
+      <thead class="">
           <tr>
             <th>Name</th>
             <th>Level</th>
@@ -97,7 +146,6 @@
         </tbody>
       </ng-container>
       </table>
-      </div>
       <input type="submit" class="btn btn-primary" value="Submit" (click)="savePriorities()"/>
     </div>
 

@@ -7,7 +7,8 @@ var notificationSchema = new Schema({
     receiver: {type: String, required: true},
     header: {type: String, required: true},
     message: {type: String, requred: true},
-    time: {type: Date, required: true}
+    time: {type: Date, required: true},
+    shown: {type: Boolean, required: true, default:false}
 });
 
 module.exports = mongoose.model('Notification', notificationSchema);

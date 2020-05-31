@@ -44,7 +44,7 @@ input[type="checkbox"] + .label-text:before{
 
 input[type="checkbox"]:checked + .label-text:before{
 	content: "\f14a";
-	color: #2980b9;
+	color: #ffdd57;
   animation: effect 250ms ease-in;
   
 }
@@ -97,12 +97,12 @@ cursor: pointer;
     transition: left .3s ease, background .3s ease, box-shadow .1s ease; 
   }
 .custom-checkbox .custom-control-input:checked ~ .custom-control-indicator {
-  background-color: #84c7c1;
+  background-color: #ffdd57;
   background-image: none;
   box-shadow: none !important; 
 }
   .custom-checkbox .custom-control-input:checked ~ .custom-control-indicator:after {
-    background-color: #84c7c1;
+    background-color: #ffdd57;
     left: 15px; 
   }
 .custom-checkbox .custom-control-input:focus ~ .custom-control-indicator {

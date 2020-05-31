@@ -217,7 +217,7 @@ export class UpdateplayerComponent implements OnInit {
 
   ngOnInit(): void {    
         
-    this.authService.getPlayer(this.route.snapshot.paramMap.get('username')).subscribe(data => {
+    this.authService.getPlayer().subscribe(data => {
       this.oldplayer = data;
       console.log(this.oldplayer);
     });
