@@ -1,4 +1,4 @@
-## Sports club Web App using MEAN Stack
+## TeamMeUp: A MEAN Stack web application for teaming players and recording their activities.
 
 Project Overview
 Create a web application for sports club and players using MEAN STACK Technology.
