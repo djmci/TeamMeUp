@@ -18,100 +18,116 @@
 		</div>
 	</div>
 	
-	<h3>Active Sessions</h3>
-	<br>
-	<table class="table">
-	  <thead class="thead-light">
-		<tr>
-		  <th scope="col">#</th>
-		  <th scope="col">Type</th>
-		  <th scope="col">Player</th>
-		  <th scope="col">Opponent</th>
-		  <th scope="col">Game</th>
-		  <th scope="col">Evaluator</th>
-		  <th scope="col">Venue</th>
-		</tr>
-	  </thead>
-	  <tbody>
-		<ng-container *ngFor="let session of sessions; let i=index">
+	<h3>Active Sessions‎‎‎‏‏‎ ‎‏‏‎ ‎
+		<button class="button is-primary" style="font-weight:bold" type="button" data-toggle="collapse" data-target="#sessionstable" aria-expanded="false" aria-controls="sessionstable">
+			Show/Hide
+		</button>
+	</h3>
+	<div class="collapse show" id="sessionstable">
+		<table class="table">
+		<thead class="thead-light">
 			<tr>
-			<th scope="row">{{i+1}}</th>
-			<td>{{session.type}}</td>
-			<td>{{session.player.username}}</td>
-			<td>{{session.oppPlayer?session.opponentPlayer.username:session.opponentCoach.username}}</td>
-			<td>{{session.game}}</td>
-			<td>{{session.evaluatorUsername}}</td>
-			<td>{{session.court}}</td>
+			<th scope="col">#</th>
+			<th scope="col">Type</th>
+			<th scope="col">Player</th>
+			<th scope="col">Opponent</th>
+			<th scope="col">Game</th>
+			<th scope="col">Evaluator</th>
+			<th scope="col">Venue</th>
 			</tr>
-		</ng-container>
-	  </tbody>
-	</table>
+		</thead>
+		<tbody>
+			<ng-container *ngFor="let session of sessions; let i=index">
+				<tr>
+				<th scope="row">{{i+1}}</th>
+				<td>{{session.type}}</td>
+				<td>{{session.player.username}}</td>
+				<td>{{session.oppPlayer?session.opponentPlayer.username:session.opponentCoach.username}}</td>
+				<td>{{session.game}}</td>
+				<td>{{session.evaluatorUsername}}</td>
+				<td>{{session.court}}</td>
+				</tr>
+			</ng-container>
+		</tbody>
+		</table>
+	</div>
+	Total Active Sessions: {{sessions.length}}
 	<div class="row show-hide-message">
 		<div [ngClass]="messageClassPlayer">
 		  {{ messagePlayer }}
 		</div>
 	</div>
-	<p><br>
-	<h3>Online Players</h3>	
-	<br>
-	<table class="table">
-	<thead class="thead-light">
-		<tr>
-		<th scope="col">Username</th>
-		<th scope="col">Name</th>
-		<th scope="col">Email</th>
-		<th scope="col">Status</th>
-		</tr>
-	</thead>
-	<tbody>
-		<ng-container *ngFor="let player of Players;">
-			<ng-container *ngIf="player.attendenceMarked">
-				<tr>
-					<td>{{player.username}}</td>
-					<td>{{player.name}}</td>
-					<td>{{player.email}}</td>
-					<td>
-						{{player.attendenceMarked?'Online':'Offline'}}
-					</td>
-				</tr>
+	<p><br><br>
+	<h3>Online Players‎‎‎‏‏‎ ‎‏‏‎ ‎
+		<button class="button is-primary" style="font-weight:bold" type="button" data-toggle="collapse" data-target="#playerstable">
+			Show/Hide
+		</button>
+	</h3>
+	<div class="collapse show" id="playerstable">
+		<table class="table">
+		<thead class="thead-light">
+			<tr>
+			<th scope="col">Username</th>
+			<th scope="col">Name</th>
+			<th scope="col">Email</th>
+			<th scope="col">Status</th>
+			</tr>
+		</thead>
+		<tbody>
+			<ng-container *ngFor="let player of Players;">
+				<ng-container *ngIf="player.attendenceMarked">
+					<tr>
+						<td>{{player.username}}</td>
+						<td>{{player.name}}</td>
+						<td>{{player.email}}</td>
+						<td>
+							{{player.attendenceMarked?'Online':'Offline'}}
+						</td>
+					</tr>
+				</ng-container>
 			</ng-container>
-		</ng-container>
-	</tbody>
-	</table>
-
+		</tbody>
+		</table>
+	</div>
+	Total Active Sessions: {{Players.length}}
     
-<div class="row show-hide-message">
-    <div [ngClass]="messageClassCoach">
-      {{ messageCoach }}
-    </div>
-</div>
-	<p><br>
-	<h3>Online Coaches</h3>
-	<br>
-	<table class="table">
-	  <thead class="thead-light">
-		<tr>
-		  <th scope="col">Username</th>
-		  <th scope="col">Name</th>
-		  <th scope="col">Email</th>
-		  <th scope="col">Status</th>
-		</tr>
-	  </thead>
-	  <tbody>
-		<ng-container *ngFor="let coach of Coaches;">
-			<ng-container *ngIf="coach.status">
-				<tr>
-					<td>{{coach.username}}</td>
-					<td>{{coach.name}}</td>
-					<td>{{coach.email}}</td>
-					<td>{{coach.status?'Online':'Offline'}}
-				</td>
-				</tr>
+	<div class="row show-hide-message">
+		<div [ngClass]="messageClassCoach">
+		{{ messageCoach }}
+		</div>
+	</div>
+	<p><br><br>
+	<h3>Online Coaches ‎‏‏‎ ‎
+		<button class="button is-primary" style="font-weight:bold" type="button" data-toggle="collapse" data-target="#coachestable">
+			Show/Hide
+		</button>
+	</h3>
+	<div class="collapse show" id="coachestable">
+		<table class="table">
+		<thead class="thead-light">
+			<tr>
+			<th scope="col">Username</th>
+			<th scope="col">Name</th>
+			<th scope="col">Email</th>
+			<th scope="col">Status</th>
+			</tr>
+		</thead>
+		<tbody>
+			<ng-container *ngFor="let coach of Coaches;">
+				<ng-container *ngIf="coach.status">
+					<tr>
+						<td>{{coach.username}}</td>
+						<td>{{coach.name}}</td>
+						<td>{{coach.email}}</td>
+						<td>{{coach.status?'Online':'Offline'}}
+					</td>
+					</tr>
+				</ng-container>
 			</ng-container>
-		</ng-container>
-	  </tbody>
-	</table>
-
+		</tbody>
+		</table>
+	</div>
+	Total Active Sessions: {{Coaches.length}}
 
 </ng-container>
-<br><br>
+<br><br><br>

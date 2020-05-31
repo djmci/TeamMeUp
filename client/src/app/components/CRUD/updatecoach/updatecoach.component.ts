@@ -17,6 +17,7 @@ export class UpdatecoachComponent implements OnInit {
   role;
   lastLogin = null;
   dataRcvd;
+  username;
   name;
   password;
   processing = false;
@@ -112,7 +113,8 @@ export class UpdatecoachComponent implements OnInit {
     console.log("Coach updated.");
   };
 
-  ngOnInit(): void {    
+  ngOnInit(): void { 
+    this.username=this.route.snapshot.paramMap.get('username');   
     this.authService.getCoach(this.route.snapshot.paramMap.get('username')).subscribe(data => {
       this.oldcoach = data;
       console.log('Previous players: ', this.oldcoach.players);
