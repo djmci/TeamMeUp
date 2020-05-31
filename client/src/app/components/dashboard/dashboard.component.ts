@@ -322,30 +322,13 @@ export class DashboardComponent implements OnInit {
   }
 
   getRank(session){
-    // Returns new ranking along with +1 or -1 (or nothing if no change) based on previous stats
-    var rankString="", rankings, newRank, oldRank;
+    var rankings;
     if (session.player._id==this._id){
       rankings = session.result[0].split('-');
     } else { // (session.opponentPlayer._id==this._id)
       rankings = session.result[1].split('-');
     }
-    rankString=rankings[1];
-    if (rankString=="Beginner"){
-      if(rankings[0]=="Medium") rankString+=" (<b>-1</b>)";
-      else if (rankings[0]=="Advance") rankString+=" (<b>-2</b>)";
-      else rankString+=" (±0)";
-
-    } else if(rankString=="Medium"){
-      if(rankings[0]=="Beginner") rankString+=" (+1)";
-      else if (rankings[0]=="Advance") rankString+=" (<b>-1</b>)";
-      else rankString+=" (±0)";
-
-    } else { // Advance
-      if(rankings[0]=="Medium") rankString+=" (<b>+1</b>)";
-      else if (rankings[0]=="Beginner") rankString+=" (<b>+2</b>)";
-      else rankString+=" (±0)";
-    }
-    return rankString;
+    return rankings[1];
   }
 
   ngOnInit() {
