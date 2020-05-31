@@ -601,13 +601,30 @@ module.exports = (router => {
         })
     })
 
+    router.post('/shownnotification', (req, res) => {
+        console.log(req.body);
+        Notification.findOne({_id: req.body.ID}).select('sender receiver header message time').exec((err, notification) => {
+            if (err) res.json({success: false, message: "Couldn't find the notification!" + err});
+            else {
+                console.log(notification);
+                var newNotification = notification;
+                newNotification.shown = true;
+                Notification.findOneAndUpdate({_id: req.body.ID}, newNotification, function(err, doc) {
+                    if (err) console.log("Could not update notificaion!");
+                    else console.log("Notification shown!");
+                });
+            };
+        });
+    });
+
     router.post('/addnotification', (req, res) => {
         var notification = Notification({
             sender: req.body.sender,
             receiver: req.body.receiver,
             header: req.body.header,
             message: req.body.message,
-            time: req.body.time
+            time: req.body.time,
+            shown: false
         })
         notification.save((err) => {
             if(err) {
@@ -626,7 +643,6 @@ module.exports = (router => {
 
     router.get('/getnotifications', (req, res) => {
         Notification.find({}, function(err, notifications) {
-            // console.log(notifications);
             if (notifications.length == 0) {
                 res.json({success: false, message: "No new notifications!"});
             } else {

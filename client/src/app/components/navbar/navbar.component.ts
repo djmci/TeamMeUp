@@ -10,7 +10,9 @@ import { Router } from '@angular/router';
 export class NavbarComponent implements OnInit {
 
   constructor( public authService: AuthService, private router: Router) { }
-
+  notificationCount;
+  showTag = true;
+  dataRcvd:any = [];
   onLogoutClick() {
     console.log("HERE");
     this.authService.logout();
@@ -18,6 +20,14 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.authService.getNotifications().subscribe(data => {
+      this.dataRcvd = data;
+      this.notificationCount = this.dataRcvd.message.length;
+      if (this.notificationCount == 0) {
+        this.showTag = false;
+      }
+      console.log(this.notificationCount);
+    })
   }
 
 }

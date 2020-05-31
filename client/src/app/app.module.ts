@@ -2,7 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -27,6 +26,8 @@ import { SessionComponent } from './components/session/session.component';
 import { CreatesessionComponent } from './components/CRUD/createsession/createsession.component';
 import { UpdatesessionComponent } from './components/CRUD/updatesession/updatesession.component';
 import { PlayComponent } from './components/play/play.component';
+import { NotificationsComponent } from './components/notifications/notifications.component';
+import { GraphsComponent } from './components/graphs/graphs.component';
 
 
 @NgModule({
@@ -47,7 +48,9 @@ import { PlayComponent } from './components/play/play.component';
     SessionComponent,
     CreatesessionComponent,
     UpdatesessionComponent,
-    PlayComponent
+    PlayComponent,
+    NotificationsComponent,
+    GraphsComponent
 
   ],
   imports: [

@@ -154,6 +154,8 @@
 	<ng-container *ngIf="lastLogin"><h2>Welcome back, {{name}}!</h2>
 	<ng-container *ngIf="!attendenceMarked">Mark your attendence in Profile to start a new game!<br></ng-container>
 		<br>
+		<app-graphs></app-graphs>
+		
 		<h3>Your Matches</h3>
 		<br>
 		<table class="table">
@@ -186,7 +188,7 @@
 		  </tbody>
 		</table>
 	
-		Total Match Sessions: {{playerMatches.length}}
+		<!-- <b>Total Match Sessions: {{playerMatches.length}}</b> -->
 
 		<br><br>
 		<h3>Your Practice Sessions</h3>
@@ -219,7 +221,7 @@
 		  </tbody>
 		</table>
 	
-		Total Practice Sessions: {{playerPractices.length}}
+		<!-- Total Practice Sessions: {{playerPractices.length}} -->
 		<br><br><br>
 		
 		
@@ -277,7 +279,7 @@
 
 <ng-container *ngIf="isAdmin()">
 	<!-- CRUD Operations on Players and Coaches -->
-	<app-toasts></app-toasts>
+	<app-toasts><div class="fade"></div></app-toasts>
 	<p>
 	<h3>Players</h3>	
 	<button type="button" class="button is-black" (click)="createPlayer()"><b>Create‏‏‎ ‎‏‏‎ <div class="icon has-text-warning"><i class="fas fa-plus-circle"></i></div></b></button>‏‏‎
@@ -347,34 +349,3 @@
 
 </ng-container>
 
-
-<!-- <ng-container *ngIf="isAdmin()">
-	<h3>Coaches</h3>
-	<br><br>
-	<table class="table">
-	  <thead class="thead-light">
-		<tr>
-		  <th scope="col">#</th>
-		  <th scope="col">Username</th>
-		  <th scope="col">Name</th>
-		  <th scope="col">Email</th>
-		  <th scope="col"></th>
-		</tr>
-	  </thead>
-	  <tbody>
-		<ng-container *ngFor="let coach of coaches;let i=index">
-			<tr>
-			<th scope="row">{{i+1}}</th>
-			<td>{{coaches[i].username}}</td>
-			<td>{{coaches[i].name}}</td>
-			<td>{{coaches[i].email}}</td>
-			<td>
-				<button type="button" class="btn btn-primary">View Details</button>‏‏‎ ‎‏‏‎ ‎
-				<button type="button" class="btn btn-primary" (click)="updateCoach(coach.username)">Update</button>‏‏‎ ‎‏‏‎ ‎
-				<button type="button" class="btn btn-danger" (click)="deleteCoach(coach.username)">Delete</button>
-			</td>
-			</tr>
-		</ng-container>
-	  </tbody>
-	</table>
-</ng-container> -->

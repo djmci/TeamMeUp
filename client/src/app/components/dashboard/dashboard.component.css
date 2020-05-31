@@ -220,3 +220,7 @@ cursor: pointer;
 .custom-checkbox .custom-control-input:focus ~ .custom-control-indicator {
   box-shadow: none !important; 
 }
+
+.fade {
+  transition-duration: 1s;
+}

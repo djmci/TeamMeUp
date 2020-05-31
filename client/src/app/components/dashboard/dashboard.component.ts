@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ToastService } from '../../services/toast.service';
 import { interval } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
+import Chart from 'chart.js';
 
 @Component({
   selector: 'app-dashboard',
@@ -58,6 +59,29 @@ export class DashboardComponent implements OnInit {
   playerPractices =[];
   playerMatches=[];
   notifications = new Set([]);
+
+  // chart colors
+  colors = ['#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
+
+  /* large line chart */
+  chLine = document.getElementById("chLine");
+  chartData = {
+    labels: ["S", "M", "T", "W", "T", "F", "S"],
+    datasets: [{
+      data: [589, 445, 483, 503, 689, 692, 634],
+      backgroundColor: 'transparent',
+      borderColor: this.colors[0],
+      borderWidth: 4,
+      pointBackgroundColor: this.colors[0]
+    },
+    {
+      data: [639, 465, 493, 478, 589, 632, 674],
+      backgroundColor: this.colors[3],
+      borderColor: this.colors[1],
+      borderWidth: 4,
+      pointBackgroundColor: this.colors[1]
+    }]
+  };
 
   constructor( private authService: AuthService, private router: Router, private toastService: ToastService) { }
 
@@ -328,7 +352,25 @@ export class DashboardComponent implements OnInit {
     } else { // (session.opponentPlayer._id==this._id)
       rankings = session.result[1].split('-');
     }
-    return rankings[1];
+
+    rankString=rankings[1];
+    if (rankString=="Beginner"){
+      if(rankings[0]=="Medium") rankString+=" (-1)";
+      else if (rankings[0]=="Advance") rankString+=" (-2)";
+      else rankString+=" (±0)";
+
+    } else if(rankString=="Medium"){
+      if(rankings[0]=="Beginner") rankString+=" (+1)";
+      else if (rankings[0]=="Advance") rankString+=" (-1)";
+      else rankString+=" (±0)";
+
+    } else { // Advance
+      if(rankings[0]=="Medium") rankString+=" (+1)";
+      else if (rankings[0]=="Beginner") rankString+=" (+2)";
+      else rankString+=" (±0)";
+    }
+    return rankString;
+
   }
 
   ngOnInit() {
@@ -419,7 +461,7 @@ export class DashboardComponent implements OnInit {
 
       if (this.role == 'player') {
         this.lastLogin = this.dataRcvd.message.lastLogin;
-        this.authService.getPlayer(this._id).subscribe(data => {
+        this.authService.getPlayer().subscribe(data => {
           this.dataRcvd=data;
           if(!this.dataRcvd.success){
             console.log("Player not found!");
@@ -520,21 +562,29 @@ export class DashboardComponent implements OnInit {
       }
     });
     
-      interval(5000).pipe(flatMap(() => this.authService.getNotifications())).subscribe(data => {
+    
+      interval(10000).pipe(flatMap(() => this.authService.getNotifications())).subscribe(data => {
         this.dataRcvd = data;
         if (!this.dataRcvd.success) {
-          console.log("Can't get notifications!");
+
         } else {
-          // console.log("Toast before: ", this.toastService.toasts);
           this.toastService.toasts.forEach(toast => {
             this.toastService.remove(toast);
           });
-          this.notifications = this.dataRcvd.message;
-          // console.log(this.notifications);
+          
+          this.notifications = new Set([]);
+          this.dataRcvd.message.forEach(Notification => {
+            if (!Notification.shown) this.notifications.add(Notification);
+          });
+          // console.log("old: ", this.notifications);
           this.notifications.forEach(notification => {
             this.showSuccess(notification.message, notification.header);
           });
-          // console.log("Toast After: ", this.toastService.toasts);
+          this.notifications.forEach(Notification => {
+            this.authService.showNotification(Notification._id).subscribe(data => {
+              console.log(data);
+            })
+          });
         }
     });
   }

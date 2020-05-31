@@ -33,7 +33,7 @@ export class AuthService {
     return this.http.post(this.backendServer +"/api/login", user).pipe(map(res => res));
   }
 
-  getPlayer(id) {
+  getPlayer() {
     this.loadToken();
     // console.log(username);
     let appHeaders = new HttpHeaders({
@@ -320,5 +320,13 @@ export class AuthService {
       'Authorization': this.authToken,
     });
     return this.http.get(this.backendServer + '/api/getnotifications', {headers: appHeaders}).pipe(map(res => res));
+  }
+  showNotification(ID) {
+    this.loadToken();
+    let appHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.authToken,
+    });
+    return this.http.post(this.backendServer + '/api/shownnotification', {ID}, {headers:appHeaders}).pipe(map(res => res));
   }
 }

@@ -102,7 +102,7 @@ export class PlayComponent implements OnInit {
       }
     });
 
-    this.authService.getPlayer(this._id).subscribe(data =>{
+    this.authService.getPlayer().subscribe(data =>{
       this.dataRcvd=data;
       if (!this.dataRcvd.success) console.log("Error getting player");
       else {
