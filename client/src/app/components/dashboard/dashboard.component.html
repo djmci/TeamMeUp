@@ -1,5 +1,5 @@
 <div class="box" style=" text-align:center; font-weight:1; background-color: black; color: white; border-top-left-radius: 0%; border-top-right-radius: 0%; font-size:xx-large;">DASHBOARD
-	<ng-container *ngIf="isPlayer() && lastLogin">
+	<ng-container *ngIf="isPlayer() && lastLogin && attendenceMarked">
 		<br>
 		<ng-container *ngFor="let interest of interestNames">
 			<button type="button" class="button is-primary" (click)="play(interest)" style="margin-top:10px;width:24%;font-weight:bold;">Play {{interest}}</button>‏‏‎
@@ -152,7 +152,7 @@
 	</ng-container>
 
 	<ng-container *ngIf="lastLogin"><h2>Welcome back, {{name}}!</h2>
-
+	<ng-container *ngIf="!attendenceMarked">Mark your attendence in Profile to start a new game!<br></ng-container>
 		<br>
 		<h3>Your Matches</h3>
 		<br>
@@ -220,7 +220,7 @@
 		</table>
 	
 		Total Practice Sessions: {{playerPractices.length}}
-
+		<br><br><br>
 		
 		
 	</ng-container>
