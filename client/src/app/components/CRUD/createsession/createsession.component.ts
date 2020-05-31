@@ -82,6 +82,7 @@ export class CreatesessionComponent implements OnInit {
   ngOnInit() {
     // Player
     this.authService.getProfile().subscribe(data =>{
+      this.dataRcvd=data;
       if (!this.dataRcvd.success) console.log("Error getting profile");
       else {
         this.role=this.dataRcvd.message.role;

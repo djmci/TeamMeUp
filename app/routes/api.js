@@ -359,7 +359,7 @@ module.exports = (router => {
         console.log('api/getplayer')
         console.log(req.body);
         console.log(req.result.userId);
-        Player.findOne({ _id: req.result.userId }).select('_id username email role name playerRanking opponentRanking Interests').exec((err, player) => {
+        Player.findOne({ _id: req.result.userId }).select('_id username email role name playerRanking opponentRanking Interests attendenceMarked').exec((err, player) => {
             console.log(player);
             if (err) res.json({success: false, message: "Couldn't find selected fields! " + err});
             else res.json({success: true, message: player});
@@ -483,6 +483,23 @@ module.exports = (router => {
         })
     })
 
+    // router.get("/getonlineinterestedplayers", (req, res) => {
+    //     // console.log("Getting all online players!");
+    //     console.log(req.body);
+    //     Player.find({}, function(err, players) {
+    //         var onlinePlayers = [];
+    //         players.forEach(element => {
+    //             if (element.attendenceMarked) {
+    //                 onlinePlayers.push(element);
+    //             }
+    //         });
+    //         console.log(onlinePlayers);
+    //         if (onlinePlayers.length == 0) {
+    //             res.json({success: false, message: "No player online!"});
+    //         } else res.json({success: true, message: onlinePlayers});
+    //     })
+    // })
+
     router.get("/getonlinecoaches", (req, res) => {
         console.log("Getting all online coaches!");
         Coach.find({}, function(err, coaches) {
@@ -519,6 +536,7 @@ module.exports = (router => {
             type: type,
             evaluator: req.body.evaluator
         });
+        console.log(session);
         session.save((err) => {
             if(err) {
                 res.json({ success: false, message: "Could not save session! Error: " + err });

@@ -39,6 +39,7 @@ export class DashboardComponent implements OnInit {
   name;
   _id;
   interestNames;
+  attendenceMarked;
 
   weekdays = [
   {"name": "Monday", "status": false, "checked": 0, time: {hour: 13, minute: 30}},
@@ -315,10 +316,9 @@ export class DashboardComponent implements OnInit {
   }
 
   play(game){
-    console.log("Playing", game);
-    // setTimeout(() => {
-    //   this.router.navigate(['/play', game]);
-    // }, 0);
+    setTimeout(() => {
+      this.router.navigate(['/play', game]);
+    }, 0);
   }
 
   getRank(session){
@@ -442,6 +442,7 @@ export class DashboardComponent implements OnInit {
             console.log("Player not found!");
           } else {
             this.Interests=this.dataRcvd.message.Interests;
+            this.attendenceMarked=this.dataRcvd.message.attendenceMarked;
             this.interestNames=this.interestGames();
             console.log(this.Interests);
             // console.log("Got current player!");

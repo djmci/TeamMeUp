@@ -26,6 +26,7 @@ import { FormModalComponent } from './components/form-modal/form-modal.component
 import { SessionComponent } from './components/session/session.component';
 import { CreatesessionComponent } from './components/CRUD/createsession/createsession.component';
 import { UpdatesessionComponent } from './components/CRUD/updatesession/updatesession.component';
+import { PlayComponent } from './components/play/play.component';
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import { UpdatesessionComponent } from './components/CRUD/updatesession/updatese
     FormModalComponent,
     SessionComponent,
     CreatesessionComponent,
-    UpdatesessionComponent
+    UpdatesessionComponent,
+    PlayComponent
 
   ],
   imports: [

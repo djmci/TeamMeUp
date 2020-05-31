@@ -231,6 +231,15 @@ export class AuthService {
     return this.http.get(this.backendServer + "/api/getonlineplayers", {headers: appHeaders}).pipe(map(res => res));
   }
 
+  // getOnlineInterestedPlayers() {
+  //   this.loadToken();
+  //   let appHeaders = new HttpHeaders({
+  //     'Content-Type': 'application/json',
+  //     'Authorization': this.authToken  
+  //   });
+  //   return this.http.get(this.backendServer + "/api/getonlineinterestedplayers", {headers: appHeaders}).pipe(map(res => res));
+  // }
+
   getOnlineCoaches() {
     this.loadToken();
     let appHeaders = new HttpHeaders({
@@ -251,7 +260,7 @@ export class AuthService {
 
   createSession(player, opponent, game, court, evaluator) {
     this.loadToken();
-    console.log(evaluator);
+    console.log(player, opponent, game, court, evaluator);
     let appHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': this.authToken
