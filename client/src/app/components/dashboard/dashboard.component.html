@@ -229,7 +229,7 @@
 </ng-container>
 
 <ng-container *ngIf="isCoach()">
-	<h4>Welcome back, Coach!</h4>
+	<h2>Welcome back, Coach {{name}}!</h2>
 
 	<div class="row show-hide-message">
 		<div [ngClass]="messageClassSession">
@@ -237,38 +237,43 @@
 		</div>
 	</div>
 	
-	<h3>Sessions for Coach {{name}}</h3>
-	<br>
-	<table class="table">
-	  <thead class="thead-light">
-		<tr>
-		  <th scope="col">#</th>
-		  <th scope="col">Type</th>
-		  <th scope="col">Player</th>
-		  <th scope="col">Opponent</th>
-		  <th scope="col">Game</th>
-		  <!-- <th scope="col">Evaluator</th> -->
-		  <th scope="col">Venue</th>
-		  <th scope="col"></th>
-		</tr>
-	  </thead>
-	  <tbody>
-		<ng-container *ngFor="let session of coachSessions; let i=index">
+	<h3>Sessions‏‏‎ ‎‏‏‎ ‎
+		<button class="button is-primary" style="font-weight:bold" type="button" data-toggle="collapse" data-target="#coachsessionstable" aria-expanded="false" aria-controls="coachsessionstable">
+			Show/Hide
+		</button>
+	</h3>
+	<div class="collapse show" id="coachsessionstable">
+		<table class="table">
+		<thead class="thead-light">
 			<tr>
-			<th scope="row">{{i+1}}</th>
-			<td>{{session.type}}</td>
-			<td>{{session.player.username}}</td>
-			<td>{{session.oppPlayer?session.opponentPlayer.username:session.opponentCoach.username}}</td>
-			<td>{{session.game}}</td>
-			<!-- <td>{{session.evaluatorUsername}}</td> -->
-			<td>{{session.court}}</td>
-			<td>
-				<button [disabled]="!session.status" type="button" [ngClass]="session.status?'btn btn-warning':'btn btn-success'" (click)="evaluateSession(session._id)">Evaluate</button>
-			‏‏‎</td>
+			<th scope="col">#</th>
+			<th scope="col">Type</th>
+			<th scope="col">Player</th>
+			<th scope="col">Opponent</th>
+			<th scope="col">Game</th>
+			<!-- <th scope="col">Evaluator</th> -->
+			<th scope="col">Venue</th>
+			<th scope="col"></th>
 			</tr>
-		</ng-container>
-	  </tbody>
-	</table>
+		</thead>
+		<tbody>
+			<ng-container *ngFor="let session of coachSessions; let i=index">
+				<tr>
+				<th scope="row">{{i+1}}</th>
+				<td>{{session.type}}</td>
+				<td>{{session.player.username}}</td>
+				<td>{{session.oppPlayer?session.opponentPlayer.username:session.opponentCoach.username}}</td>
+				<td>{{session.game}}</td>
+				<!-- <td>{{session.evaluatorUsername}}</td> -->
+				<td>{{session.court}}</td>
+				<td>
+					<button [disabled]="!session.status" type="button" [ngClass]="session.status?'btn btn-warning':'btn btn-success'" (click)="evaluateSession(session._id)">Evaluate</button>
+				‏‏‎</td>
+				</tr>
+			</ng-container>
+		</tbody>
+		</table>
+	</div>
 	<!-- JustCoachThings -->
 </ng-container>
 
@@ -279,64 +284,68 @@
 	<h3>Players</h3>	
 	<button type="button" class="button is-black" (click)="createPlayer()"><b>Create‏‏‎ ‎‏‏‎ <div class="icon has-text-warning"><i class="fas fa-plus-circle"></i></div></b></button>‏‏‎
 	<br> ‎‏‏‎ ‎
-	<table class="table">
-	<thead class="thead-light">
-		<tr>
-		<th scope="col">#</th>
-		<th scope="col">Username</th>
-		<th scope="col">Name</th>
-		<th scope="col">Email</th>
-		<th scope="col"></th>
-		</tr>
-	</thead>
-	<tbody>
-		<ng-container *ngFor="let player of players; let i=index">
+	<div class="card mb-5">
+		<table class="table">
+		<thead class="thead-light">
 			<tr>
-			<th scope="row">{{i+1}}</th>
-			<td>{{player.username}}</td>
-			<td>{{player.name}}</td>
-			<td>{{player.email}}</td>
-			<td>
-				<!-- <button type="button" class="btn btn-primary">View Details</button>‏‏‎ ‎‏‏‎ ‎ -->
-				<button type="button" class="button is-primary" (click)="updatePlayer(player.username)"><b>Edit‏‏‎ ‎‏‏‎ <div class="icon"><i class="fas fa-pen"></i></div></b></button>‏‏‎ ‎‏‏‎ ‎
-				<button type="button" class="button is-danger" (click)="deletePlayer(player.username)"><b>Remove ‎‏‏‎ <div class="icon"><i class="fas fa-minus-circle"></i></div>  </b></button>
-			</td>
+			<th scope="col" style="width:5%">#</th>
+			<th scope="col" style="width:15%">Username</th>
+			<th scope="col" style="width:15%">Name</th>
+			<th scope="col" style="width:25%">Email</th>
+			<th scope="col" style="width:20%"></th>
 			</tr>
-		</ng-container>
-	</tbody>
-	</table>
+		</thead>
+		<tbody>
+			<ng-container *ngFor="let player of players; let i=index">
+				<tr>
+				<th scope="row">{{i+1}}</th>
+				<td>{{player.username}}</td>
+				<td>{{player.name}}</td>
+				<td>{{player.email}}</td>
+				<td>
+					<!-- <button type="button" class="btn btn-primary">View Details</button>‏‏‎ ‎‏‏‎ ‎ -->
+					<button type="button" class="button is-primary" (click)="updatePlayer(player.username)"><b>Edit‏‏‎ ‎‏‏‎ <div class="icon"><i class="fas fa-pen"></i></div></b></button>‏‏‎ ‎‏‏‎ ‎
+					<button type="button" class="button is-danger" (click)="deletePlayer(player.username)"><b>Remove ‎‏‏‎ <div class="icon"><i class="fas fa-minus-circle"></i></div>  </b></button>
+				</td>
+				</tr>
+			</ng-container>
+		</tbody>
+		</table>
+	</div>
 
 	<p>
 	<h3>Coaches</h3>	
 	<button type="button" class="button is-black" (click)="createCoach()"><b>Create‏‏‎ ‎‏‏‎ <div class="icon has-text-warning"><i class="fas fa-plus-circle"></i></div></b></button>‏‏‎ ‎‏‏‎   
 	<br><br>
-	<table class="table">
-	  <thead class="thead-light">
-		<tr>
-		  <th scope="col">#</th>
-		  <th scope="col">Username</th>
-		  <th scope="col">Name</th>
-		  <th scope="col">Email</th>
-		  <th scope="col"></th>
-		</tr>
-	  </thead>
-	  <tbody>
-		<ng-container *ngFor="let coach of coaches;let i=index">
+	<div class="card mb-5">
+		<table class="table">
+		<thead class="thead-light">
 			<tr>
-			<th scope="row">{{i+1}}</th>
-			<td>{{coaches[i].username}}</td>
-			<td>{{coaches[i].name}}</td>
-			<td>{{coaches[i].email}}</td>
-			<td>
-				<!-- <button type="button" class="btn btn-primary">View Details</button>‏‏‎ ‎‏‏‎ ‎ -->
-				<button type="button" class="button is-primary" (click)="updateCoach(coach.username)"><b>Edit‏‏‎ ‎‏‏‎ <div class="icon"><i class="fas fa-pen"></i></div></b></button>‏‏‎ ‎‏‏‎ ‎
-				<button type="button" class="button is-danger" (click)="deleteCoach(coach.username)"><b>Remove ‎‏‏‎ <div class="icon"><i class="fas fa-minus-circle"></i></div></b></button>
-			</td>
+				<th scope="col" style="width:5%">#</th>
+				<th scope="col" style="width:15%">Username</th>
+				<th scope="col" style="width:15%">Name</th>
+				<th scope="col" style="width:25%">Email</th>
+				<th scope="col" style="width:20%"></th>
 			</tr>
-		</ng-container>
-	  </tbody>
-	</table>
-
+		</thead>
+		<tbody>
+			<ng-container *ngFor="let coach of coaches;let i=index">
+				<tr>
+				<th scope="row">{{i+1}}</th>
+				<td>{{coaches[i].username}}</td>
+				<td>{{coaches[i].name}}</td>
+				<td>{{coaches[i].email}}</td>
+				<td>
+					<!-- <button type="button" class="btn btn-primary">View Details</button>‏‏‎ ‎‏‏‎ ‎ -->
+					<button type="button" class="button is-primary" (click)="updateCoach(coach.username)"><b>Edit‏‏‎ ‎‏‏‎ <div class="icon"><i class="fas fa-pen"></i></div></b></button>‏‏‎ ‎‏‏‎ ‎
+					<button type="button" class="button is-danger" (click)="deleteCoach(coach.username)"><b>Remove ‎‏‏‎ <div class="icon"><i class="fas fa-minus-circle"></i></div></b></button>
+				</td>
+				</tr>
+			</ng-container>
+		</tbody>
+		</table>
+	</div>
+	<br><br>
 
 </ng-container>
 

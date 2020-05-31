@@ -36,6 +36,12 @@ export class PlayComponent implements OnInit {
     return false;
   }
 
+  returnToDashboard(){
+    setTimeout(() => {
+      this.router.navigate(['/dashboard']);
+    }, 0);
+  }
+
   initiateGame() {
     console.log("Initiating Game");
     console.log(this.selectedOpponent);
