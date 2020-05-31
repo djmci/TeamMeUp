@@ -2,5 +2,5 @@
 ## A MEAN Stack web application for teaming players and recording their activities.
 
 <p align="center">
-  <img width="1000" height="208" src="https://i.imgur.com/Stc9QkY.png">
+  <img width="500" height="140" src="https://i.imgur.com/U1eAl5n.png">
 </p>
