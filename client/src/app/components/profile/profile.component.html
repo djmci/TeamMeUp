@@ -136,17 +136,19 @@
               <h6>{{ interest.level }}</h6>
             </td>
             <td>
+              <div class="select is-rounded is-primary">
                 <select name="priority" class="select-css2" (change)="selectPriority(interest.name, $event)">
                   <option value="low">Low</option>
                   <option value="medium">Medium</option>
                   <option value="high">High</option>
                 </select>
+              </div>
             </td>
           </tr>
         </tbody>
       </ng-container>
       </table>
-      <input type="submit" class="btn btn-primary" value="Submit" (click)="savePriorities()"/>
+      <input type="submit" class="button is-primary" value="Submit" (click)="savePriorities()"/>
     </div>
 
     <ng-container *ngIf="attendence">
@@ -240,3 +242,24 @@
 		</tbody>
 		</table>
 </ng-container>
+
+<div class="container is-fluid">
+    
+  <footer class="footer"><div class="container">
+      <div class="level">
+        <div class="level-left">
+          <div class="level-item"><a class="title is-4" href="#"><img src="assets/images/teammeup-black.png" alt="TeamMeUp" width="200"></a></div>
+        </div>
+        <div class="level-right">Made Using:&nbsp;&nbsp;<a class="level-item" href="https://bulma.io/">Bulma</a><a class="level-item" href="https://unsplash.com/">Unsplash</a><a class="level-item" href="https://github.com/">Github</a><a class="level-item" href="http://freepik.com/">FreePik</a></div>
+      </div>
+      <hr><div class="columns">
+        <div class="column">
+          <div class="buttons"><a class="button" href="https://github.com/FaiqIftikhar/sports-club-web-app">&nbsp;Code&nbsp;<i class="fas fa-code"></i></a></div>
+        </div>
+        <div class="column has-text-centered has-text-right-tablet">
+          <p class="subtitle is-6">&copy; 2020 TeamMeUp. All right reserved.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>

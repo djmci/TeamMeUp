@@ -16,9 +16,11 @@ import { CreatesessionComponent } from './components/CRUD/createsession/createse
 import { UpdatesessionComponent } from './components/CRUD/updatesession/updatesession.component';
 import { PlayComponent } from './components/play/play.component';
 import { NotificationsComponent } from './components/notifications/notifications.component';
+import { AboutComponent } from './components/about/about.component';
+import { StatsComponent } from './components/stats/stats.component';
  
 const routes: Routes = [
-    { path: '', component: HomeComponent },
+    { path: '', component: HomeComponent},
     { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
     { path: 'register', component: RegisterComponent, canActivate: [NotAuthGuard] },
     { path: 'login', component: LoginComponent, canActivate: [NotAuthGuard] },
@@ -32,6 +34,8 @@ const routes: Routes = [
     { path: 'updatesession/:sessionId', component: UpdatesessionComponent, canActivate: [AuthGuard]},
     { path: 'play/:game', component: PlayComponent, canActivate: [AuthGuard]},
     { path: 'notifications', component: NotificationsComponent, canActivate: [AuthGuard]},
+    { path: 'about', component: AboutComponent},
+    { path: 'statistics', component: StatsComponent, canActivate: [AuthGuard]},
     { path: '**', component: HomeComponent }
 ];
 

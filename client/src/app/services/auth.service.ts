@@ -184,6 +184,11 @@ export class AuthService {
     if ("admin".localeCompare(this.role) == 0) return true;
     return false;
   }
+  isPlayer() {
+    this.loadToken();
+    if ("player".localeCompare(this.role) == 0) return true;
+    return false;
+  }
 
   deletePlayer(username){
     var token = this.loadToken();

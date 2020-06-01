@@ -21,7 +21,7 @@
 			<div class="card-block p-0">
 			<table class="table table-bordered table-sm m-0">
 				
-				<thead class="">
+				<thead class="thead-light">
 					<tr>
 						<th>Select</th>
 						<th>Day</th>
@@ -51,6 +51,52 @@
 			</table>
 			<br>
 
+			<br>
+			<div class="card mb-5">
+	
+				<h5 style="text-align: center;">Select your interests!</h5>
+				<div class="card-block p-0">
+				<table class="table table-bordered table-sm m-0">
+					
+					<thead class="thead-light	">
+						<tr>
+							<th>Select</th>
+							<th>Name</th>
+							<th>Level</th>
+						</tr>
+					</thead>
+					<ng-container *ngFor="let game of games;">
+					<tbody>
+						<tr>
+							<td>
+								<label class="custom-control custom-checkbox">
+									<input type="checkbox" class="custom-control-input" (change)="selectGame(game.name)">
+									<span class="custom-control-indicator"></span>
+								</label>
+							</td>
+							<td>
+								<h6>{{game.name}}</h6>
+							</td>
+							<td>
+								<ng-container *ngIf="game.status">
+									<div class="select is-rounded is-primary">
+									<select name="difficulty" (change)="selectLevel(game.name, $event)">
+										<option value=-1>Select a Level!</option>
+										<option value="beginner">Beginner</option>
+										<option value="medium">Medium</option>
+										<option value="advance">Advance</option>
+									</select>
+								</div>
+								</ng-container>
+							</td>
+						</tr>
+					</tbody>
+				</ng-container>
+				</table>
+				</div>
+</div>
+				<br>
+				
 			<div class="outer">
 				<div class="col-md-4">
 					<form>
@@ -100,50 +146,8 @@
 					</form>
 				</div>
 			</div>
-			<br>
-			<div class="card mb-5">
-	
-				<h5 style="text-align: center;">Select your interests!</h5>
-				<div class="card-block p-0">
-				<table class="table table-bordered table-sm m-0">
-					
-					<thead class="">
-						<tr>
-							<th>Select</th>
-							<th>Name</th>
-							<th>Level</th>
-						</tr>
-					</thead>
-					<ng-container *ngFor="let game of games;">
-					<tbody>
-						<tr>
-							<td>
-								<label class="custom-control custom-checkbox">
-									<input type="checkbox" class="custom-control-input" (change)="selectGame(game.name)">
-									<span class="custom-control-indicator"></span>
-								</label>
-							</td>
-							<td>
-								<h6>{{game.name}}</h6>
-							</td>
-							<td>
-								<ng-container *ngIf="game.status">
-									<select name="difficulty" (change)="selectLevel(game.name, $event)">
-										<option value=-1>Select a Level!</option>
-										<option value="beginner">Beginner</option>
-										<option value="medium">Medium</option>
-										<option value="advance">Advance</option>
-									</select>
-								</ng-container>
-							</td>
-						</tr>
-					</tbody>
-				</ng-container>
-				</table>
-				</div>
-			</div>
 
-			<input [disabled]="!selectSchedule || !selectPlayerRanking || !selectOpponentRanking || !selectInterests" type="submit" class="btn btn-primary" value="Submit" (click)="saveSchedule()"/>
+			<input [disabled]="!selectSchedule || !selectPlayerRanking || !selectOpponentRanking || !selectInterests" type="submit" class="button is-primary" value="Submit" (click)="saveSchedule()"/>
 
 			<br>
 			<br>
@@ -154,10 +158,14 @@
 	<ng-container *ngIf="lastLogin"><h2>Welcome back, {{name}}!</h2>
 	<ng-container *ngIf="!attendenceMarked">Mark your attendence in Profile to start a new game!<br></ng-container>
 		<br>
-		<app-graphs></app-graphs>
 		
-		<h3>Your Matches</h3>
-		<br>
+		<app-graphs></app-graphs>
+		<h3>Your Matches
+			<button class="button is-primary" style="font-weight:bold" type="button" data-toggle="collapse" data-target="#playerMatches" aria-expanded="false" aria-controls="playerMatches">
+				Show/Hide
+			</button>
+		</h3>
+		<div class="collapse" id="playerMatches">
 		<table class="table">
 		  <thead class="thead-light">
 			<tr>
@@ -187,12 +195,16 @@
 			</ng-container>
 		  </tbody>
 		</table>
-	
+	</div>
 		<!-- <b>Total Match Sessions: {{playerMatches.length}}</b> -->
 
 		<br><br>
-		<h3>Your Practice Sessions</h3>
-		<br>
+		<h3>Your Practice Sessions
+			<button class="button is-primary" style="font-weight:bold" type="button" data-toggle="collapse" data-target="#playerSessions" aria-expanded="false" aria-controls="playerSessions">
+				Show/Hide
+			</button>
+			</h3>
+		<div class="collapse" id="playerSessions">
 		<table class="table">
 		  <thead class="thead-light">
 			<tr>
@@ -220,7 +232,9 @@
 			</ng-container>
 		  </tbody>
 		</table>
-	
+		</div>
+		<br>
+		
 		<!-- Total Practice Sessions: {{playerPractices.length}} -->
 		<br><br><br>
 		
@@ -279,7 +293,7 @@
 
 <ng-container *ngIf="isAdmin()">
 	<!-- CRUD Operations on Players and Coaches -->
-	<app-toasts><div class="fade"></div></app-toasts>
+	<app-toasts></app-toasts>
 	<p>
 	<h3>Players</h3>	
 	<button type="button" class="button is-black" (click)="createPlayer()"><b>Create‏‏‎ ‎‏‏‎ <div class="icon has-text-warning"><i class="fas fa-plus-circle"></i></div></b></button>‏‏‎
@@ -349,3 +363,23 @@
 
 </ng-container>
 
+<div class="container is-fluid">
+    
+	<footer class="footer"><div class="container">
+		<div class="level">
+		  <div class="level-left">
+			<div class="level-item"><a class="title is-4" href="#"><img src="assets/images/teammeup-black.png" alt="TeamMeUp" width="200"></a></div>
+		  </div>
+		  <div class="level-right">Made Using:&nbsp;&nbsp;<a class="level-item" href="https://bulma.io/">Bulma</a><a class="level-item" href="https://unsplash.com/">Unsplash</a><a class="level-item" href="https://github.com/">Github</a><a class="level-item" href="http://freepik.com/">FreePik</a></div>
+		</div>
+		<hr><div class="columns">
+		  <div class="column">
+			<div class="buttons"><a class="button" href="https://github.com/FaiqIftikhar/sports-club-web-app">&nbsp;Code&nbsp;<i class="fas fa-code"></i></a></div>
+		  </div>
+		  <div class="column has-text-centered has-text-right-tablet">
+			<p class="subtitle is-6">&copy; 2020 TeamMeUp. All right reserved.</p>
+		  </div>
+		</div>
+	  </div>
+	</footer>
+  </div>

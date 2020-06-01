@@ -353,7 +353,7 @@ export class DashboardComponent implements OnInit {
       rankings = session.result[1].split('-');
     }
 
-    rankString=rankings[1];
+    var rankString=rankings[1];
     if (rankString=="Beginner"){
       if(rankings[0]=="Medium") rankString+=" (-1)";
       else if (rankings[0]=="Advance") rankString+=" (-2)";
@@ -560,6 +560,7 @@ export class DashboardComponent implements OnInit {
           this.games.push({name: this.dataRcvd.message[index].name, status: false, checked: 0});
         }
       }
+      console.log("gameS:", this.games);
     });
     
     

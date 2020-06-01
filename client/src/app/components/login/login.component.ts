@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { AuthGuard } from '../../guard/auth.guard';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -21,8 +22,24 @@ export class LoginComponent implements OnInit {
 
 
 
-    constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router, private authGuard: AuthGuard ) {
+    constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router, private authGuard: AuthGuard, private toastService: ToastService) {
         this.createForm();
+    }
+    showSuccess(message, header) {
+      this.toastService.show(message, {
+        classname: 'bg-success text-light',
+        delay: 1000,
+        autohide: true,
+        headertext: header
+      });
+    }
+    showError(message, header) {
+      this.toastService.show(message, {
+        classname: 'bg-danger text-light',
+        delay: 5000 ,
+        autohide: true,
+        headertext: header
+      });
     }
 
     createForm() {
@@ -56,13 +73,11 @@ export class LoginComponent implements OnInit {
           this.dataRcvd = data;
           console.log(this.dataRcvd);
           if (!this.dataRcvd.success) {
-            this.messageClass = 'message-header is-danger';
-            this.message = this.dataRcvd.message;
+            this.showError(String(this.dataRcvd.message), 'Sign in Failed!');
             this.processing = false;
             this.enableForm();
           } else {
-            this.messageClass = 'message-header is-primary';
-            this.message = this.dataRcvd.message;
+          this.showSuccess("Welcome " + String(this.dataRcvd.user.username) + "!", 'Success!');
             this.authService.storeUserData(this.dataRcvd.token, this.dataRcvd.user, this.Role);
             setTimeout(() => {
               if(this.prevUrl) this.router.navigate([this.prevUrl]);

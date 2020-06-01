@@ -28,6 +28,8 @@ import { UpdatesessionComponent } from './components/CRUD/updatesession/updatese
 import { PlayComponent } from './components/play/play.component';
 import { NotificationsComponent } from './components/notifications/notifications.component';
 import { GraphsComponent } from './components/graphs/graphs.component';
+import { AboutComponent } from './components/about/about.component';
+import { StatsComponent } from './components/stats/stats.component';
 
 
 @NgModule({
@@ -50,7 +52,9 @@ import { GraphsComponent } from './components/graphs/graphs.component';
     UpdatesessionComponent,
     PlayComponent,
     NotificationsComponent,
-    GraphsComponent
+    GraphsComponent,
+    AboutComponent,
+    StatsComponent
 
   ],
   imports: [
