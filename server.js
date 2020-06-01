@@ -14,7 +14,7 @@ const api = require('./app/routes/api')(router);
 require("./app/models/player");
 require("./app/config/auth"); 
 
-var port  = process.env.port || 3000;   //port we would be listening on, first argument is for deployment tools will come back to it later...
+var port  = process.env.port || 8080;   //port we would be listening on, first argument is for deployment tools will come back to it later...
 
 app.use(cors({ origin: 'http://localhost:4200' }));
 app.use(morgan('dev'));
