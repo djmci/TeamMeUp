@@ -120,7 +120,7 @@ var coachSchema = new Schema({
     password: { type: String, required: true, validate: passwordValidators },
     role: { type: String, required: true, default: 'coach' },
     players: [ {type: Schema.Types.ObjectId, ref: 'playerSchema' }],
-    status: { type: Boolean, default: true }
+    status: { type: Boolean, default: false }
 });
 
 coachSchema.pre('save', function(next) {

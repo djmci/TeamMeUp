@@ -204,37 +204,35 @@ export class RegisterComponent implements OnInit {
           console.log(data);
       });
       console.log("Coach Created");
-    } else {
-      this.messageClass = 'alert alert-danger';
-      this.message = "Invalid Role!";
-      // const admin = {
-      //   email: this.form.get('email').value,
-      //   username: this.form.get('username').value,
-      //   password: this.form.get('password').value,
-      //   role: this.userRole,
-      //   name: this.form.get('name').value
-      // }
-      // // console.log(admin);
-      // this.authService.registerAdmin(admin).subscribe(data => {
-      //     this.dataRcvd = data;
-      //     this.processing = true;
-      //     this.roleSelect = true;
-      //     this.disableForm();
-      //     if(!this.dataRcvd.success) {
-      //         this.messageClass = 'alert alert-danger';
-      //         this.message = this.dataRcvd.message;
-      //         this.processing = false;
-      //         this.enableForm();
-      //     } else {
-      //         this.messageClass = 'alert alert-success';
-      //         this.message = this.dataRcvd.message;
-      //         setTimeout(() => {
-      //             this.router.navigate(['/dashboard']);
-      //         }, 1000);
-      //     }
-      //     console.log(data);
-      // });
-      // console.log("Admin Created");
+    } else if (this.userRole=='admin') {
+      const admin = {
+        email: this.form.get('email').value,
+        username: this.form.get('username').value,
+        password: this.form.get('password').value,
+        role: this.userRole,
+        name: this.form.get('name').value
+      }
+      // console.log(admin);
+      this.authService.registerAdmin(admin).subscribe(data => {
+          this.dataRcvd = data;
+          this.processing = true;
+          this.roleSelect = true;
+          this.disableForm();
+          if(!this.dataRcvd.success) {
+              this.messageClass = 'alert alert-danger';
+              this.message = this.dataRcvd.message;
+              this.processing = false;
+              this.enableForm();
+          } else {
+              this.messageClass = 'alert alert-success';
+              this.message = this.dataRcvd.message;
+              setTimeout(() => {
+                  this.router.navigate(['/dashboard']);
+              }, 1000);
+          }
+          console.log(data);
+      });
+      console.log("Admin Created");
     }
   };
   selectRole(val) {
