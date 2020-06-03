@@ -100,7 +100,7 @@ export class DashboardComponent implements OnInit {
   showSuccess(message, header) {
     this.toastService.show(message, {
       classname: 'bg-success text-light',
-      delay: 60000,
+      delay: 5000,
       autohide: true,
       headertext: header
     });
@@ -108,7 +108,7 @@ export class DashboardComponent implements OnInit {
   showError(message, header) {
     this.toastService.show(message, {
       classname: 'bg-danger text-light',
-      delay: 60000 ,
+      delay: 5000 ,
       autohide: true,
       headertext: header
     });
