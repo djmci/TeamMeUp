@@ -48,11 +48,11 @@ db.once('open', function() {
 })
 
 if (process.env.NODE_ENV === 'production') {
-	app.use(express.static('client/dist/client'));
+	app.use(express.static('client/dist'));
 }
 
 app.get('*', (request, response) => {
-	response.sendFile(path.join(__dirname, 'client/src', 'index.html'));
+	response.sendFile(path.join(__dirname, 'client/dist', 'index.html'));
 });
 
 app.listen(port, function() {
