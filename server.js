@@ -46,12 +46,13 @@ db.once('open', function() {
     });
 
 })
-app.get('', function(req, res) {
-    res.sendFile(path.join(__dirname, 'src', 'index.html'));
-});
 
-app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname, 'src', 'index.html'));
+if (process.env.NODE_ENV === 'production') {
+	app.use(express.static('client/dist/client'));
+}
+
+app.get('*', (request, response) => {
+	response.sendFile(path.join(__dirname, 'client/dist/client', 'index.html'));
 });
 
 app.listen(port, function() {
