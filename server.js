@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
+const path = require('path');
 const router = express.Router();
 const bodyParser = require('body-parser');
 const config = require('./config/database');
@@ -14,7 +15,7 @@ const api = require('./app/routes/api')(router);
 require("./app/models/player");
 require("./app/config/auth"); 
 
-var port  = process.env.port || 3000;   //port we would be listening on, first argument is for deployment tools will come back to it later...
+var port = process.env.PORT || 8080;   //port we would be listening on, first argument is for deployment tools will come back to it later...
 
 app.use(cors({ origin: 'http://localhost:4200' }));
 app.use(morgan('dev'));
@@ -46,6 +47,17 @@ db.once('open', function() {
     });
 
 })
+
+app.use(express.static(path.join(__dirname, 'public/client')));
+
+app.get('/', (req, res) => {
+    res.send('Invalud Endpoint!');
+})
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public/client/index.html'))
+})
+
 
 app.listen(port, function() {
     console.log("Server running on " + port);
