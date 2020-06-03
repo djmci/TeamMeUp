@@ -8,7 +8,7 @@
 
 <br>
 
-<ng-container *ngIf="players.length>0; else elseblock">
+<ng-container *ngIf="players.length>0">
     <h4>Select Opponent:</h4>
     <table class="table">
         <thead class="thead-light">
@@ -70,7 +70,7 @@
 
     <input class="button is-primary" type="submit" value="Submit" (click)="initiateGame()" style="font-weight:bold" />
 </ng-container>
-<ng-template #elseblock>
+<ng-container *ngIf="players.length==0">
     No interested players are online at the moment! Check back later.
     <br><br><input class="button is-primary" style="font-weight:bold" type="submit" value="Return To Dashboard" (click)="returnToDashboard()" />
-</ng-template>
+</ng-container>
