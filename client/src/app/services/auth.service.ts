@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
 
-  backendServer = "http://localhost:3000";
+  backendServer = "http://localhost:3000/";
   authToken;
   user;
   game;
@@ -18,19 +18,19 @@ export class AuthService {
   constructor( private http: HttpClient ) { }
 
   registerPlayer(user) {
-    return this.http.post("/api/register", user).pipe(map(res => res));
+    return this.http.post("api/register", user).pipe(map(res => res));
   };
 
   registerCoach(user) {
-    return this.http.post("/api/register", user).pipe(map(res => res));
+    return this.http.post("api/register", user).pipe(map(res => res));
   };
 
   registerAdmin(user) {
-    return this.http.post("/api/register", user).pipe(map(res => res));
+    return this.http.post("api/register", user).pipe(map(res => res));
   };
 
   login(user) {
-    return this.http.post("/api/login", user).pipe(map(res => res));
+    return this.http.post("api/login", user).pipe(map(res => res));
   }
 
   getPlayer() {
@@ -41,7 +41,7 @@ export class AuthService {
       'Authorization': this.authToken
     });
     console.log(appHeaders);
-    return this.http.get("/api/getplayer", {headers:appHeaders}).pipe(map(res => res));
+    return this.http.get("api/getplayer", {headers:appHeaders}).pipe(map(res => res));
   }
 
   getCoach(username) {
@@ -50,12 +50,12 @@ export class AuthService {
       'Content-Type': 'application/json',
       'Authorization': this.authToken  
     });
-    return this.http.get("/api/getcoach", {headers:appHeaders}).pipe(map(res => res));
+    return this.http.get("api/getcoach", {headers:appHeaders}).pipe(map(res => res));
   }
 
 
   getGames() {
-    return this.http.get("/api/gamesList").pipe(map(res => res));
+    return this.http.get("api/gamesList").pipe(map(res => res));
   }
 
   getPlayers() {
@@ -64,7 +64,7 @@ export class AuthService {
       'Content-Type': 'application/json',
       'Authorization': this.authToken  
     });
-    return this.http.get("/api/playersList",  {headers: appHeaders});
+    return this.http.get("api/playersList",  {headers: appHeaders});
   }
 
   getCoaches() {
@@ -73,11 +73,11 @@ export class AuthService {
       'Content-Type': 'application/json',
       'Authorization': this.authToken  
     });
-    return this.http.get("/api/coachesList",  {headers: appHeaders});
+    return this.http.get("api/coachesList",  {headers: appHeaders});
   }
 
   setGame(game) {
-    return this.http.post("/api/games", game).pipe(map(res => res));
+    return this.http.post("api/games", game).pipe(map(res => res));
   }
 
   logout() {
@@ -122,7 +122,7 @@ export class AuthService {
       'Content-Type': 'application/json',
       'Authorization': this.authToken  
     });
-    return this.http.post("/api/markattendence", {username, role}, {headers: appHeaders}).pipe(map(res => res));
+    return this.http.post("api/markattendence", {username, role}, {headers: appHeaders}).pipe(map(res => res));
   }
 
   unMarkAttendence(username, role) {
@@ -131,7 +131,7 @@ export class AuthService {
       'Content-Type': 'application/json',
       'Authorization': this.authToken  
     });
-    return this.http.post("/api/unmarkattendence", {username, role}, {headers: appHeaders}).pipe(map(res => res));
+    return this.http.post("api/unmarkattendence", {username, role}, {headers: appHeaders}).pipe(map(res => res));
   }
 
   updateSchedule(schedule, username) {
@@ -140,7 +140,7 @@ export class AuthService {
       'Content-Type': 'application/json',
       'Authorization': this.authToken  
     });
-    return this.http.post("/api/addSchedule", {schedule, username}, {headers: appHeaders}).pipe(map(res => res));
+    return this.http.post("api/addSchedule", {schedule, username}, {headers: appHeaders}).pipe(map(res => res));
   }
 
   updateScheduleInterests(schedule, username, Interests) {
@@ -150,7 +150,7 @@ export class AuthService {
       'Authorization': this.authToken  
     });
     console.log(Interests);
-    return this.http.post("/api/addSchedule", {schedule, username, Interests}, {headers: appHeaders}).pipe(map(res => res));
+    return this.http.post("api/addSchedule", {schedule, username, Interests}, {headers: appHeaders}).pipe(map(res => res));
   }
   
 
@@ -160,7 +160,7 @@ export class AuthService {
       'Content-Type': 'application/json',
       'Authorization': this.authToken  
     });
-    return this.http.post("/api/updatepriorities", {priorities, username}, {headers: appHeaders}).pipe(map(res => res));
+    return this.http.post("api/updatepriorities", {priorities, username}, {headers: appHeaders}).pipe(map(res => res));
   }
 
   getProfile() {
@@ -169,7 +169,7 @@ export class AuthService {
       'Content-Type': 'application/json',
       'Authorization': this.authToken  
     });
-    return this.http.get('/api/profile', {headers: appHeaders});
+    return this.http.get('api/profile', {headers: appHeaders});
   }
 
   loggedIn() {
@@ -196,7 +196,7 @@ export class AuthService {
       'Content-Type': 'application/json',
       'Authorization': this.authToken  
     });
-    return this.http.post('/api/deletePlayer', {username}, {headers: appHeaders}).pipe(map(res => res));
+    return this.http.post('api/deletePlayer', {username}, {headers: appHeaders}).pipe(map(res => res));
   }
 
   deleteCoach(username){
@@ -205,7 +205,7 @@ export class AuthService {
       'Content-Type': 'application/json',
       'Authorization': this.authToken  
     });
-    return this.http.post('/api/deleteCoach', {username}, {headers: appHeaders}).pipe(map(res => res));
+    return this.http.post('api/deleteCoach', {username}, {headers: appHeaders}).pipe(map(res => res));
   }
 
   updateCoach(coach) {
@@ -214,7 +214,7 @@ export class AuthService {
       'Content-Type': 'application/json',
       'Authorization': this.authToken  
     });
-    return this.http.post("/api/updateCoach", {coach}, {headers: appHeaders}).pipe(map(res => res));
+    return this.http.post("api/updateCoach", {coach}, {headers: appHeaders}).pipe(map(res => res));
   };
 
   updatePlayer(player) {
@@ -224,7 +224,7 @@ export class AuthService {
       'Content-Type': 'application/json',
       'Authorization': this.authToken  
     });
-    return this.http.post("/api/updatePlayer", {player}, {headers: appHeaders}).pipe(map(res => res));
+    return this.http.post("api/updatePlayer", {player}, {headers: appHeaders}).pipe(map(res => res));
   };
 
   getOnlinePlayers() {
@@ -233,7 +233,7 @@ export class AuthService {
       'Content-Type': 'application/json',
       'Authorization': this.authToken  
     });
-    return this.http.get("/api/getonlineplayers", {headers: appHeaders}).pipe(map(res => res));
+    return this.http.get("api/getonlineplayers", {headers: appHeaders}).pipe(map(res => res));
   }
 
   getOnlineCoaches() {
@@ -242,7 +242,7 @@ export class AuthService {
       'Content-Type': 'application/json',
       'Authorization': this.authToken  
     });
-    return this.http.get("/api/getonlinecoaches", {headers: appHeaders}).pipe(map(res => res));
+    return this.http.get("api/getonlinecoaches", {headers: appHeaders}).pipe(map(res => res));
   }
 
   getCourts(game) {
@@ -251,7 +251,7 @@ export class AuthService {
       'Content-Type': 'application/json',
       'Authorization': this.authToken
     });
-    return this.http.get("/api/gamesList", {headers: appHeaders}).pipe(map(res => res));
+    return this.http.get("api/gamesList", {headers: appHeaders}).pipe(map(res => res));
   }
 
   createSession(player, opponent, game, court, evaluator) {
@@ -261,7 +261,7 @@ export class AuthService {
       'Content-Type': 'application/json',
       'Authorization': this.authToken
     });
-    return this.http.post("/api/createsession", {player, opponent, game, court, evaluator}, {headers: appHeaders}).pipe(map(res => res));
+    return this.http.post("api/createsession", {player, opponent, game, court, evaluator}, {headers: appHeaders}).pipe(map(res => res));
   }
 
   getSessions() {
@@ -270,7 +270,7 @@ export class AuthService {
       'Content-Type': 'application/json',
       'Authorization': this.authToken
     });
-    return this.http.get("/api/getsessions", {headers:appHeaders}).pipe(map(res => res));
+    return this.http.get("api/getsessions", {headers:appHeaders}).pipe(map(res => res));
   }
 
   getSession(sessionId) {
@@ -281,7 +281,7 @@ export class AuthService {
       'Authorization': this.authToken,
       'ID': sessionId
     });
-    return this.http.get('/api/getsession', {headers: appHeaders}).pipe(map(res => res));
+    return this.http.get('api/getsession', {headers: appHeaders}).pipe(map(res => res));
   }
 
   saveEvaluation(ID, winner,player, opponent, pRanking, oRanking) {
@@ -290,7 +290,7 @@ export class AuthService {
       'Content-Type': 'application/json',
       'Authorization': this.authToken,
     });
-    return this.http.post('/api/updateevaluation', {ID, winner, player, opponent, pRanking, oRanking}, {headers: appHeaders}).pipe(map(res => res));
+    return this.http.post('api/updateevaluation', {ID, winner, player, opponent, pRanking, oRanking}, {headers: appHeaders}).pipe(map(res => res));
   }
 
   addNotification(sender, receiver, header, message, time) {
@@ -299,7 +299,7 @@ export class AuthService {
       'Content-Type': 'application/json',
       'Authorization': this.authToken,
     });
-    return this.http.post('/api/addnotification', {sender, receiver, header, message, time}, {headers: appHeaders}).pipe(map(res => res));
+    return this.http.post('api/addnotification', {sender, receiver, header, message, time}, {headers: appHeaders}).pipe(map(res => res));
   }
   deleteNotification(sender, receiver, header, message, time) {
     this.loadToken();
@@ -307,7 +307,7 @@ export class AuthService {
       'Content-Type': 'application/json',
       'Authorization': this.authToken,
     });
-    return this.http.post('/api/deletenotification', {sender, receiver, header, message, time}, {headers: appHeaders}).pipe(map(res => res));
+    return this.http.post('api/deletenotification', {sender, receiver, header, message, time}, {headers: appHeaders}).pipe(map(res => res));
   }
   getNotifications() {
     this.loadToken();
@@ -315,7 +315,7 @@ export class AuthService {
       'Content-Type': 'application/json',
       'Authorization': this.authToken,
     });
-    return this.http.get('/api/getnotifications', {headers: appHeaders}).pipe(map(res => res));
+    return this.http.get('api/getnotifications', {headers: appHeaders}).pipe(map(res => res));
   }
   showNotification(ID) {
     this.loadToken();
@@ -323,6 +323,6 @@ export class AuthService {
       'Content-Type': 'application/json',
       'Authorization': this.authToken,
     });
-    return this.http.post('/api/shownnotification', {ID}, {headers:appHeaders}).pipe(map(res => res));
+    return this.http.post('api/shownnotification', {ID}, {headers:appHeaders}).pipe(map(res => res));
   }
 }

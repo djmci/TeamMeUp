@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
+const path = require('path');
 const router = express.Router();
 const bodyParser = require('body-parser');
 const config = require('./config/database');
@@ -47,13 +48,16 @@ db.once('open', function() {
 
 })
 
-if (process.env.NODE_ENV === 'production') {
-	app.use(express.static('client/dist'));
-}
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('*', (request, response) => {
-	response.sendFile(path.join(__dirname, 'client/dist', 'index.html'));
-});
+app.get('/', (req, res) => {
+    res.send('Invalud Endpoint!');
+})
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public/index.html'))
+})
+
 
 app.listen(port, function() {
     console.log("Server running on " + port);
