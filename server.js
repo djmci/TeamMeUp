@@ -47,9 +47,9 @@ db.once('open', function() {
 
 })
 
-app.get('*', function(req, res) {
-    res.sendFile("../client/src/index.html");
-});
+// app.get('*', function(req, res) {
+//     res.sendFile("../client/src/index.html");
+// });
 
 app.listen(port, function() {
     console.log("Server running on " + port);
